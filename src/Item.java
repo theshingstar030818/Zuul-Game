@@ -1,4 +1,4 @@
-import java.util.*;
+
 /**
  * An Item in an adventure game.
  * 

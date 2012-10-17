@@ -12,16 +12,13 @@ import java.util.*;
  *  rooms, creates the parser and starts the game.  It also evaluates and
  *  executes the commands that the parser returns.
  * 
- * @author  Michael Kölling and David J. Barnes
- * @version 2011.07.31
  */
 
 public class Game 
 {
     private Parser parser;
-    private Room currentRoom;
-    private Room previousRoom;
-    private Stack<Room> previousRooms = new Stack();
+    private Player player1;
+    private Stack<Room> previousRooms = new Stack<Room>();
     /**
      * Create the game and initialise its internal map.
      */
@@ -29,6 +26,7 @@ public class Game
     {
         createRooms();
         parser = new Parser();
+
     }
 
     /**
@@ -77,9 +75,10 @@ public class Game
         theater.setExits("east",studio);
         theater.setExits("west",workshop);
         entrance.setExits("south",lobby);
-        entrance.addItem(plants);
+        entrance.addItem("plant1",plants);
+        player1 = new Player("tanzeel"," me ",1000);
+        player1.setCurrentRoom(entrance);  // start game outside
 
-        currentRoom = entrance;  // start game outside
     }
 
     /**
@@ -110,11 +109,11 @@ public class Game
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        printLocationInfo();
+        printLocationInfo(player1);
     }
 
-    private void printLocationInfo(){
-        System.out.println(currentRoom.getLongDescription());
+    private void printLocationInfo(Player player){
+        System.out.println(player.getCurrentPlayerRoom().getLongDescription());
     }
 
     /**
@@ -153,25 +152,43 @@ public class Game
         else if (commandWord.equals("undo")){
             undo();
         }
+        else if (commandWord.equals("pick")){
+            pick(command);
+        }
+        else if (commandWord.equals("drop")){
+            drop(command);
+        }
 
         return wantToQuit;
     }
 
     private void undo(){
-        previousRoom = currentRoom;
+        player1.setPreviousRoom(player1.getCurrentPlayerRoom());
         if(!previousRooms.empty()){
-            currentRoom = previousRooms.pop();
+            player1.setCurrentRoom(previousRooms.pop());
         }else{
             System.out.println("no more undo!");
         }
-        printLocationInfo();
+        printLocationInfo(player1);
     }
+    
+    private void drop(Command command){
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Drop what?");
+            return;
+        }
 
+        String itemName = command.getSecondWord();
+        Item item = 
+        player1.drop(_item_)
+    }
+    
     private void back(){
-        Room tempRoom = previousRoom;
-        previousRoom = currentRoom ;
-        currentRoom = tempRoom;
-        printLocationInfo();
+        Room tempRoom = player1.getPreviousRoom();
+        player1.setPreviousRoom(player1.getCurrentPlayerRoom());
+        player1.setCurrentRoom(tempRoom);
+        printLocationInfo(player1);
     }
 
     private void eat(){
@@ -179,7 +196,7 @@ public class Game
     }
 
     private void look(){
-        System.out.println(currentRoom.getLongDescription());
+        System.out.println(player1.getCurrentPlayerRoom().getLongDescription());
     }
 
     // implementations of user commands:
@@ -198,6 +215,26 @@ public class Game
         System.out.println(parser.showCommands());
     }
 
+    private void pick(Command command){
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Pick what?");
+            return;
+        }
+
+        String itemName = command.getSecondWord();
+        Item item = player1.getCurrentPlayerRoom().getItem(itemName);
+
+        // Try to pick up the item.
+        if(player1.getCurrentPlayerRoom().containsItem(itemName)&&player1.pick(item)){
+            System.out.println(item.getItemDescription() + " has been picked by " + player1.getFullPlayerDescription());
+            player1.getCurrentPlayerRoom().reomoveItem(itemName);
+        }else{
+            System.out.println("item could not be picked ");
+        }
+
+    }
+
     /** 
      * Try to go in one direction. If there is an exit, enter
      * the new room, otherwise print an error message.
@@ -213,16 +250,16 @@ public class Game
         String direction = command.getSecondWord();
 
         // Try to leave current room.
-        previousRoom = currentRoom;
-        previousRooms.push(previousRoom);
-        Room nextRoom = currentRoom.getExits(direction);
+        player1.setPreviousRoom(player1.getCurrentPlayerRoom());
+        previousRooms.push(player1.getPreviousRoom());
+        Room nextRoom = player1.getCurrentPlayerRoom().getExits(direction);
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
         else {
-            currentRoom = nextRoom;
-            printLocationInfo();
+            player1.setCurrentRoom(nextRoom);
+            printLocationInfo(player1);
         }
     }
 

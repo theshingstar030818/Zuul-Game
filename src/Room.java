@@ -15,7 +15,7 @@ public class Room
 {
     private String description;
     private HashMap<String, Room> exits;
-    private ArrayList<Item> items;
+    private HashMap<String,Item> items;
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
@@ -26,7 +26,7 @@ public class Room
     {
         this.description = description;
         exits = new HashMap<>();
-        items = new ArrayList<Item>();
+        items = new HashMap<String,Item>();
     }
 
     /**
@@ -51,14 +51,13 @@ public class Room
     }
 
     public String getExitString(){
-        
-        
+
         String s = "Exits : " ;
         Set<String> keys = exits.keySet();
         for (String exit : keys){
             s += " " + exit;
         }
-        
+
         return s + "\n";
 
     }
@@ -72,23 +71,37 @@ public class Room
      */
     public String getLongDescription(){
         return ("You are at the " + description + ".\n" + getExitString() +
-        getItemString() );
+            getItemString() );
     }
 
     public Room getExits(String direction){
         return exits.get(direction);
     }
-    
-    public void addItem(Item item){
-        items.add(item);
+
+    public void addItem(String key,Item item){
+        items.put(key,item);
     }
-    
+
     private String getItemString(){
         String itemString = "Items in room : ";
-        for(Item item : items){
-            itemString += item.getItemDescription() + " " + item.getItemWeight() + "\n" ;
+        Set<String> keys = items.keySet();
+        for(String item : keys){
+            itemString += item + " " + items.get(item) + "\n" ;
         }
         return itemString;
     }
+
+    public void reomoveItem(String itemKey){
+        items.remove(itemKey);
+    }
+
+    public Item getItem(String itemKey){
+        return items.get(itemKey);
+    }
     
+    public boolean containsItem(String itemKey){
+        return items.containsKey(itemKey);
+    }
+    
+
 }
