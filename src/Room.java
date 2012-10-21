@@ -29,6 +29,7 @@ public class Room {
 		this.description = description;
 		exits = new HashMap<>();
 		items = new HashMap<String, Item>();
+		monsters = new HashMap<String, Monster>();
 	}
 
 	/**
@@ -75,7 +76,7 @@ public class Room {
 	 * 
 	 */
 	public String getLongDescription() {
-		return ("You are at the " + description + ".\n" + getExitString() + getItemString());
+		return ("You are at the " + description + ".\n" + getExitString() + getItemString() + "\n" + getMonstersString());
 	}
 
 	public Room getExits(String direction) {
@@ -95,6 +96,19 @@ public class Room {
 					+ items.get(item).getItemWeight() + "\n";
 		}
 		return itemString;
+	}
+	
+	/**
+	 * Author: Sean
+	 * @return returns a list of the monsters in the room and their health
+	 */
+	private String getMonstersString() {
+		String ret = "Monsters in room:\n";
+		Set<String> keys = monsters.keySet();
+		for (String monster : keys) {
+			ret += "- Name : " + monster + " (" + monsters.get(monster).getHealth() + ")\n";
+		}
+		return ret;
 	}
 
 	public void reomoveItem(String itemKey) {

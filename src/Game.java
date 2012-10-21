@@ -81,12 +81,15 @@ public class Game
         entrance.setExits("south",lobby);
         entrance.addItem("plant1",plants);
         
+        //Create a monster
+        Monster kracken = new Monster("Kracken",10);
+        entrance.addMonster("Kracken", kracken);
+        
+        
         
         player1 = new Player("tanzeel"," me ",1000);
         player1.setCurrentRoom(rooms.get("entrance"));  // start game outside
 
-        
-        
     }
 
     /**
@@ -322,5 +325,15 @@ public class Game
         else {
             return true;  // signal that we want to quit
         }
+    }
+    
+    public static void main(String args[]) {
+    	Game game = new Game();
+    	try {
+			game.play();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }

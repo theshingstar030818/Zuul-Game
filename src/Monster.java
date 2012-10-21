@@ -47,7 +47,7 @@ public class Monster {
 	 * @return true if monster has health greater than 0
 	 */
 	public boolean isAlive() {
-		return health==0;
+		return health>0;
 	}
 	
 	/**
