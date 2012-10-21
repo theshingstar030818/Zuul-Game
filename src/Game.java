@@ -19,6 +19,10 @@ public class Game
     private Parser parser;
     private Player player1;
     private HashMap<String,Room> rooms;
+
+    private CommandStack redoStack;
+    private CommandStack undoStack;
+
     
     /**
      * Create the game and initialise its internal map.
@@ -28,6 +32,8 @@ public class Game
         parser = new Parser();
         rooms = new HashMap<String,Room>();
         createRooms();
+        undoStack = new CommandStack();
+        redoStack = new CommandStack();
     }
 
     /**
@@ -104,6 +110,7 @@ public class Game
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
+            undoStack.add(command);
             finished = processCommand(command);
         }
         System.out.println("Thank you for playing.  Good bye.");
@@ -132,7 +139,7 @@ public class Game
      * @return true If the command ends the game, false otherwise.
      * @throws CloneNotSupportedException 
      */
-    private boolean processCommand(Command command) throws CloneNotSupportedException 
+    private boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
 
@@ -160,6 +167,9 @@ public class Game
         else if (commandWord.equals("undo")){
             undo();
         }
+        else if (commandWord.equals("redo")){
+            redo();
+        }
         else if (commandWord.equals("pick")){
             pick(command);
         }
@@ -173,6 +183,25 @@ public class Game
         return wantToQuit;
     }
 
+    private void undo(){
+        Command temp = undoStack.pop();
+        if(temp!=null)
+        {
+        	redoStack.add(temp);
+        	processCommand(temp);
+        }
+    }
+    
+
+    private void redo(){
+    	Command temp = redoStack.pop();
+    	if(temp!=null)
+    	{
+    		undoStack.add(temp);
+    		processCommand(temp);
+    	}
+    }
+        
     /**
      * Attack a monster that is in the room
      * @param command
@@ -206,8 +235,6 @@ public class Game
 		
 	}
 
-	private void undo(){
-    }
     
     private void drop(Command command){
     Item item = player1.drop(command.getSecondWord());
@@ -242,7 +269,10 @@ public class Game
         System.out.println(parser.showCommands());
     }
 
+
     private void pick(Command command) {
+
+   
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Pick what?");
