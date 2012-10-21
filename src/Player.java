@@ -41,7 +41,7 @@ public class Player{
 	public String getFullPlayerDescription() {
 		return name + " \n Can pick upto : " + weight
 				+ " Kg. \n total wight carried : "+totalWeightCarried() 
-				+ " \n bag pack :"  ;
+				+ " \n bag pack :\n"  + InventoryToString();
 	}
 
 	public boolean pick(String itemName,Item item) {
