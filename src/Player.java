@@ -5,13 +5,14 @@ import java.util.*;
  * 
  * @author Tanzeel
  */
-public class Player implements Cloneable {
+public class Player{
 	/**
 	 * feilds :
 	 */
 	private String name;
 	private String description;
 	private Room currentRoom;
+	private double currweight;
 	private int weight;
 	private HashMap<String,Item> itemsInPossesion;
 	private Room previousRoom;
@@ -21,7 +22,6 @@ public class Player implements Cloneable {
 	public Player(String name, String description, int weight) {
 		this.name = name;
 		this.description = description;
-		this.currentRoom = currentRoom;
 		this.weight = weight;
 		itemsInPossesion = new HashMap<String,Item>();
 	}
@@ -47,6 +47,7 @@ public class Player implements Cloneable {
 	public boolean pick(String itemName,Item item) {
 		if (canPickItem(item)) {
 			itemsInPossesion.put(itemName,item);
+			currweight += item.getItemWeight();
 			return true;
 		} else {
 			System.out.println("Player can not pick " + item);
@@ -59,11 +60,14 @@ public class Player implements Cloneable {
 			return null;
 		} else {
 			Item itemDropped = itemsInPossesion.get(itemName);
-			itemsInPossesion.remove(itemDropped);
+            currweight -= itemDropped.getItemWeight();
+            itemsInPossesion.remove(itemName);
 			return itemDropped;
 		}
 	}
-
+	public Item getItem(String key){
+        return itemsInPossesion.get(key);
+    }
 	private boolean canPickItem(Item item) {
 		if ((totalWeightCarried() + item.getItemWeight()) > weight) {
 			return false;
@@ -99,10 +103,15 @@ public class Player implements Cloneable {
 	public void setPreviousRoom(Room previousRoom) {
 		this.previousRoom = previousRoom;
 	}
-
-	public Player clone() throws CloneNotSupportedException{
-	    return (Player) super.clone();
-	  }
+	public String InventoryToString(){
+        String str = "";
+        Set<String> keys = itemsInPossesion.keySet();
+        for (String items : keys){
+            str += itemsInPossesion.get(items).getItemDescription() + " "
+                    +  itemsInPossesion.get(items).getItemWeight() + "\n";
+        }
+        return str;
+    }
 	  
 }
 

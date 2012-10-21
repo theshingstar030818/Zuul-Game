@@ -19,7 +19,6 @@ public class Game
     private Parser parser;
     private Player player1;
     private HashMap<String,Room> rooms;
-    private Stack<GameState> gameState;
     
     /**
      * Create the game and initialise its internal map.
@@ -27,7 +26,6 @@ public class Game
     public Game() 
     {
         parser = new Parser();
-        gameState = new Stack<GameState>();
         rooms = new HashMap<String,Room>();
         createRooms();
     }
@@ -53,7 +51,7 @@ public class Game
         rooms.put("waiting room",waitingroom = new Room("waiting room"));
 
         //create the items
-        plants = new Item("A Plant",5.0);
+        plants = new Item("Plant",5.0);
 
         // initialise room exits
 
@@ -79,7 +77,7 @@ public class Game
         theater.setExits("east",studio);
         theater.setExits("west",workshop);
         entrance.setExits("south",lobby);
-        entrance.addItem("plant1",plants);
+        entrance.addItem("Plant",plants);
         
         //Create a monster
         Monster kracken = new Monster("Kracken",10);
@@ -209,27 +207,13 @@ public class Game
 	}
 
 	private void undo(){
-        if(!gameState.empty()){
-            rooms = gameState.peek().getMap();
-            gameState.pop();
-             System.out.println(player1.getFullPlayerDescription());
-        }else{
-            System.out.println("no more undo!");
-        }
-        printLocationInfo(player1);
     }
     
     private void drop(Command command){
-    /**  if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("Drop what?");
-            return;
-        }
-
-        String itemName = command.getSecondWord();
-        Item item = 
-        player1.drop(_item_)
-    */
+    Item item = player1.drop(command.getSecondWord());
+        player1.getCurrentPlayerRoom().addItem(item.getItemDescription(),item);
+        printLocationInfo(player1);
+        System.out.println();
     }
    
 
@@ -239,6 +223,7 @@ public class Game
 
     private void look(){
         System.out.println(player1.getCurrentPlayerRoom().getLongDescription());
+        System.out.println();
     }
 
     // implementations of user commands:
@@ -257,7 +242,7 @@ public class Game
         System.out.println(parser.showCommands());
     }
 
-    private void pick(Command command) throws CloneNotSupportedException{
+    private void pick(Command command) {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Pick what?");
@@ -270,15 +255,13 @@ public class Game
         // Try to pick up the item.
         
         if(player1.getCurrentPlayerRoom().containsItem(itemName)&&player1.pick(itemName,item)){
-            Player playerX = player1.clone();
-            HashMap<String,Room> map =(HashMap<String,Room>) rooms.clone();
-            gameState.push(new GameState(player1,map));
             System.out.println(item.getItemDescription() + " has been picked by " + player1.getFullPlayerDescription());
             player1.getCurrentPlayerRoom().reomoveItem(itemName);
+            printLocationInfo(player1);
         }else{
             System.out.println("item could not be picked ");
         }
-
+        System.out.println();
     }
 
     /** 
@@ -303,8 +286,6 @@ public class Game
             
             
             // Try to leave current room.
-            HashMap<String,Room> map = (HashMap<String,Room>)rooms.clone();
-            gameState.push(new GameState(player1,map));
             player1.setPreviousRoom(player1.getCurrentPlayerRoom());
             player1.setCurrentRoom(nextRoom);
             printLocationInfo(player1);
