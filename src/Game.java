@@ -18,15 +18,18 @@ public class Game
 {
     private Parser parser;
     private Player player1;
-    private Stack<Room> previousRooms = new Stack<Room>();
+    private HashMap<String,Room> rooms;
+    private Stack<GameState> gameState;
+    
     /**
      * Create the game and initialise its internal map.
      */
     public Game() 
     {
-        createRooms();
         parser = new Parser();
-
+        gameState = new Stack<GameState>();
+        rooms = new HashMap<String,Room>();
+        createRooms();
     }
 
     /**
@@ -35,18 +38,19 @@ public class Game
     private void createRooms()
     {
         Room gallery,waitingroom, workshop, lobby, entrance, dinningroom,studio,theater, dressingroom,technician;
+        
         Item plants;
         // create the rooms
-        gallery = new Room("gallary");
-        workshop = new Room("workshop");
-        lobby = new Room("lobby");
-        entrance = new Room("entrance");
-        dinningroom = new Room("dinning room");
-        studio = new Room("studio");
-        theater = new Room("theater");
-        dressingroom = new Room("dressing room");
-        technician = new Room("technician room");
-        waitingroom = new Room("waiting room");
+        rooms.put("gallary",gallery = new Room("gallary"));
+        rooms.put("workshop",workshop = new Room("workshop"));
+        rooms.put("lobby",lobby = new Room("lobby"));
+        rooms.put("entrance",entrance = new Room("entrance"));
+        rooms.put("dinning room",dinningroom = new Room("dinning room"));
+        rooms.put("studio",studio = new Room("studio"));
+        rooms.put("theater",theater = new Room("theater"));
+        rooms.put("dressing room",dressingroom = new Room("dressing room"));
+        rooms.put("technician room",technician = new Room("technician room"));
+        rooms.put("waiting room",waitingroom = new Room("waiting room"));
 
         //create the items
         plants = new Item("A Plant",5.0);
@@ -76,15 +80,20 @@ public class Game
         theater.setExits("west",workshop);
         entrance.setExits("south",lobby);
         entrance.addItem("plant1",plants);
+        
+        
         player1 = new Player("tanzeel"," me ",1000);
-        player1.setCurrentRoom(entrance);  // start game outside
+        player1.setCurrentRoom(rooms.get("entrance"));  // start game outside
 
+        
+        
     }
 
     /**
      *  Main play routine.  Loops until end of play.
+     * @throws CloneNotSupportedException 
      */
-    public void play() 
+    public void play() throws CloneNotSupportedException 
     {            
         printWelcome();
 
@@ -120,8 +129,9 @@ public class Game
      * Given a command, process (that is: execute) the command.
      * @param command The command to be processed.
      * @return true If the command ends the game, false otherwise.
+     * @throws CloneNotSupportedException 
      */
-    private boolean processCommand(Command command) 
+    private boolean processCommand(Command command) throws CloneNotSupportedException 
     {
         boolean wantToQuit = false;
 
@@ -146,9 +156,6 @@ public class Game
         else if (commandWord.equals("eat")){
             eat();
         }
-        else if (commandWord.equals("back")){
-            back();
-        }
         else if (commandWord.equals("undo")){
             undo();
         }
@@ -163,9 +170,10 @@ public class Game
     }
 
     private void undo(){
-        player1.setPreviousRoom(player1.getCurrentPlayerRoom());
-        if(!previousRooms.empty()){
-            player1.setCurrentRoom(previousRooms.pop());
+        if(!gameState.empty()){
+            rooms = gameState.peek().getMap();
+            gameState.pop();
+             System.out.println(player1.getFullPlayerDescription());
         }else{
             System.out.println("no more undo!");
         }
@@ -173,7 +181,7 @@ public class Game
     }
     
     private void drop(Command command){
-        if(!command.hasSecondWord()) {
+    /**  if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Drop what?");
             return;
@@ -182,14 +190,9 @@ public class Game
         String itemName = command.getSecondWord();
         Item item = 
         player1.drop(_item_)
+    */
     }
-    
-    private void back(){
-        Room tempRoom = player1.getPreviousRoom();
-        player1.setPreviousRoom(player1.getCurrentPlayerRoom());
-        player1.setCurrentRoom(tempRoom);
-        printLocationInfo(player1);
-    }
+   
 
     private void eat(){
         System.out.println("you have eaten now and you are not hungry anymore ");
@@ -215,7 +218,7 @@ public class Game
         System.out.println(parser.showCommands());
     }
 
-    private void pick(Command command){
+    private void pick(Command command) throws CloneNotSupportedException{
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Pick what?");
@@ -226,7 +229,11 @@ public class Game
         Item item = player1.getCurrentPlayerRoom().getItem(itemName);
 
         // Try to pick up the item.
-        if(player1.getCurrentPlayerRoom().containsItem(itemName)&&player1.pick(item)){
+        
+        if(player1.getCurrentPlayerRoom().containsItem(itemName)&&player1.pick(itemName,item)){
+            Player playerX = player1.clone();
+            HashMap<String,Room> map =(HashMap<String,Room>) rooms.clone();
+            gameState.push(new GameState(player1,map));
             System.out.println(item.getItemDescription() + " has been picked by " + player1.getFullPlayerDescription());
             player1.getCurrentPlayerRoom().reomoveItem(itemName);
         }else{
@@ -248,16 +255,18 @@ public class Game
         }
 
         String direction = command.getSecondWord();
-
-        // Try to leave current room.
-        player1.setPreviousRoom(player1.getCurrentPlayerRoom());
-        previousRooms.push(player1.getPreviousRoom());
         Room nextRoom = player1.getCurrentPlayerRoom().getExits(direction);
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
         else {
+            
+            
+            // Try to leave current room.
+            HashMap<String,Room> map = (HashMap<String,Room>)rooms.clone();
+            gameState.push(new GameState(player1,map));
+            player1.setPreviousRoom(player1.getCurrentPlayerRoom());
             player1.setCurrentRoom(nextRoom);
             printLocationInfo(player1);
         }

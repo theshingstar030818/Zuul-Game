@@ -5,7 +5,7 @@ import java.util.*;
  * 
  * @author Tanzeel
  */
-public class Player {
+public class Player implements Cloneable {
 	/**
 	 * feilds :
 	 */
@@ -21,6 +21,7 @@ public class Player {
 	public Player(String name, String description, int weight) {
 		this.name = name;
 		this.description = description;
+		this.currentRoom = currentRoom;
 		this.weight = weight;
 		itemsInPossesion = new HashMap<String,Item>();
 	}
@@ -98,4 +99,10 @@ public class Player {
 	public void setPreviousRoom(Room previousRoom) {
 		this.previousRoom = previousRoom;
 	}
+
+	public Player clone() throws CloneNotSupportedException{
+	    return (Player) super.clone();
+	  }
+	  
 }
+
