@@ -16,6 +16,7 @@ public class Room {
 	private String description;
 	private HashMap<String, Room> exits;
 	private HashMap<String, Item> items;
+	private HashMap<String, Monster> monsters;
 
 	/**
 	 * Create a room described "description". Initially, it has no exits.
@@ -106,6 +107,35 @@ public class Room {
 
 	public boolean containsItem(String itemKey) {
 		return items.containsKey(itemKey);
+	}
+	
+	/**
+	 * Modification by Sean
+	 * Adds a monster to the room
+	 * @param key
+	 * @param monster
+	 */
+	public void addMonster(String key, Monster monster) {
+		monsters.put(key, monster);
+	}
+	
+	/**
+	 * Modification by Sean
+	 * Removes a monster with from the room
+	 * @param key
+	 */
+	public void removeMonster(String key) {
+		monsters.remove(key);
+	}
+	
+	/**
+	 * Modification by Sean Byron
+	 * Gets a monster from the room
+	 * @param key
+	 * @return
+	 */
+	public Monster getMonster(String key) {
+		return monsters.get(key);
 	}
 
 }

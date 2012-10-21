@@ -164,12 +164,48 @@ public class Game
         }
         else if (commandWord.equals("drop")){
             drop(command);
+        } 
+        else if (commandWord.equals("attack")) {
+        	attack(command);
         }
 
         return wantToQuit;
     }
 
-    private void undo(){
+    /**
+     * Attack a monster that is in the room
+     * @param command
+     */
+    private void attack(Command command) {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't who to attack
+            System.out.println("Attack what?");
+            return;
+        }
+        
+        Room currentRoom = player1.getCurrentPlayerRoom();
+        Monster monster = currentRoom.getMonster(command.getSecondWord());
+        
+        if (monster == null) {
+            // There is no monster by that name in the room
+            System.out.println("There is no monster called " + command.getSecondWord() + "!");
+            return;
+        }
+        
+        //Decrease the monster's health
+        monster.decreaseHealth();
+        
+        if (!monster.isAlive()) {
+        	currentRoom.removeMonster(command.getSecondWord());
+        	System.out.println("Good job! You've killed " + command.getSecondWord());
+        	return;
+        } else {
+        	System.out.println(command.getSecondWord() + " health decreased to " + monster.getHealth());
+        }
+		
+	}
+
+	private void undo(){
         if(!gameState.empty()){
             rooms = gameState.peek().getMap();
             gameState.pop();

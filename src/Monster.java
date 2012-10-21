@@ -28,17 +28,18 @@ public class Monster {
 	
 	/**
 	 * Decreases the health of the monster by one
-	 * @return true if monster is dead, false if monster is still alive
 	 */
-	public boolean decreaseHealth() {
+	public void decreaseHealth() {
 		if (health > 0) {
 			health--;
-			if (health == 0) {
-				return true;
-			}
-			return false;
 		}
-		return true;
+	}
+	
+	/**
+	 * Increases the health of the monster by one
+	 */
+	public void increaseHealth() {
+		health++;
 	}
 	
 	/**
@@ -49,6 +50,13 @@ public class Monster {
 		return health==0;
 	}
 	
+	/**
+	 * Returns the current health value
+	 * @return health
+	 */
+	public int getHealth() {
+		return health;
+	}
 	
 
 }
