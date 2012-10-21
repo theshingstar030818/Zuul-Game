@@ -178,6 +178,9 @@ public class Game
         } 
         else if (commandWord.equals("attack")) {
         	attack(command);
+        }        
+        else if (commandWord.equals("unattack")) {
+        	unAttack(command);
         }
 
         return wantToQuit;
@@ -234,6 +237,23 @@ public class Game
         }
 		
 	}
+    
+    /**
+     * Un-attack monster
+     * @param command
+     */
+    private void unAttack(Command command) {
+        Room currentRoom = player1.getCurrentPlayerRoom();
+        Monster monster = currentRoom.getMonster(command.getSecondWord());
+        
+        if (monster == null) {
+            // There is no monster by that name in the room
+            System.out.println("There is no monster called " + command.getSecondWord() + "!");
+            return;
+        }
+        
+        monster.increaseHealth();
+    }
 
     
     private void drop(Command command){
