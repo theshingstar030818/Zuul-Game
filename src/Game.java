@@ -19,7 +19,8 @@ public class Game
     private Parser parser;
     private Player player1;
     private HashMap<String,Room> rooms;
-    private Stack<GameState> gameState;
+    private CommandStack redoStack;
+    private CommandStack undoStack;
     
     /**
      * Create the game and initialise its internal map.
@@ -27,9 +28,10 @@ public class Game
     public Game() 
     {
         parser = new Parser();
-        gameState = new Stack<GameState>();
         rooms = new HashMap<String,Room>();
         createRooms();
+        undoStack = new CommandStack();
+        redoStack = new CommandStack();
     }
 
     /**
@@ -106,6 +108,7 @@ public class Game
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
+            undoStack.add(command);
             finished = processCommand(command);
         }
         System.out.println("Thank you for playing.  Good bye.");
@@ -134,7 +137,7 @@ public class Game
      * @return true If the command ends the game, false otherwise.
      * @throws CloneNotSupportedException 
      */
-    private boolean processCommand(Command command) throws CloneNotSupportedException 
+    private boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
 
@@ -162,6 +165,9 @@ public class Game
         else if (commandWord.equals("undo")){
             undo();
         }
+        else if (commandWord.equals("redo")){
+            redo();
+        }
         else if (commandWord.equals("pick")){
             pick(command);
         }
@@ -175,6 +181,25 @@ public class Game
         return wantToQuit;
     }
 
+    private void undo(){
+        Command temp = undoStack.pop();
+        if(temp!=null)
+        {
+        	redoStack.add(temp);
+        	processCommand(temp);
+        }
+    }
+    
+
+    private void redo(){
+    	Command temp = redoStack.pop();
+    	if(temp!=null)
+    	{
+    		undoStack.add(temp);
+    		processCommand(temp);
+    	}
+    }
+        
     /**
      * Attack a monster that is in the room
      * @param command
@@ -205,18 +230,6 @@ public class Game
         } else {
         	System.out.println(command.getSecondWord() + " health decreased to " + monster.getHealth());
         }
-		
-	}
-
-	private void undo(){
-        if(!gameState.empty()){
-            rooms = gameState.peek().getMap();
-            gameState.pop();
-             System.out.println(player1.getFullPlayerDescription());
-        }else{
-            System.out.println("no more undo!");
-        }
-        printLocationInfo(player1);
     }
     
     private void drop(Command command){
@@ -257,7 +270,7 @@ public class Game
         System.out.println(parser.showCommands());
     }
 
-    private void pick(Command command) throws CloneNotSupportedException{
+    private void pick(Command command){
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Pick what?");
@@ -270,9 +283,6 @@ public class Game
         // Try to pick up the item.
         
         if(player1.getCurrentPlayerRoom().containsItem(itemName)&&player1.pick(itemName,item)){
-            Player playerX = player1.clone();
-            HashMap<String,Room> map =(HashMap<String,Room>) rooms.clone();
-            gameState.push(new GameState(player1,map));
             System.out.println(item.getItemDescription() + " has been picked by " + player1.getFullPlayerDescription());
             player1.getCurrentPlayerRoom().reomoveItem(itemName);
         }else{
@@ -303,8 +313,6 @@ public class Game
             
             
             // Try to leave current room.
-            HashMap<String,Room> map = (HashMap<String,Room>)rooms.clone();
-            gameState.push(new GameState(player1,map));
             player1.setPreviousRoom(player1.getCurrentPlayerRoom());
             player1.setCurrentRoom(nextRoom);
             printLocationInfo(player1);
