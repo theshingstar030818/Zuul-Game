@@ -1,5 +1,4 @@
 
-
 import java.util.*;
 
 public class CommandStack {
@@ -14,6 +13,7 @@ public class CommandStack {
     	 reverseCommand.put("pick", "drop");
     	 reverseCommand.put("drop", "pick");
     	 reverseCommand.put("attack", "unattack");
+    	 reverseCommand.put("unattack", "attack");
 	}
     public final static HashMap<String, String> reverseDirection = new HashMap<String, String>();
     static {
