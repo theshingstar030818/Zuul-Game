@@ -261,7 +261,7 @@ public class Game
         }else{
             System.out.println("item could not be picked ");
         }
-        System.out.println();
+        System.out.println();//
     }
 
     /** 
