@@ -7,7 +7,7 @@ public class CommandStack {
 	
 	public final static String GO = "go";
 	public final static String UNDO = "undo";
-	public final static String REDO = "REDO";
+	public final static String REDO = "redo";
 	public final static HashMap<String, String> reverseCommand = new HashMap<String, String>();
     static {
     	 reverseCommand.put("pick", "drop");
@@ -31,7 +31,9 @@ public class CommandStack {
 	public void add(Command c)
 	{
 		//Do not add undo or redo commands to a command stack
-		if(c.getCommandWord().equals(UNDO)||c.getCommandWord().equals(REDO))return;
+		if(c.getCommandWord().equals(UNDO)||c.getCommandWord().equals(REDO)) {
+			return;
+		}
 		
 		cStack.add(c);
 	}
