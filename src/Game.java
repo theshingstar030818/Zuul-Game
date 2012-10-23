@@ -83,11 +83,11 @@ public class Game
         theater.setExits("east",studio);
         theater.setExits("west",workshop);
         entrance.setExits("south",lobby);
-        entrance.addItem("Plant",plants);
+        entrance.addItem(plants);
         
         //Create a monster
         Monster kracken = new Monster("Kracken",10);
-        entrance.addMonster("Kracken", kracken);
+        entrance.addMonster(kracken);
         
         
         
@@ -229,7 +229,7 @@ public class Game
         monster.decreaseHealth();
         
         if (!monster.isAlive()) {
-        	currentRoom.removeMonster(command.getSecondWord());
+        	//currentRoom.removeMonster(command.getSecondWord());
         	System.out.println("Good job! You've killed " + command.getSecondWord());
         	return;
         } else {
@@ -258,7 +258,7 @@ public class Game
     
     private void drop(Command command){
     Item item = player1.drop(command.getSecondWord());
-        player1.getCurrentPlayerRoom().addItem(item.getItemDescription(),item);
+        player1.getCurrentPlayerRoom().addItem(item);
         printLocationInfo(player1);
         System.out.println();
     }
@@ -305,7 +305,7 @@ public class Game
         // Try to pick up the item.
         
         if(player1.getCurrentPlayerRoom().containsItem(itemName)&&player1.pick(itemName,item)){
-            System.out.println(item.getItemDescription() + " has been picked by " + player1.getFullPlayerDescription());
+            System.out.println(item.getItemName() + " has been picked by " + player1.getFullPlayerDescription());
             player1.getCurrentPlayerRoom().reomoveItem(itemName);
             printLocationInfo(player1);
         }else{
@@ -333,10 +333,7 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
-            
-            
             // Try to leave current room.
-            player1.setPreviousRoom(player1.getCurrentPlayerRoom());
             player1.setCurrentRoom(nextRoom);
             printLocationInfo(player1);
         }
