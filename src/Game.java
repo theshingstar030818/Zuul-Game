@@ -115,6 +115,7 @@ public class Game
         player1.setCurrentRoom(rooms.get(DEFAULT_START_ROOM));  // start game outside
         
         
+        
     }
 
     /**

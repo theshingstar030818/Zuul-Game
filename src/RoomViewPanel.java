@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 public class RoomViewPanel extends Room {
 	
-	private JFrame frame = new JFrame();
+	private JFrame frame = new JFrame("Roon View Frame");
 	private JPanel panel = new JPanel();
 	
 	private boolean hasPlayer = false;
@@ -96,6 +96,9 @@ public class RoomViewPanel extends Room {
 		return frame;
 	}
 	
-	
+	public static void main(String args[]) {
+		RoomViewPanel panel = new RoomViewPanel("Test");
+		panel.getRoomFrame().setVisible(true);
+	}
 	
 }
