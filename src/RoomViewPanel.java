@@ -40,8 +40,51 @@ public class RoomViewPanel extends Room {
 		
 		panel.setLayout(new FlowLayout());
 		panel.add(new JLabel(getLongDescription()));
+		
+		//creat buttons for exits 
+		//black color buttons mean there is no exit
+		JButton nB = new JButton("North Button");
+		JButton sB = new JButton("South Button");
+		JButton eB = new JButton("East Button");
+		JButton wB = new JButton("West Button");
+		
+		frame.add(nB,BorderLayout.NORTH);
+		frame.add(sB,BorderLayout.SOUTH);
+		frame.add(eB,BorderLayout.EAST);
+		frame.add(wB,BorderLayout.WEST);
+		
+		if(getExits("north")!=null){
+			nB.setBackground(Color.green);
+			nB.setForeground(Color.black);
+		}else{
+			nB.setBackground(Color.black);
+			nB.setForeground(Color.white);
+		}
+		if(getExits("south")!=null){
+			sB.setBackground(Color.green);
+			sB.setForeground(Color.black);
+		}else{
+			sB.setBackground(Color.black);
+			sB.setForeground(Color.white);
+		}
+		if(getExits("east")!=null){
+			eB.setBackground(Color.green);
+			eB.setForeground(Color.black);
+		}else{
+			eB.setBackground(Color.black);
+			eB.setForeground(Color.white);
+		}
+		if(getExits("west")!=null){
+			wB.setBackground(Color.green);
+			wB.setForeground(Color.black);
+		}else{
+			wB.setBackground(Color.black);
+			wB.setForeground(Color.white);
+		}
+		
 		if(hasItems()){
 		//add the image of the item in the panel 
+			
 		}
 		frame.pack();
 		
