@@ -27,7 +27,7 @@ public class Game
     private CommandWords commandWords;
     private CommandStack redoStack;
     private CommandStack undoStack;
-
+    
     
     /**
      * Create the game and initialise its internal map.
@@ -51,17 +51,17 @@ public class Game
         Room gallery,waitingroom, workshop, lobby, entrance, dinningroom,studio,theater, dressingroom,technician;
         
         // create the rooms
-        rooms.put("gallary",gallery = new Room("gallary"));
-        rooms.put("workshop",workshop = new Room("workshop"));
-        rooms.put("lobby",lobby = new Room("lobby"));
-        rooms.put("entrance",entrance = new Room("entrance"));
-        rooms.put("dinning room",dinningroom = new Room("dinning room"));
-        rooms.put("studio",studio = new Room("studio"));
-        rooms.put("theater",theater = new Room("theater"));
-        rooms.put("dressing room",dressingroom = new Room("dressing room"));
-        rooms.put("technician room",technician = new Room("technician room"));
-        rooms.put("waiting room",waitingroom = new Room("waiting room"));
-
+        rooms.put("gallary",gallery = new RoomViewPanel("gallary"));
+        rooms.put("workshop",workshop = new RoomViewPanel("workshop"));
+        rooms.put("lobby",lobby = new RoomViewPanel("lobby"));
+        rooms.put("entrance",entrance = new RoomViewPanel("entrance"));
+        rooms.put("dinning room",dinningroom = new RoomViewPanel("dinning room"));
+        rooms.put("studio",studio = new RoomViewPanel("studio"));
+        rooms.put("theater",theater = new RoomViewPanel("theater"));
+        rooms.put("dressing room",dressingroom = new RoomViewPanel("dressing room"));
+        rooms.put("technician room",technician = new RoomViewPanel("technician room"));
+        rooms.put("waiting room",waitingroom = new RoomViewPanel("waiting room"));
+        
         
 
         // initialise room exits
@@ -113,7 +113,8 @@ public class Game
         
         player1 = new Player(playerName,PLAYER_DESCRIPTION,MAX_WEIGHT);
         player1.setCurrentRoom(rooms.get(DEFAULT_START_ROOM));  // start game outside
-
+        
+        
     }
 
     /**
@@ -388,6 +389,8 @@ public class Game
     
     public static void main(String args[]) {
     	Game game = new Game();
-			game.play();
+			
+    	game.play();
+			
     }
 }
