@@ -76,7 +76,7 @@ public class Room {
 	 * 
 	 */
 	public String getLongDescription() {
-		return ("You are at the " + description + ".\n" + getExitString() + getItemString() + "\n" + getMonstersString());
+		return ("You are at the " + description + ".\n" + getExitString()+"\n" + getItemString() + "\n" + getMonstersString());
 	}
 
 	public Room getExits(String direction) {
@@ -125,6 +125,9 @@ public class Room {
 
 	public boolean containsItem(String itemKey) {
 		return items.containsKey(itemKey);
+	}
+	public boolean hasItems(){
+		return !items.isEmpty();
 	}
 
 	/**
