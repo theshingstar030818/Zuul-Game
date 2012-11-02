@@ -6,6 +6,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+/**
+ * DrawableRoom extends Room and provides support for drawing a visual representation
+ * of the room on a JPanel
+ * @author sean byron
+ *
+ */
 
 public class DrawableRoom extends Room {
 
@@ -22,12 +28,11 @@ public class DrawableRoom extends Room {
 		super(description);
 	}
 	
+	/**
+	 * Returns a JPanel representing the room visually. Exits are shown.
+	 * @return
+	 */
 	public JPanel getRoomPanel() {
-		drawPanel();
-		return panel;
-	}
-	
-	private void drawPanel() {
 		panel = new JPanel();		
 		panel.setLayout(new BorderLayout(0, 0));
 		
@@ -74,46 +79,8 @@ public class DrawableRoom extends Room {
 		room.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(room, BorderLayout.CENTER);
 		
-//		JPanel west = new JPanel();
-//		if (this.getExits(WEST) == null) {
-//			west.setBackground(Color.BLACK);
-//		} else {
-//			west.setBackground(Color.WHITE);
-//		}
-//		panel.add(west, BorderLayout.WEST);
-//		
-//		JPanel north = new JPanel();
-//		if (this.getExits(NORTH) == null) {
-//			north.setBackground(Color.BLACK);
-//		} else {
-//			north.setBackground(Color.WHITE);
-//		}
-//		panel.add(north, BorderLayout.NORTH);
-//		
-//		JPanel south = new JPanel();
-//		if (this.getExits(SOUTH) == null) {
-//			south.setBackground(Color.BLACK);
-//		} else {
-//			south.setBackground(Color.WHITE);
-//		}
-//		panel.add(south, BorderLayout.SOUTH);
-//		
-//		JPanel east = new JPanel();
-//		if (this.getExits(EAST)== null) {
-//			east.setBackground(Color.BLACK);
-//		} else {
-//			east.setBackground(Color.WHITE);
-//		}
-//		panel.add(east, BorderLayout.EAST);
-//		
-//		JPanel center = new JPanel();
-//		center.setBackground(Color.WHITE);
-//		panel.add(center, BorderLayout.CENTER);
-//		
-//		JLabel roomName = new JLabel(this.getDescription());
-//		center.add(roomName);
-		
 		panel.setSize(WINDOW_SIZE,WINDOW_SIZE);
+		
+		return panel;
 	}
-
 }

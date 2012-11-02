@@ -1,13 +1,9 @@
-import java.awt.Button;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -27,8 +23,6 @@ public class MapView extends JFrame implements Observer {
 	private static int WINDOW_SIZE = 600;
 	private JPanel[][] tiles;
 	private GridLayout layout;
-	
-	private JPanel blank;
 	
 	public MapView(String name) {
 		super(name);
@@ -53,23 +47,39 @@ public class MapView extends JFrame implements Observer {
 		setSize(WINDOW_SIZE,WINDOW_SIZE);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
 		setBackground(Color.BLACK);
 	}
 	
+	/**
+	 * Creates and shows a new map view
+	 * @param args
+	 */
 	public static void main(String args[]) {
 		MapView view = new MapView("World of Zuul");
 		view.setVisible(true);
 	}
 
+	/**
+	 * Update the tiles with the current state of the game
+	 */
 	public void update(Observable arg0, Object arg1) {
 		if (arg1 instanceof DrawableRoom) {
+			//Cast arg1 as a drawable room
 			DrawableRoom currentRoom = (DrawableRoom)arg1;
+			
+			//Create a new SIZExSIZE array to hold the current rooms
 			Room rooms[][] = new Room[SIZE][SIZE];
+			
+			//Set the middle room (position 1,1) to the current room
 			rooms[1][1] = currentRoom;
 			
+			//Recursively find rooms to display beginning at the center of the map
 			discoverRooms(1, 1, rooms, null);
 			
+			//Remove all the current tiles
+			getContentPane().removeAll();
+			
+			//Update the tiles to show the current state of the game
 			for (int i=0; i<SIZE; i++) {
 				for (int j=0; j<SIZE; j++) {
 					if (rooms[i][j] != null) {
@@ -78,25 +88,25 @@ public class MapView extends JFrame implements Observer {
 					} else {
 						tiles[i][j] = new JPanel();
 					}	
+					//Add the tile to the JFrame
+					add(tiles[i][j]);
 				}
 			}
-			refresh();
+
+			//Repaint the 2D View
+			validate();
+			repaint();
 		}
 	}
-	
-	public void refresh() {
-		getContentPane().removeAll();
-		
-		for (int i=0; i<SIZE; i++ ){
-			for (int j=0; j<SIZE; j++) {
-				add(tiles[i][j]);
-			}
-		}
-		
-		validate();
-		repaint();
-	}
-	
+
+	/**
+	 * This method recursively travels through the game and builds a 2d array 
+	 * of the rooms for the MapView to display
+	 * @param x
+	 * @param y
+	 * @param rooms
+	 * @param previous
+	 */
 	private void discoverRooms(int x, int y, Room[][] rooms, String previous) {
 		//Check north
 		if (previous != SOUTH) {
@@ -111,7 +121,7 @@ public class MapView extends JFrame implements Observer {
 		//Check south
 		if (previous != NORTH) {
 			if (rooms[x][y].getExits(SOUTH) != null) {
-				if (x<2 && rooms[x+1][y] == null) {
+				if (x<(SIZE-1) && rooms[x+1][y] == null) {
 					rooms[x+1][y] = rooms[x][y].getExits(SOUTH);
 					discoverRooms(x+1, y, rooms, SOUTH);
 				}
@@ -131,7 +141,7 @@ public class MapView extends JFrame implements Observer {
 		//Check east
 		if (previous != WEST) {
 			if (rooms[x][y].getExits(EAST) != null) {
-				if (y<2 && rooms[x][y+1] == null) {
+				if (y<(SIZE-1) && rooms[x][y+1] == null) {
 					rooms[x][y+1] = rooms[x][y].getExits(EAST);
 					discoverRooms(x, y+1, rooms, EAST);
 				}
