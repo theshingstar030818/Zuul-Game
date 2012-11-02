@@ -21,6 +21,7 @@ public class Room {
 	private HashMap<String, Room> exits;
 	private HashMap<String, Item> items;
 	private HashMap<String, Monster> monsters;
+	private boolean visited;
 
 	/**
 	 * Create a room described "description". Initially, it has no exits.
@@ -34,6 +35,7 @@ public class Room {
 		exits = new HashMap<String, Room>();
 		items = new HashMap<String, Item>();
 		monsters = new HashMap<String, Monster>();
+		visited = false;
 	}
 
 	/**
@@ -158,6 +160,23 @@ public class Room {
 	 */
 	public Monster getMonster(String key) {
 		return monsters.get(key);
+	}
+	
+	/**
+	 * Addition by Sean Byron
+	 * Sets the room as having been visited by the user
+	 */
+	public void Visit() {
+		visited = true;
+	}
+	
+	/**
+	 * Addition by Sean Byron
+	 * @return true if the room has been visited
+	 * @return false if the player hasn't visited the room yet
+	 */
+	public boolean hasBeenVisited() {
+		return visited;
 	}
 
 }

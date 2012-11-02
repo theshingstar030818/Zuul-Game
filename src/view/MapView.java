@@ -8,6 +8,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import model.Room;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * MapView represents the 2D view of a room
@@ -32,7 +37,7 @@ public class MapView extends JFrame implements Observer {
 		
 		//Initialize the layout
 		layout = new GridLayout(SIZE,SIZE);
-		this.setLayout(layout);
+		getContentPane().setLayout(layout);
 		
 		tiles = new JPanel[SIZE][SIZE];
 		
@@ -41,8 +46,7 @@ public class MapView extends JFrame implements Observer {
 			for (int j=0; j<SIZE; j++) {
 				tiles[i][j] = new JPanel();
 				tiles[i][j].setBackground(Color.BLACK);
-				//tiles[i][j].add(new JLabel("(" + i + "," + j + ")"));
-				add(tiles[i][j]);
+				getContentPane().add(tiles[i][j]);
 			}
 		}
 		
@@ -77,7 +81,7 @@ public class MapView extends JFrame implements Observer {
 			rooms[1][1] = currentRoom;
 			
 			//Recursively find rooms to display beginning at the center of the map
-			discoverRooms(1, 1, rooms, null);
+			discoverRooms(1, 1, rooms);
 			
 			//Remove all the current tiles
 			getContentPane().removeAll();
@@ -85,14 +89,14 @@ public class MapView extends JFrame implements Observer {
 			//Update the tiles to show the current state of the game
 			for (int i=0; i<SIZE; i++) {
 				for (int j=0; j<SIZE; j++) {
-					if (rooms[i][j] != null) {
+					if (rooms[i][j] != null && rooms[i][j].hasBeenVisited()) {
 						DrawableRoom temp = (DrawableRoom)rooms[i][j];
 						tiles[i][j] = temp.getRoomPanel();
 					} else {
 						tiles[i][j] = new JPanel();
 					}	
 					//Add the tile to the JFrame
-					add(tiles[i][j]);
+					getContentPane().add(tiles[i][j]);
 				}
 			}
 
@@ -104,50 +108,43 @@ public class MapView extends JFrame implements Observer {
 
 	/**
 	 * This method recursively travels through the game and builds a 2d array 
-	 * of the rooms for the MapView to display
+	 * of size SIZExSIZE of the rooms for the MapView to display
 	 * @param x
 	 * @param y
 	 * @param rooms
 	 * @param previous
 	 */
-	private void discoverRooms(int x, int y, Room[][] rooms, String previous) {
+	private void discoverRooms(int x, int y, Room[][] rooms) {
 		//Check north
-		if (previous != SOUTH) {
-			if (rooms[x][y].getExits(NORTH) != null) {
-				if (x>0 && rooms[x-1][y] == null) {
-					rooms[x-1][y] = rooms[x][y].getExits(NORTH);
-					discoverRooms(x-1, y, rooms, NORTH);
-				}
+		if (rooms[x][y].getExits(NORTH) != null) { //If there is a north exit
+			if (x>0 && rooms[x-1][y] == null) { //If x is within the bounds of the array (x>0) and the room to the north hasn't already been visited
+				rooms[x-1][y] = rooms[x][y].getExits(NORTH);
+				discoverRooms(x-1, y, rooms);
 			}
 		}
 		
 		//Check south
-		if (previous != NORTH) {
-			if (rooms[x][y].getExits(SOUTH) != null) {
-				if (x<(SIZE-1) && rooms[x+1][y] == null) {
-					rooms[x+1][y] = rooms[x][y].getExits(SOUTH);
-					discoverRooms(x+1, y, rooms, SOUTH);
-				}
+		if (rooms[x][y].getExits(SOUTH) != null) { //If there is a south exit
+			if (x<(SIZE-1) && rooms[x+1][y] == null) { //If x is within the bounds of the array (SIZE) and the room to the south hasn't already been visited
+				rooms[x+1][y] = rooms[x][y].getExits(SOUTH);
+				discoverRooms(x+1, y, rooms);
 			}
 		}
+		
 		
 		//Check west
-		if (previous != EAST) {
-			if (rooms[x][y].getExits(WEST) != null) {
-				if (y>0 && rooms[x][y-1] == null) {
-					rooms[x][y-1] = rooms[x][y].getExits(WEST);
-					discoverRooms(x, y-1, rooms, WEST);
-				}
+		if (rooms[x][y].getExits(WEST) != null) { //If there is a west exit
+			if (y>0 && rooms[x][y-1] == null) { //If y is within the bounds of the array (y>0) and the room to the west hasn't already been visited
+				rooms[x][y-1] = rooms[x][y].getExits(WEST);
+				discoverRooms(x, y-1, rooms);
 			}
-		}
+		}	
 		
 		//Check east
-		if (previous != WEST) {
-			if (rooms[x][y].getExits(EAST) != null) {
-				if (y<(SIZE-1) && rooms[x][y+1] == null) {
-					rooms[x][y+1] = rooms[x][y].getExits(EAST);
-					discoverRooms(x, y+1, rooms, EAST);
-				}
+		if (rooms[x][y].getExits(EAST) != null) { //If there is an east exit
+			if (y<(SIZE-1) && rooms[x][y+1] == null) { //If Y is within the bounds of the array (SIZE) and the room to the east hasn't already been visited
+				rooms[x][y+1] = rooms[x][y].getExits(EAST);
+				discoverRooms(x, y+1, rooms);
 			}
 		}
 	}

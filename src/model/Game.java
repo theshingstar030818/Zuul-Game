@@ -62,16 +62,16 @@ public class Game extends Observable
         Room gallery,waitingroom, workshop, lobby, entrance, dinningroom,studio,theater, dressingroom,technician;
         
         // create the rooms
-        rooms.put("gallary",gallery = new DrawableRoom("gallary"));
-        rooms.put("workshop",workshop = new DrawableRoom("workshop"));
-        rooms.put("lobby",lobby = new DrawableRoom("lobby"));
-        rooms.put("entrance",entrance = new DrawableRoom("entrance"));
-        rooms.put("dinning room",dinningroom = new DrawableRoom("dinning room"));
-        rooms.put("studio",studio = new DrawableRoom("studio"));
-        rooms.put("theater",theater = new DrawableRoom("theater"));
-        rooms.put("dressing room",dressingroom = new DrawableRoom("dressing room"));
-        rooms.put("technician room",technician = new DrawableRoom("technician room"));
-        rooms.put("waiting room",waitingroom = new DrawableRoom("waiting room"));
+        rooms.put("gallary",gallery = new DrawableRoom("Gallery"));
+        rooms.put("workshop",workshop = new DrawableRoom("Workshop"));
+        rooms.put("lobby",lobby = new DrawableRoom("Lobby"));
+        rooms.put("entrance",entrance = new DrawableRoom("Entrance"));
+        rooms.put("dinning room",dinningroom = new DrawableRoom("Dinning Room"));
+        rooms.put("studio",studio = new DrawableRoom("Studio"));
+        rooms.put("theater",theater = new DrawableRoom("Theater"));
+        rooms.put("dressing room",dressingroom = new DrawableRoom("Dressing Room"));
+        rooms.put("technician room",technician = new DrawableRoom("Technician Room"));
+        rooms.put("waiting room",waitingroom = new DrawableRoom("Waiting Room"));
 
         
 
@@ -131,6 +131,7 @@ public class Game extends Observable
         
         
         player1 = new Player(playerName,PLAYER_DESCRIPTION,MAX_WEIGHT);
+        rooms.get(DEFAULT_START_ROOM).Visit();
         player1.setCurrentRoom(rooms.get(DEFAULT_START_ROOM));  // start game outside
 
     }
@@ -388,6 +389,7 @@ public class Game extends Observable
             //player1.setPreviousRoom(player1.getCurrentPlayerRoom());
             player1.setCurrentRoom(nextRoom);
             printLocationInfo(player1);
+            nextRoom.Visit();
         }
         
         //Notify observers
