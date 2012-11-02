@@ -14,7 +14,7 @@ import java.util.*;
  * 
  */
 
-public class Game 
+public class Game extends Observable
 {
     private final static String PLAYER_DESCRIPTION = "Me";
     private final static int MAX_WEIGHT = 1000;
@@ -27,10 +27,10 @@ public class Game
     private CommandWords commandWords;
     private CommandStack redoStack;
     private CommandStack undoStack;
-    
+
     
     /**
-     * Create the game and initialise its internal map.
+     * Create the game and initialize its internal map.
      */
     public Game() 
     {
@@ -51,42 +51,50 @@ public class Game
         Room gallery,waitingroom, workshop, lobby, entrance, dinningroom,studio,theater, dressingroom,technician;
         
         // create the rooms
-        rooms.put("gallary",gallery = new RoomViewPanel("gallary"));
-        rooms.put("workshop",workshop = new RoomViewPanel("workshop"));
-        rooms.put("lobby",lobby = new RoomViewPanel("lobby"));
-        rooms.put("entrance",entrance = new RoomViewPanel("entrance"));
-        rooms.put("dinning room",dinningroom = new RoomViewPanel("dinning room"));
-        rooms.put("studio",studio = new RoomViewPanel("studio"));
-        rooms.put("theater",theater = new RoomViewPanel("theater"));
-        rooms.put("dressing room",dressingroom = new RoomViewPanel("dressing room"));
-        rooms.put("technician room",technician = new RoomViewPanel("technician room"));
-        rooms.put("waiting room",waitingroom = new RoomViewPanel("waiting room"));
-        
+        rooms.put("gallary",gallery = new DrawableRoom("gallary"));
+        rooms.put("workshop",workshop = new DrawableRoom("workshop"));
+        rooms.put("lobby",lobby = new DrawableRoom("lobby"));
+        rooms.put("entrance",entrance = new DrawableRoom("entrance"));
+        rooms.put("dinning room",dinningroom = new DrawableRoom("dinning room"));
+        rooms.put("studio",studio = new DrawableRoom("studio"));
+        rooms.put("theater",theater = new DrawableRoom("theater"));
+        rooms.put("dressing room",dressingroom = new DrawableRoom("dressing room"));
+        rooms.put("technician room",technician = new DrawableRoom("technician room"));
+        rooms.put("waiting room",waitingroom = new DrawableRoom("waiting room"));
+
         
 
         // initialise room exits
 
         gallery.setExits("south",workshop);
+        
         workshop.setExits("north",gallery);
-        workshop.setExits("east",theater);
-        workshop.setExits("south",dressingroom);
-        dressingroom.setExits("north",workshop);
+//        workshop.setExits("east",theater);
+        workshop.setExits("east",dressingroom);
+        
+        dressingroom.setExits("west",workshop);
         dressingroom.setExits("east", technician);
+        
         technician.setExits("west",dressingroom);
         technician.setExits("north",studio);
+        
         studio.setExits("south",technician);
         studio.setExits("west",theater);
         studio.setExits("north",dinningroom);
+        
         dinningroom.setExits("south", studio);
         dinningroom.setExits("west", lobby);
+        
         lobby.setExits("east",dinningroom);
         lobby.setExits("south",theater);
         lobby.setExits("west",waitingroom);
         lobby.setExits("north",entrance);
-        waitingroom.setExits("west",lobby);
+        
+        waitingroom.setExits("east",lobby);
+        
         theater.setExits("north",lobby);
         theater.setExits("east",studio);
-        theater.setExits("west",workshop);
+//        theater.setExits("west",workshop);
         entrance.setExits("south",lobby);
         
         //create the items
@@ -113,9 +121,7 @@ public class Game
         
         player1 = new Player(playerName,PLAYER_DESCRIPTION,MAX_WEIGHT);
         player1.setCurrentRoom(rooms.get(DEFAULT_START_ROOM));  // start game outside
-        
-        
-        
+
     }
 
     /**
@@ -126,6 +132,10 @@ public class Game
     {            
         printWelcome();
 
+        //Notify observers
+        setChanged();
+        notifyObservers(player1.getCurrentPlayerRoom());
+        
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over.
 
@@ -363,13 +373,15 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
-            
-            
             // Try to leave current room.
             //player1.setPreviousRoom(player1.getCurrentPlayerRoom());
             player1.setCurrentRoom(nextRoom);
             printLocationInfo(player1);
         }
+        
+        //Notify observers
+        setChanged();
+        notifyObservers(player1.getCurrentPlayerRoom());
     }
 
     /** 
@@ -389,9 +401,13 @@ public class Game
     }
     
     public static void main(String args[]) {
+    	//Create a 2D Map View
+    	MapView view = new MapView("World of Zuul");
+    	
     	Game game = new Game();
-			
-    	game.play();
-			
+    	game.addObserver(view);
+    	
+    	view.setVisible(true);
+		game.play();
     }
 }
