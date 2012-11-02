@@ -1,3 +1,4 @@
+package view;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.Observable;
@@ -5,6 +6,8 @@ import java.util.Observer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import model.Room;
 
 /**
  * MapView represents the 2D view of a room

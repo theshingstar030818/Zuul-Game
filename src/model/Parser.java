@@ -1,4 +1,8 @@
+package model;
 import java.util.Scanner;
+
+import model.command.Command;
+import model.command.CommandWords;
 
 /**
  * This class is part of the "World of Zuul" application. 

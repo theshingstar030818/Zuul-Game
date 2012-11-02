@@ -1,4 +1,8 @@
+package model;
 import java.util.*;
+
+import model.object.Item;
+import model.object.Monster;
 
 /**
  * Class Room - a room in an adventure game.

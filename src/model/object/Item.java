@@ -1,3 +1,4 @@
+package model.object;
 /**
  * An Item in an adventure game.
  * 

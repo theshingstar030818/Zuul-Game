@@ -1,3 +1,4 @@
+package model.object;
 /**
  * Monster class
  * @author Sean Byron

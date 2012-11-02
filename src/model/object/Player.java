@@ -1,4 +1,7 @@
+package model.object;
 import java.util.*;
+
+import model.Room;
 
 /**
  * Write a description of class Player here.
