@@ -2,6 +2,8 @@ package model;
 
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
 import model.command.Command;
 import model.command.CommandStack;
 import model.command.CommandWords;
@@ -131,7 +133,7 @@ public class Game extends Observable
         
         
         player1 = new Player(playerName,PLAYER_DESCRIPTION,MAX_WEIGHT);
-        rooms.get(DEFAULT_START_ROOM).Visit();
+        rooms.get(DEFAULT_START_ROOM).visit();
         player1.setCurrentRoom(rooms.get(DEFAULT_START_ROOM));  // start game outside
 
     }
@@ -170,8 +172,8 @@ public class Game extends Observable
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        System.out.println("Please enter your name:");
-        playerName = parser.getCommand().getCommandWord();
+        playerName = JOptionPane.showInputDialog("Please enter your name:");
+        System.out.println("player name : " + playerName);
         System.out.println();
         System.out.println();
         printLocationInfo(player1);
@@ -389,7 +391,7 @@ public class Game extends Observable
             //player1.setPreviousRoom(player1.getCurrentPlayerRoom());
             player1.setCurrentRoom(nextRoom);
             printLocationInfo(player1);
-            nextRoom.Visit();
+            nextRoom.visit();
         }
         
         //Notify observers

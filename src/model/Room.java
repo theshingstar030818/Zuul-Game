@@ -166,7 +166,7 @@ public class Room {
 	 * Addition by Sean Byron
 	 * Sets the room as having been visited by the user
 	 */
-	public void Visit() {
+	public void visit() {
 		visited = true;
 	}
 	

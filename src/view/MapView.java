@@ -1,4 +1,5 @@
 package view;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.Observable;
@@ -31,6 +32,7 @@ public class MapView extends JFrame implements Observer {
 	private static int WINDOW_SIZE = 600;
 	private JPanel[][] tiles;
 	private GridLayout layout;
+	private BorderLayout BLayout;
 	
 	public MapView(String name) {
 		super(name);
