@@ -1,4 +1,4 @@
-package model;
+package testSuite;
 
 import junit.framework.TestCase;
 
