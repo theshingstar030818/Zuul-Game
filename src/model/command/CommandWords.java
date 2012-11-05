@@ -80,14 +80,6 @@ public class CommandWords
         return commandList;
     }
     
-    /**
-     * Returns a copy of the list of reversible commands
-     * @return
-     */
-    public HashMap<String, String> getReversibleCommands() {
-    	return reversibleCommands;
-    }
-    
     public boolean isReversible(String s)
     {
     	return reversibleCommands.containsKey(s);
