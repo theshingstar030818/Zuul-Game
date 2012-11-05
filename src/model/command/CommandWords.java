@@ -72,6 +72,11 @@ public class CommandWords
         for(String command : validCommands ){
             commandList+=(command + " " );
         }
+        String[] x = (String[]) reversibleCommands.values().toArray(new String[0]);
+        for(String command : x)
+        {
+        	commandList+=(command + " " );
+        }
         return commandList;
     }
     
