@@ -204,9 +204,6 @@ public class Game extends Observable
         else if (commandWord.equals("look")){
             look();
         }
-        else if (commandWord.equals("eat")){
-            eat();
-        }
         else if (commandWord.equals("undo")){
             undo();
         }
@@ -308,11 +305,6 @@ public class Game extends Observable
     	} else {
     		System.out.println("You cannot drop an item you're not carrying!");
     	}
-    }
-   
-
-    private void eat(){
-        System.out.println("you have eaten now and you are not hungry anymore ");
     }
 
     private void look(){
