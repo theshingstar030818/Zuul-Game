@@ -72,8 +72,7 @@ public class Game extends Observable
 
         
 
-        // initialise room exits
-
+        // Initialize room exits
         gallery.setExits("south",workshop);
         
         workshop.setExits("north",gallery);
@@ -301,10 +300,14 @@ public class Game extends Observable
 
     
     private void drop(Command command){
-    Item item = player1.drop(command.getSecondWord());
-        player1.getCurrentPlayerRoom().addItem(item);
-        printLocationInfo(player1);
-        System.out.println();
+    	Item item = player1.drop(command.getSecondWord());
+    	if (item != null) {
+		    player1.getCurrentPlayerRoom().addItem(item);
+		    printLocationInfo(player1);
+		    System.out.println();
+    	} else {
+    		System.out.println("You cannot drop an item you're not carrying!");
+    	}
     }
    
 
