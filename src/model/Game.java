@@ -34,7 +34,6 @@ public class Game extends Observable
 
 	private Parser parser;
     private Player player1;
-    private String playerName;
     private HashMap<String,Room> rooms;
     private CommandStack redoStack;
     private CommandStack undoStack;
@@ -47,7 +46,6 @@ public class Game extends Observable
     {
         parser = new Parser();
         rooms = new HashMap<String,Room>();
-        playerName = null;
         initializeGame();
         undoStack = new CommandStack();
         redoStack = new CommandStack();
@@ -79,7 +77,6 @@ public class Game extends Observable
         gallery.setExits("south",workshop);
         
         workshop.setExits("north",gallery);
-//        workshop.setExits("east",theater);
         workshop.setExits("east",dressingroom);
         
         dressingroom.setExits("west",workshop);
@@ -104,7 +101,6 @@ public class Game extends Observable
         
         theater.setExits("north",lobby);
         theater.setExits("east",studio);
-//        theater.setExits("west",workshop);
         entrance.setExits("south",lobby);
         
         //create the items
@@ -128,8 +124,9 @@ public class Game extends Observable
         workshop.addMonster(grendel);
         dinningroom.addMonster(goblin);
         
-        
+        String playerName = JOptionPane.showInputDialog("Please enter your name:");
         player1 = new Player(playerName,PLAYER_DESCRIPTION,MAX_WEIGHT);
+        
         rooms.get(DEFAULT_START_ROOM).visit();
         player1.setCurrentRoom(rooms.get(DEFAULT_START_ROOM));  // start game outside
 
@@ -168,10 +165,6 @@ public class Game extends Observable
         System.out.println("Welcome to the World of Zuul!");
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
-        System.out.println();
-        playerName = JOptionPane.showInputDialog("Please enter your name:");
-        System.out.println("player name : " + playerName);
-        System.out.println();
         System.out.println();
         printLocationInfo(player1);
     }
@@ -356,7 +349,7 @@ public class Game extends Observable
         // Try to pick up the item.
         
         if(player1.getCurrentPlayerRoom().containsItem(itemName)&&player1.pick(itemName,item)){
-            System.out.println(item.getItemName() + " has been picked by " + player1.getFullPlayerDescription());
+            System.out.println(item.getItemName() + " has been picked by " + player1.getPlayerName());
             player1.getCurrentPlayerRoom().reomoveItem(itemName);
             printLocationInfo(player1);
         }else{

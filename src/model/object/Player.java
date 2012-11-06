@@ -54,6 +54,14 @@ public class Player{
 	public String getPlayerName() {
 		return name;
 	}
+	
+	/**
+	 * Sets the players name
+	 * @param name
+	 */
+	public void setPlayerName(String name) {
+		this.name = name;
+	}
 
 	/**
 	 * Returns a string with details of the players inventory
