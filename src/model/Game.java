@@ -299,9 +299,9 @@ public class Game extends Observable
     private void drop(Command command){
     	Item item = player1.drop(command.getSecondWord());
     	if (item != null) {
+    		System.out.println(item.getItemName() + " has been dropped by " + player1.getPlayerName());
 		    player1.getCurrentPlayerRoom().addItem(item);
-		    printLocationInfo(player1);
-		    System.out.println();
+		    player1.printItemsAndWeight();
     	} else {
     		System.out.println("You cannot drop an item you're not carrying!");
     	}
@@ -346,7 +346,7 @@ public class Game extends Observable
         if(player1.getCurrentPlayerRoom().containsItem(itemName)&&player1.pick(itemName,item)){
             System.out.println(item.getItemName() + " has been picked by " + player1.getPlayerName());
             player1.getCurrentPlayerRoom().removeItem(itemName);
-            printLocationInfo(player1);
+            player1.printItemsAndWeight();
         }else{
             System.out.println("item could not be picked ");
         }

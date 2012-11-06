@@ -9,15 +9,12 @@ import model.Room;
  * @author Tanzeel
  */
 public class Player{
-	/**
-	 * feilds :
-	 */
+
 	private String name;
 	private String description;
 	private Room currentRoom;
-	@SuppressWarnings("unused")
-	private int currweight;
-	private int weight;
+	private int currentWeight;
+	private int maxWeight;
 	private HashMap<String,Item> itemsInPossesion;
 
 	/**
@@ -26,8 +23,8 @@ public class Player{
 	public Player(String name, String description, int weight) {
 		this.name = name;
 		this.description = description;
-		this.weight = weight;
-		currweight = weight;
+		this.maxWeight = weight;
+		currentWeight = 0;
 		itemsInPossesion = new HashMap<String,Item>();
 	}
 
@@ -68,8 +65,8 @@ public class Player{
 	 * @return
 	 */
 	public String getFullPlayerDescription() {
-		return name + " \n Can pick upto : " + weight
-				+ " Kg. \n total wight carried : "+totalWeightCarried() 
+		return name + " \n Can pick upto : " + maxWeight
+				+ " Kg. \n total wight carried : " + currentWeight 
 				+ " \n bag pack :\n"  + InventoryToString();
 	}
 
@@ -82,7 +79,7 @@ public class Player{
 	public boolean pick(String itemName,Item item) {
 		if (canPickItem(item)) {
 			itemsInPossesion.put(itemName,item);
-			currweight += item.getItemWeight();
+			currentWeight += item.getItemWeight();
 			return true;
 		} else {
 			System.out.println("Player can not pick " + item);
@@ -100,7 +97,7 @@ public class Player{
 			return null;
 		} else {
 			Item itemDropped = itemsInPossesion.get(itemName);
-            currweight -= itemDropped.getItemWeight();
+            currentWeight -= itemDropped.getItemWeight();
             itemsInPossesion.remove(itemName);
 			return itemDropped;
 		}
@@ -121,31 +118,20 @@ public class Player{
 	 * @return true if user has room in the inventory
 	 */
 	private boolean canPickItem(Item item) {
-		if ((totalWeightCarried() + item.getItemWeight()) > weight) {
+		if ((currentWeight + item.getItemWeight()) > maxWeight) {
 			return false;
 		}
 		return true;
 	}
 
-	/**
-	 * @return the total weight the player is carying
-	 */
-	private int totalWeightCarried() {
-		int weightCarried = 0;
-		Set<String> keys = itemsInPossesion.keySet();
-		for (String items : keys) {
-			weightCarried += itemsInPossesion.get(items).getItemWeight();
-		}
-		return weightCarried;
-	}
-
 	public void printItemsAndWeight() {
 	    Set<String> keys = itemsInPossesion.keySet();
+	    System.out.println("Items being carried: ");
 		for (String items : keys) {
-			System.out.println( itemsInPossesion.get(items).getItemName() + " "
+			System.out.println("- " + itemsInPossesion.get(items).getItemName() + " "
 					+  itemsInPossesion.get(items).getItemWeight() + "\n");
 		}
-		System.out.println(totalWeightCarried());
+		System.out.println("Weight being carried: " + currentWeight + "/" + maxWeight);
 
 	}
 
