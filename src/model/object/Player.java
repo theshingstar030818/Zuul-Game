@@ -129,7 +129,7 @@ public class Player{
 	    System.out.println("Items being carried: ");
 		for (String items : keys) {
 			System.out.println("- " + itemsInPossesion.get(items).getItemName() + " "
-					+  itemsInPossesion.get(items).getItemWeight() + "\n");
+					+  itemsInPossesion.get(items).getItemWeight());
 		}
 		System.out.println("Weight being carried: " + currentWeight + "/" + maxWeight);
 

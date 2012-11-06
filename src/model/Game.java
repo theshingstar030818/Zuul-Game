@@ -105,7 +105,7 @@ public class Game extends Observable
         //create the items
         Item plant = new Item("Plant",2.0);
         Item sword = new Item("Sword", 7.0);
-        Item pogoStick = new Item("Pogo Stick", 5.0);
+        Item pogoStick = new Item("PogoStix", 5.0);
         
         //Add Items
         entrance.addItem(plant);
