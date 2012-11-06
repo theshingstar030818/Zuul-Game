@@ -96,6 +96,7 @@ public class MapView extends JFrame implements Observer {
 						tiles[i][j] = temp.getRoomPanel();
 					} else {
 						tiles[i][j] = new JPanel();
+						tiles[i][j].setBackground(Color.BLACK);
 					}	
 					//Add the tile to the JFrame
 					getContentPane().add(tiles[i][j]);
