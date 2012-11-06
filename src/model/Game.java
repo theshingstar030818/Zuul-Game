@@ -345,7 +345,7 @@ public class Game extends Observable
         
         if(player1.getCurrentPlayerRoom().containsItem(itemName)&&player1.pick(itemName,item)){
             System.out.println(item.getItemName() + " has been picked by " + player1.getPlayerName());
-            player1.getCurrentPlayerRoom().reomoveItem(itemName);
+            player1.getCurrentPlayerRoom().removeItem(itemName);
             printLocationInfo(player1);
         }else{
             System.out.println("item could not be picked ");

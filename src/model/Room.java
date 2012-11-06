@@ -121,7 +121,7 @@ public class Room {
 		return ret;
 	}
 
-	public void reomoveItem(String itemKey) {
+	public void removeItem(String itemKey) {
 		items.remove(itemKey);
 	}
 
