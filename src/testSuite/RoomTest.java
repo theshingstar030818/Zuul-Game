@@ -1,6 +1,5 @@
 package testSuite;
 
-import view.DrawableRoom;
 import model.Room;
 import model.object.Item;
 import model.object.Monster;

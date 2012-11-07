@@ -9,11 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import model.Room;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  * MapView represents the 2D view of a room
@@ -32,7 +27,6 @@ public class MapView extends JFrame implements Observer {
 	private static int WINDOW_SIZE = 600;
 	private JPanel[][] tiles;
 	private GridLayout layout;
-	private BorderLayout BLayout;
 	
 	public MapView(String name) {
 		super(name);
