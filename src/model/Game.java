@@ -182,7 +182,7 @@ public class Game extends Observable
     {
         boolean wantToQuit = false;
 
-        if(command==null) {
+        if(command==null || command.getCommandWord()==null) {
             System.out.println("I don't know what you mean...");
             return false;
         }
@@ -366,7 +366,7 @@ public class Game extends Observable
         }
 
         String direction = command.getSecondWord();
-        Room nextRoom = player1.getCurrentPlayerRoom().getExits(direction);
+        Room nextRoom = player1.getCurrentPlayerRoom().getExit(direction);
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
