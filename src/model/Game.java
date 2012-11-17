@@ -28,7 +28,7 @@ import view.MapView;
  * 
  */
 
-public class Game extends Observable
+public class Game extends Observable implements Observer
 {
     private final static String PLAYER_DESCRIPTION = "Me";
     private final static int MAX_WEIGHT = 1000;
@@ -408,8 +408,16 @@ public class Game extends Observable
     	
     	Game game = new Game();
     	game.addObserver(view);
+    	view.addObserver(game);
     	
-    	view.setVisible(true);
+    	view.show();
 		game.play();
     }
+
+	public void update(Observable arg0, Object arg1) {
+		if (arg1 instanceof Command) {
+			Command command = (Command)arg1;
+			processCommand(command);
+		}
+	}
 }
