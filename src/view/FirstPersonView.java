@@ -41,7 +41,7 @@ public class FirstPersonView extends JFrame implements Observer {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setBackground(Color.BLACK);
 		
-		//Initialize the keylistener
+		//Initialize the key listener
 		keyListener = new FPKeyListener();
 		addKeyListener(keyListener);
 		keyListener.addObserver(this);
