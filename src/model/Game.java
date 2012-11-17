@@ -4,12 +4,16 @@ import java.util.*;
 
 import javax.swing.JOptionPane;
 
+import controller.FPMouseListener;
+
 import model.command.Command;
 import model.command.CommandStack;
 
 import model.object.*;
 
-import view.DrawableRoom;
+import view.FirstPersonRoom;
+import view.FirstPersonView;
+import view.MapRoom;
 import view.MapView;
 /**
  *  This class is the main class of the "World of Zuul" application. 
@@ -26,7 +30,7 @@ import view.MapView;
  * 
  */
 
-public class Game extends Observable
+public class Game extends Observable implements Observer
 {
     private final static String PLAYER_DESCRIPTION = "Me";
     private final static int MAX_WEIGHT = 1000;
@@ -37,6 +41,7 @@ public class Game extends Observable
     private HashMap<String,Room> rooms;
     private CommandStack redoStack;
     private CommandStack undoStack;
+    private FPMouseListener listener;
 
     
     /**
@@ -46,9 +51,12 @@ public class Game extends Observable
     {
         parser = new Parser();
         rooms = new HashMap<String,Room>();
+        listener = new FPMouseListener();
+        listener.addObserver(this);
         initializeGame();
         undoStack = new CommandStack();
         redoStack = new CommandStack();
+        
     }
 
     /**
@@ -59,16 +67,16 @@ public class Game extends Observable
         Room gallery,waitingroom, workshop, lobby, entrance, dinningroom,studio,theater, dressingroom,technician;
         
         // create the rooms
-        rooms.put("gallary",gallery = new DrawableRoom("Gallery"));
-        rooms.put("workshop",workshop = new DrawableRoom("Workshop"));
-        rooms.put("lobby",lobby = new DrawableRoom("Lobby"));
-        rooms.put("entrance",entrance = new DrawableRoom("Entrance"));
-        rooms.put("dinning room",dinningroom = new DrawableRoom("Dinning Room"));
-        rooms.put("studio",studio = new DrawableRoom("Studio"));
-        rooms.put("theater",theater = new DrawableRoom("Theater"));
-        rooms.put("dressing room",dressingroom = new DrawableRoom("Dressing Room"));
-        rooms.put("technician room",technician = new DrawableRoom("Technician Room"));
-        rooms.put("waiting room",waitingroom = new DrawableRoom("Waiting Room"));
+        rooms.put("gallary",gallery = new FirstPersonRoom("Gallery", listener));
+        rooms.put("workshop",workshop = new FirstPersonRoom("Workshop", listener));
+        rooms.put("lobby",lobby = new FirstPersonRoom("Lobby", listener));
+        rooms.put("entrance",entrance = new FirstPersonRoom("Entrance", listener));
+        rooms.put("dinning room",dinningroom = new FirstPersonRoom("Dinning Room", listener));
+        rooms.put("studio",studio = new FirstPersonRoom("Studio", listener));
+        rooms.put("theater",theater = new FirstPersonRoom("Theater", listener));
+        rooms.put("dressing room",dressingroom = new FirstPersonRoom("Dressing Room", listener));
+        rooms.put("technician room",technician = new FirstPersonRoom("Technician Room", listener));
+        rooms.put("waiting room",waitingroom = new FirstPersonRoom("Waiting Room", listener));
 
         
 
@@ -182,7 +190,7 @@ public class Game extends Observable
     {
         boolean wantToQuit = false;
 
-        if(command==null) {
+        if(command==null || command.getCommandWord()==null) {
             System.out.println("I don't know what you mean...");
             return false;
         }
@@ -316,7 +324,7 @@ public class Game extends Observable
 
     /**
      * Print out some help information.
-     * Here we print some stupid, cryptic message and a list of the 
+     * Here we print some stupid, cryptic messagego and a list of the 
      * command words.
      */
     private void printHelp() 
@@ -366,7 +374,7 @@ public class Game extends Observable
         }
 
         String direction = command.getSecondWord();
-        Room nextRoom = player1.getCurrentPlayerRoom().getExits(direction);
+        Room nextRoom = player1.getCurrentPlayerRoom().getExit(direction);
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
@@ -401,13 +409,22 @@ public class Game extends Observable
     }
     
     public static void main(String args[]) {
-    	//Create a 2D Map View
-    	MapView view = new MapView("World of Zuul");
+    	//Create a 3D First Person View
+    	FirstPersonView view = new FirstPersonView("World of Zuul");
     	
     	Game game = new Game();
     	game.addObserver(view);
+    	view.addObserver(game);
     	
-    	view.setVisible(true);
+    	
+    	view.show();
 		game.play();
     }
+
+	public void update(Observable arg0, Object arg1) {
+		if (arg1 instanceof Command) {
+			Command command = (Command)arg1;
+			processCommand(command);
+		}
+	}
 }

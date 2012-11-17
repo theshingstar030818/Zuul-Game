@@ -52,6 +52,10 @@ public class CommandStack {
 
 	public void empty()
 	{
-		cStack.empty();
+		while(!cStack.empty())
+		{
+			cStack.pop();
+		}
+		
 	}
 }

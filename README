@@ -130,3 +130,58 @@ quit
 2.3 Items and Monster
 
 Items and monsters are stored in hashmaps.  Their string equivalent that the user inputs are the keys.  This makes it easy to return the proper monster or item to the Game class.
+
+3.0 View
+
+Instead of text-based view, player now will have GUI view showing the map and current room where the player are. 
+
+The current room will be in the middle of the map and only the room that has been visited by the player will be shown in the map. 
+
+The exits of the room will be shown to player so that player will know which exit is available.
+
+4.0 Control
+
+For now,player still will be using console input to control the game same as previous milestone.
+
+5.0 Package
+
+All the class have been rearranged into packages to follow MVC representation
+
+Model:
+	game.java
+	Parser.java
+	Room.Java
+	
+Model.command:
+	Command.java
+	CommandStack.java
+	CommandWords.java
+	
+Model.object:
+	Item.java
+	Monster.java
+	Player.java
+	
+view:
+	DrawableRoom.java
+	MapView.java
+
+6.0 UML
+	
+The UML diagram is updated and added the new class for the GUI part (DrawableRoom.java and MapView.java) and rearranged into their package.
+
+Sequence diagram for each command available for the player created.
+
+List of sequence diagram:
+play()
+goRoom()
+pick()
+drop()
+attack()
+heal()
+
+
+
+
+	
+
