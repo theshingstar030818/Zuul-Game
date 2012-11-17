@@ -9,6 +9,8 @@ import model.command.CommandStack;
 
 import model.object.*;
 
+import view.FirstPersonRoom;
+import view.FirstPersonView;
 import view.MapRoom;
 import view.MapView;
 /**
@@ -59,16 +61,16 @@ public class Game extends Observable
         Room gallery,waitingroom, workshop, lobby, entrance, dinningroom,studio,theater, dressingroom,technician;
         
         // create the rooms
-        rooms.put("gallary",gallery = new MapRoom("Gallery"));
-        rooms.put("workshop",workshop = new MapRoom("Workshop"));
-        rooms.put("lobby",lobby = new MapRoom("Lobby"));
-        rooms.put("entrance",entrance = new MapRoom("Entrance"));
-        rooms.put("dinning room",dinningroom = new MapRoom("Dinning Room"));
-        rooms.put("studio",studio = new MapRoom("Studio"));
-        rooms.put("theater",theater = new MapRoom("Theater"));
-        rooms.put("dressing room",dressingroom = new MapRoom("Dressing Room"));
-        rooms.put("technician room",technician = new MapRoom("Technician Room"));
-        rooms.put("waiting room",waitingroom = new MapRoom("Waiting Room"));
+        rooms.put("gallary",gallery = new FirstPersonRoom("Gallery"));
+        rooms.put("workshop",workshop = new FirstPersonRoom("Workshop"));
+        rooms.put("lobby",lobby = new FirstPersonRoom("Lobby"));
+        rooms.put("entrance",entrance = new FirstPersonRoom("Entrance"));
+        rooms.put("dinning room",dinningroom = new FirstPersonRoom("Dinning Room"));
+        rooms.put("studio",studio = new FirstPersonRoom("Studio"));
+        rooms.put("theater",theater = new FirstPersonRoom("Theater"));
+        rooms.put("dressing room",dressingroom = new FirstPersonRoom("Dressing Room"));
+        rooms.put("technician room",technician = new FirstPersonRoom("Technician Room"));
+        rooms.put("waiting room",waitingroom = new FirstPersonRoom("Waiting Room"));
 
         
 
@@ -316,7 +318,7 @@ public class Game extends Observable
 
     /**
      * Print out some help information.
-     * Here we print some stupid, cryptic message and a list of the 
+     * Here we print some stupid, cryptic messagego and a list of the 
      * command words.
      */
     private void printHelp() 
@@ -401,8 +403,8 @@ public class Game extends Observable
     }
     
     public static void main(String args[]) {
-    	//Create a 2D Map View
-    	MapView view = new MapView("World of Zuul");
+    	//Create a 3D First Person View
+    	FirstPersonView view = new FirstPersonView("World of Zuul");
     	
     	Game game = new Game();
     	game.addObserver(view);

@@ -87,7 +87,7 @@ public class MapView extends JFrame implements Observer {
 				for (int j=0; j<SIZE; j++) {
 					if (rooms[i][j] != null && rooms[i][j].hasBeenVisited()) {
 						MapRoom temp = (MapRoom)rooms[i][j];
-						tiles[i][j] = temp.getRoomPanel();
+						tiles[i][j] = temp.getMapPanel();
 					} else {
 						tiles[i][j] = new JPanel();
 						tiles[i][j].setBackground(Color.BLACK);

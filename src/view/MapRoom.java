@@ -35,7 +35,7 @@ public class MapRoom extends Room {
 	 * Returns a JPanel representing the room visually. Exits are shown.
 	 * @return
 	 */
-	public JPanel getRoomPanel() {
+	public JPanel getMapPanel() {
 		panel = new JPanel();		
 		panel.setLayout(new BorderLayout(0, 0));
 		
