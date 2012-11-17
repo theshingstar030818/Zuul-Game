@@ -16,7 +16,7 @@ import model.Room;
  *
  */
 
-public class DrawableRoom extends Room {
+public class MapRoom extends Room {
 
 	private static final String SOUTH = "south";
 	private static final String EAST = "east";
@@ -27,7 +27,7 @@ public class DrawableRoom extends Room {
 	
 	private JPanel panel;
 	
-	public DrawableRoom(String description) {
+	public MapRoom(String description) {
 		super(description);
 	}
 	
@@ -47,34 +47,34 @@ public class DrawableRoom extends Room {
 		south.setBorder(null);
 		south.setBackground(Color.WHITE);
 		if (this.getExit(SOUTH) != null) {
-			south.setIcon(new ImageIcon(DrawableRoom.class.getResource("/img/exit-south.gif")));
+			south.setIcon(new ImageIcon(MapRoom.class.getResource("/img/exit-south.gif")));
 		} else {
-			south.setIcon(new ImageIcon(DrawableRoom.class.getResource("/img/wall-south.gif")));
+			south.setIcon(new ImageIcon(MapRoom.class.getResource("/img/wall-south.gif")));
 		}
 		panel.add(south, BorderLayout.SOUTH);
 		
 		JLabel west = new JLabel("");
 		west.setBackground(Color.WHITE);
 		if (this.getExit(WEST) != null) {
-			west.setIcon(new ImageIcon(DrawableRoom.class.getResource("/img/exit-west.gif")));
+			west.setIcon(new ImageIcon(MapRoom.class.getResource("/img/exit-west.gif")));
 		} else {
-			west.setIcon(new ImageIcon(DrawableRoom.class.getResource("/img/wall-west.gif")));
+			west.setIcon(new ImageIcon(MapRoom.class.getResource("/img/wall-west.gif")));
 		}
 		panel.add(west, BorderLayout.WEST);
 		
 		JLabel north = new JLabel("");
 		if (this.getExit(NORTH) != null) {
-			north.setIcon(new ImageIcon(DrawableRoom.class.getResource("/img/exit-north.gif")));
+			north.setIcon(new ImageIcon(MapRoom.class.getResource("/img/exit-north.gif")));
 		} else {
-			north.setIcon(new ImageIcon(DrawableRoom.class.getResource("/img/wall-north.gif")));
+			north.setIcon(new ImageIcon(MapRoom.class.getResource("/img/wall-north.gif")));
 		}
 		panel.add(north, BorderLayout.NORTH);
 		
 		JLabel east = new JLabel("");
 		if (this.getExit(EAST) != null) {
-			east.setIcon(new ImageIcon(DrawableRoom.class.getResource("/img/exit-east.gif")));
+			east.setIcon(new ImageIcon(MapRoom.class.getResource("/img/exit-east.gif")));
 		} else {
-			east.setIcon(new ImageIcon(DrawableRoom.class.getResource("/img/wall-east.gif")));
+			east.setIcon(new ImageIcon(MapRoom.class.getResource("/img/wall-east.gif")));
 		}
 		panel.add(east, BorderLayout.EAST);
 		

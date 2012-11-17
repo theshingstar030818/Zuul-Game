@@ -9,7 +9,7 @@ import model.command.CommandStack;
 
 import model.object.*;
 
-import view.DrawableRoom;
+import view.MapRoom;
 import view.MapView;
 /**
  *  This class is the main class of the "World of Zuul" application. 
@@ -59,16 +59,16 @@ public class Game extends Observable
         Room gallery,waitingroom, workshop, lobby, entrance, dinningroom,studio,theater, dressingroom,technician;
         
         // create the rooms
-        rooms.put("gallary",gallery = new DrawableRoom("Gallery"));
-        rooms.put("workshop",workshop = new DrawableRoom("Workshop"));
-        rooms.put("lobby",lobby = new DrawableRoom("Lobby"));
-        rooms.put("entrance",entrance = new DrawableRoom("Entrance"));
-        rooms.put("dinning room",dinningroom = new DrawableRoom("Dinning Room"));
-        rooms.put("studio",studio = new DrawableRoom("Studio"));
-        rooms.put("theater",theater = new DrawableRoom("Theater"));
-        rooms.put("dressing room",dressingroom = new DrawableRoom("Dressing Room"));
-        rooms.put("technician room",technician = new DrawableRoom("Technician Room"));
-        rooms.put("waiting room",waitingroom = new DrawableRoom("Waiting Room"));
+        rooms.put("gallary",gallery = new MapRoom("Gallery"));
+        rooms.put("workshop",workshop = new MapRoom("Workshop"));
+        rooms.put("lobby",lobby = new MapRoom("Lobby"));
+        rooms.put("entrance",entrance = new MapRoom("Entrance"));
+        rooms.put("dinning room",dinningroom = new MapRoom("Dinning Room"));
+        rooms.put("studio",studio = new MapRoom("Studio"));
+        rooms.put("theater",theater = new MapRoom("Theater"));
+        rooms.put("dressing room",dressingroom = new MapRoom("Dressing Room"));
+        rooms.put("technician room",technician = new MapRoom("Technician Room"));
+        rooms.put("waiting room",waitingroom = new MapRoom("Waiting Room"));
 
         
 

@@ -66,9 +66,9 @@ public class MapView extends JFrame implements Observer {
 	 * Update the tiles with the current state of the game
 	 */
 	public void update(Observable arg0, Object arg1) {
-		if (arg1 instanceof DrawableRoom) {
+		if (arg1 instanceof MapRoom) {
 			//Cast arg1 as a drawable room
-			DrawableRoom currentRoom = (DrawableRoom)arg1;
+			MapRoom currentRoom = (MapRoom)arg1;
 			
 			//Create a new SIZExSIZE array to hold the current rooms
 			Room rooms[][] = new Room[SIZE][SIZE];
@@ -86,7 +86,7 @@ public class MapView extends JFrame implements Observer {
 			for (int i=0; i<SIZE; i++) {
 				for (int j=0; j<SIZE; j++) {
 					if (rooms[i][j] != null && rooms[i][j].hasBeenVisited()) {
-						DrawableRoom temp = (DrawableRoom)rooms[i][j];
+						MapRoom temp = (MapRoom)rooms[i][j];
 						tiles[i][j] = temp.getRoomPanel();
 					} else {
 						tiles[i][j] = new JPanel();
