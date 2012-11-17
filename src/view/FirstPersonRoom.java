@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -9,14 +10,21 @@ import javax.swing.SwingConstants;
 
 public class FirstPersonRoom extends MapRoom {
 	
+	private MouseListener listener;
+	
 	public FirstPersonRoom(String description) {
 		super(description);
+		listener = null;
+	}
+	
+	public FirstPersonRoom(String description, MouseListener listener) {
+		super(description);
+		this.listener = listener;
 	}
 	
 	public JPanel getView(String direction) {
 		
 		JPanel panel = new JPanel();
-		
 		panel.setLayout(null);
 		
 		if (getExit(direction) != null) {
@@ -27,8 +35,10 @@ public class FirstPersonRoom extends MapRoom {
 			panel.add(roomLabel);
 			
 			JLabel door = new JLabel("");
+			door.setToolTipText("go," + direction);
 			door.setIcon(new ImageIcon(FirstPersonRoom.class.getResource("/img/firstperson/door.png")));
 			door.setBounds(219, 253, 180, 250);
+			door.addMouseListener(listener);
 			panel.add(door);
 		}
 		

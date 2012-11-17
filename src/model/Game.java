@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.swing.JOptionPane;
 
+import controller.FPMouseListener;
+
 import model.command.Command;
 import model.command.CommandStack;
 
@@ -39,6 +41,7 @@ public class Game extends Observable implements Observer
     private HashMap<String,Room> rooms;
     private CommandStack redoStack;
     private CommandStack undoStack;
+    private FPMouseListener listener;
 
     
     /**
@@ -48,9 +51,12 @@ public class Game extends Observable implements Observer
     {
         parser = new Parser();
         rooms = new HashMap<String,Room>();
+        listener = new FPMouseListener();
+        listener.addObserver(this);
         initializeGame();
         undoStack = new CommandStack();
         redoStack = new CommandStack();
+        
     }
 
     /**
@@ -61,16 +67,16 @@ public class Game extends Observable implements Observer
         Room gallery,waitingroom, workshop, lobby, entrance, dinningroom,studio,theater, dressingroom,technician;
         
         // create the rooms
-        rooms.put("gallary",gallery = new FirstPersonRoom("Gallery"));
-        rooms.put("workshop",workshop = new FirstPersonRoom("Workshop"));
-        rooms.put("lobby",lobby = new FirstPersonRoom("Lobby"));
-        rooms.put("entrance",entrance = new FirstPersonRoom("Entrance"));
-        rooms.put("dinning room",dinningroom = new FirstPersonRoom("Dinning Room"));
-        rooms.put("studio",studio = new FirstPersonRoom("Studio"));
-        rooms.put("theater",theater = new FirstPersonRoom("Theater"));
-        rooms.put("dressing room",dressingroom = new FirstPersonRoom("Dressing Room"));
-        rooms.put("technician room",technician = new FirstPersonRoom("Technician Room"));
-        rooms.put("waiting room",waitingroom = new FirstPersonRoom("Waiting Room"));
+        rooms.put("gallary",gallery = new FirstPersonRoom("Gallery", listener));
+        rooms.put("workshop",workshop = new FirstPersonRoom("Workshop", listener));
+        rooms.put("lobby",lobby = new FirstPersonRoom("Lobby", listener));
+        rooms.put("entrance",entrance = new FirstPersonRoom("Entrance", listener));
+        rooms.put("dinning room",dinningroom = new FirstPersonRoom("Dinning Room", listener));
+        rooms.put("studio",studio = new FirstPersonRoom("Studio", listener));
+        rooms.put("theater",theater = new FirstPersonRoom("Theater", listener));
+        rooms.put("dressing room",dressingroom = new FirstPersonRoom("Dressing Room", listener));
+        rooms.put("technician room",technician = new FirstPersonRoom("Technician Room", listener));
+        rooms.put("waiting room",waitingroom = new FirstPersonRoom("Waiting Room", listener));
 
         
 
@@ -409,6 +415,7 @@ public class Game extends Observable implements Observer
     	Game game = new Game();
     	game.addObserver(view);
     	view.addObserver(game);
+    	
     	
     	view.show();
 		game.play();

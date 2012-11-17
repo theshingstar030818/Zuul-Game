@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import model.command.Command;
 
 import controller.FPKeyListener;
+import controller.FPMouseListener;
 
 public class FirstPersonView extends Observable implements Observer {
 	
