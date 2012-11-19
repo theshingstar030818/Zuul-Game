@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Label;
@@ -19,12 +20,14 @@ import controller.FPMouseListener;
 
 public class FirstPersonView extends Observable implements Observer {
 	
-	private GridLayout layout;
+	private GridLayout gridLayout;
+	private BorderLayout borderLayout;
 	private MapView map;
 	private FPKeyListener keyListener;
 	private String lookingDirection;
 	private FirstPersonRoom currentRoom;
-	private JFrame frame;
+	private JPanel gamePanel;
+	private JFrame mainFrame;
 	private Player player;
 	
 	private static final String LEFT = "left";
@@ -37,24 +40,28 @@ public class FirstPersonView extends Observable implements Observer {
 	private static final String NORTH = "north";
 	
 	public FirstPersonView(String name) {
-		frame = new JFrame(name);
+		gamePanel = new JPanel();
+		mainFrame = new JFrame(name);
 		
 		//Initialize the layout
-		layout = new GridLayout(1,2);
-		frame.getContentPane().setLayout(layout);
+		gridLayout = new GridLayout(1,2);
+		borderLayout = new BorderLayout();
+		gamePanel.setLayout(gridLayout);
+		mainFrame.getContentPane().setLayout(borderLayout);
+		mainFrame.add(gamePanel, BorderLayout.CENTER);
 		
 		//Initialize the map
 		map = new MapView("Map");
 		
 		//Setup the window
-		frame.setSize(1200,600);
-		frame.setResizable(false);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBackground(Color.BLACK);
+		mainFrame.setSize(1200,600);
+		mainFrame.setResizable(false);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setBackground(Color.BLACK);
 		
 		//Initialize the key listener
 		keyListener = new FPKeyListener();
-		frame.addKeyListener(keyListener);
+		mainFrame.addKeyListener(keyListener);
 		keyListener.addObserver(this);
 		
 		//Start off looking north by default
@@ -106,14 +113,14 @@ public class FirstPersonView extends Observable implements Observer {
 	
 	private void refreshView() {
 		//Remove everything from the content pane
-		frame.getContentPane().removeAll();
+		gamePanel.removeAll();
 
 		//Add the 3D perspective and the map perspective
-		frame.add(currentRoom.getView(lookingDirection));
-		frame.add(map.getContentPane());
+		gamePanel.add(currentRoom.getView(lookingDirection));
+		gamePanel.add(map.getContentPane());
 		
 		//Add the glasspane with the direction arrow
-		JPanel glassPane = (JPanel)frame.getGlassPane();
+		JPanel glassPane = (JPanel)mainFrame.getGlassPane();
 		glassPane.removeAll();
 		glassPane.setLayout(null);
 		
@@ -128,20 +135,24 @@ public class FirstPersonView extends Observable implements Observer {
 			arrow.setIcon(new ImageIcon(FirstPersonRoom.class.getResource("/img/firstperson/arrow/west.png")));
 		}
 		
-		arrow.setBounds(875, 300, 40, 40);
+		arrow.setBounds(875, 280, 40, 40);
 		
 		glassPane.add(arrow);
-		glassPane.add(new HealthPanel(player.getHealth(), player.getCurrentWeight(), player.getMaxWeight()));
 		glassPane.setVisible(true);
 		
+		//Add the health panel
+		HealthPanel healthPanel = new HealthPanel(player.getHealth(), player.getCurrentWeight(), player.getMaxWeight());
+		healthPanel.setVisible(true);
+		mainFrame.add(healthPanel, BorderLayout.SOUTH);
+		
 		//Repaint the 3D View
-		frame.validate();
-		frame.repaint();
+		mainFrame.validate();
+		mainFrame.repaint();
 		
 	}
 	
 	public void show() {
-		frame.setVisible(true);
+		mainFrame.setVisible(true);
 	}
 	
 	public static void main(String args[]) {

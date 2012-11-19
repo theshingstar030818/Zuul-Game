@@ -30,6 +30,7 @@ public class Player{
 		this.name = name;
 		this.description = description;
 		this.maxWeight = weight;
+		this.health = health;
 		currentWeight = 0;
 		itemsInPossesion = new HashMap<String,Item>();
 		staminaLoss = new Stack<Integer>();
