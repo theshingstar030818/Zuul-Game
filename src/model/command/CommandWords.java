@@ -25,6 +25,7 @@ public class CommandWords
     	reversibleCommands.put("attack", "heal");
     	reversibleCommands.put("heal", "attack");
     	reversibleCommands.put("go", "go");
+    	reversibleCommands.put("turn", "turn");
 	}
     
     
@@ -34,6 +35,8 @@ public class CommandWords
     	reverseSecondWord.put("south", "north");
     	reverseSecondWord.put("east", "west");
     	reverseSecondWord.put("west", "east");
+    	reverseSecondWord.put("left", "right");
+    	reverseSecondWord.put("right", "left");
 	}
 
     /**

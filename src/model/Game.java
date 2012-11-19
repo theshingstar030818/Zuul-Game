@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.swing.JOptionPane;
 
+import controller.FPKeyListener;
 import controller.FPMouseListener;
 
 import model.command.Command;
@@ -24,7 +25,7 @@ import view.MapView;
  *  To play this game, create an instance of this class and call the "play"
  *  method.
  * 
- *  This main class creates and initialises all the others: it creates all
+ *  This main class creates and initializes all the others: it creates all
  *  rooms, creates the parser and starts the game.  It also evaluates and
  *  executes the commands that the parser returns.
  * 
@@ -32,16 +33,29 @@ import view.MapView;
 
 public class Game extends Observable implements Observer
 {
-    private final static String PLAYER_DESCRIPTION = "Me";
+    private static final String GAME_OVER = "GAME OVER";
+	private static final int STARTING_HEALTH = 10;
+	private final static String PLAYER_DESCRIPTION = "Me";
     private final static int MAX_WEIGHT = 1000;
     private final static String DEFAULT_START_ROOM = "entrance";
+    
+	private static final String LEFT = "left";
+	private static final String RIGHT = "right";
+	
+	private static final String SOUTH = "south";
+	private static final String EAST = "east";
+	private static final String WEST = "west";
+	private static final String NORTH = "north";
 
 	private Parser parser;
     private Player player1;
     private HashMap<String,Room> rooms;
+    private HashMap<String,Monster> monsters;
     private CommandStack redoStack;
     private CommandStack undoStack;
-    private FPMouseListener listener;
+    private FPMouseListener mouseListener;
+    private static FPKeyListener keyListener;
+    private String commandFrom;
 
     
     /**
@@ -51,8 +65,11 @@ public class Game extends Observable implements Observer
     {
         parser = new Parser();
         rooms = new HashMap<String,Room>();
-        listener = new FPMouseListener();
-        listener.addObserver(this);
+        monsters = new HashMap<String,Monster>();
+        mouseListener = new FPMouseListener();
+        mouseListener.addObserver(this);
+        keyListener = new FPKeyListener();
+        keyListener.addObserver(this);
         initializeGame();
         undoStack = new CommandStack();
         redoStack = new CommandStack();
@@ -67,48 +84,48 @@ public class Game extends Observable implements Observer
         Room gallery,waitingroom, workshop, lobby, entrance, dinningroom,studio,theater, dressingroom,technician;
         
         // create the rooms
-        rooms.put("gallary",gallery = new FirstPersonRoom("Gallery", listener));
-        rooms.put("workshop",workshop = new FirstPersonRoom("Workshop", listener));
-        rooms.put("lobby",lobby = new FirstPersonRoom("Lobby", listener));
-        rooms.put("entrance",entrance = new FirstPersonRoom("Entrance", listener));
-        rooms.put("dinning room",dinningroom = new FirstPersonRoom("Dinning Room", listener));
-        rooms.put("studio",studio = new FirstPersonRoom("Studio", listener));
-        rooms.put("theater",theater = new FirstPersonRoom("Theater", listener));
-        rooms.put("dressing room",dressingroom = new FirstPersonRoom("Dressing Room", listener));
-        rooms.put("technician room",technician = new FirstPersonRoom("Technician Room", listener));
-        rooms.put("waiting room",waitingroom = new FirstPersonRoom("Waiting Room", listener));
+        rooms.put("gallary",gallery = new FirstPersonRoom("Gallery", mouseListener));
+        rooms.put("workshop",workshop = new FirstPersonRoom("Workshop", mouseListener));
+        rooms.put("lobby",lobby = new FirstPersonRoom("Lobby", mouseListener));
+        rooms.put("entrance",entrance = new FirstPersonRoom("Entrance", mouseListener));
+        rooms.put("dinning room",dinningroom = new FirstPersonRoom("Dinning Room", mouseListener));
+        rooms.put("studio",studio = new FirstPersonRoom("Studio", mouseListener));
+        rooms.put("theater",theater = new FirstPersonRoom("Theater", mouseListener));
+        rooms.put("dressing room",dressingroom = new FirstPersonRoom("Dressing Room", mouseListener));
+        rooms.put("technician room",technician = new FirstPersonRoom("Technician Room", mouseListener));
+        rooms.put("waiting room",waitingroom = new FirstPersonRoom("Waiting Room", mouseListener));
 
         
 
         // Initialize room exits
-        gallery.setExits("south",workshop);
+        gallery.setExits(SOUTH,workshop);
         
-        workshop.setExits("north",gallery);
-        workshop.setExits("east",dressingroom);
+        workshop.setExits(NORTH,gallery);
+        workshop.setExits(EAST,dressingroom);
         
-        dressingroom.setExits("west",workshop);
-        dressingroom.setExits("east", technician);
+        dressingroom.setExits(WEST,workshop);
+        dressingroom.setExits(EAST, technician);
         
-        technician.setExits("west",dressingroom);
-        technician.setExits("north",studio);
+        technician.setExits(WEST,dressingroom);
+        technician.setExits(NORTH,studio);
         
-        studio.setExits("south",technician);
-        studio.setExits("west",theater);
-        studio.setExits("north",dinningroom);
+        studio.setExits(SOUTH,technician);
+        studio.setExits(WEST,theater);
+        studio.setExits(NORTH,dinningroom);
         
-        dinningroom.setExits("south", studio);
-        dinningroom.setExits("west", lobby);
+        dinningroom.setExits(SOUTH, studio);
+        dinningroom.setExits(WEST, lobby);
         
-        lobby.setExits("east",dinningroom);
-        lobby.setExits("south",theater);
-        lobby.setExits("west",waitingroom);
-        lobby.setExits("north",entrance);
+        lobby.setExits(EAST,dinningroom);
+        lobby.setExits(SOUTH,theater);
+        lobby.setExits(WEST,waitingroom);
+        lobby.setExits(NORTH,entrance);
         
-        waitingroom.setExits("east",lobby);
+        waitingroom.setExits(EAST,lobby);
         
-        theater.setExits("north",lobby);
-        theater.setExits("east",studio);
-        entrance.setExits("south",lobby);
+        theater.setExits(NORTH,lobby);
+        theater.setExits(EAST,studio);
+        entrance.setExits(SOUTH,lobby);
         
         //create the items
         Item plant = new Item("Plant",2.0);
@@ -122,17 +139,25 @@ public class Game extends Observable implements Observer
         
         //Create monsters
         Monster kracken = new Monster("Kracken",10);
+        monsters.put("Kracken", kracken);
         Monster grendel = new Monster("Grendel", 8);
+        monsters.put("Grendel", grendel);
         Monster goblin = new Monster("Goblin",3);
+        monsters.put("Goblin", goblin);
         
         
         //Add Monsters to room
         entrance.addMonster(kracken);
+        kracken.setCurrentRoom(entrance);
+        
         workshop.addMonster(grendel);
+        grendel.setCurrentRoom(workshop);
+        
         dinningroom.addMonster(goblin);
+        goblin.setCurrentRoom(dinningroom);
         
         String playerName = JOptionPane.showInputDialog("Please enter your name:");
-        player1 = new Player(playerName,PLAYER_DESCRIPTION,MAX_WEIGHT);
+        player1 = new Player(playerName,PLAYER_DESCRIPTION,MAX_WEIGHT,STARTING_HEALTH);
         
         rooms.get(DEFAULT_START_ROOM).visit();
         player1.setCurrentRoom(rooms.get(DEFAULT_START_ROOM));  // start game outside
@@ -149,7 +174,7 @@ public class Game extends Observable implements Observer
 
         //Notify observers
         setChanged();
-        notifyObservers(player1.getCurrentPlayerRoom());
+        notifyObservers(player1);
         
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over.
@@ -158,9 +183,15 @@ public class Game extends Observable implements Observer
         while (! finished) {
             Command command = parser.getCommand();
             undoStack.add(command);
+            commandFrom = "player";
             finished = processCommand(command);
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        
+        //Notify observers that the game is over
+        setChanged();
+        notifyObservers(GAME_OVER);
+        
+        System.out.println("Game over! Thank you for playing.  Good bye.");
     }
 
     /**
@@ -178,6 +209,7 @@ public class Game extends Observable implements Observer
 
     private void printLocationInfo(Player player){
         System.out.println(player.getCurrentPlayerRoom().getLongDescription());
+        System.out.println(player1.getPlayerName() + "'s health :" + player1.getHealth());
     }
 
     /**
@@ -188,16 +220,16 @@ public class Game extends Observable implements Observer
      */
     private boolean processCommand(Command command) 
     {
-        boolean wantToQuit = false;
+        boolean quit = false;
 
         if(command==null || command.getCommandWord()==null) {
             System.out.println("I don't know what you mean...");
             return false;
         }
-        if(parser.isReversible(command.getCommandWord()))
-        {
-        	redoStack.empty();
-        }
+        //if(parser.isReversible(command.getCommandWord()))
+        //{
+        //	redoStack.empty();
+        //}
 
         String commandWord = command.getCommandWord();
         if (commandWord.equals("help")) {
@@ -207,7 +239,7 @@ public class Game extends Observable implements Observer
             goRoom(command);
         }
         else if (commandWord.equals("quit")) {
-            wantToQuit = quit(command);
+            quit = true;
         }
         else if (commandWord.equals("look")){
             look();
@@ -220,26 +252,73 @@ public class Game extends Observable implements Observer
         }
         else if (commandWord.equals("pick")){
             pick(command);
+            checkMonsterAttack();
         }
         else if (commandWord.equals("drop")){
             drop(command);
+            checkMonsterAttack();
         } 
         else if (commandWord.equals("attack")) {
         	attack(command);
+        	checkMonsterAttack();
         }        
         else if (commandWord.equals("heal")) {
         	heal(command);
+        	checkMonsterAttack();
         }
-
-        return wantToQuit;
+        else if (commandWord.equals("turn")) {
+        	turn(command);
+        }
+   
+        //Check to see if the player is still alive
+        quit = player1.getHealth() <= 0;
+        
+        //Notify observers
+        setChanged();
+        notifyObservers(player1);
+        
+        return quit;
     }
 
-    private void undo(){
+    private void turn(Command command) {
+        if(!command.hasSecondWord()) {
+            System.out.println("Turn where?");
+            return;
+        }
+        
+        String direction = command.getSecondWord();
+        
+        if (direction.equals(LEFT)) {
+			if (player1.getLookingDirection().equals(NORTH)) {
+				player1.setLookingDirection(WEST);
+			} else if (player1.getLookingDirection().equals(SOUTH)) {
+				player1.setLookingDirection(EAST);
+			} else if (player1.getLookingDirection().equals(EAST)) {
+				player1.setLookingDirection(NORTH);
+			} else if (player1.getLookingDirection().equals(WEST)) {
+				player1.setLookingDirection(SOUTH);
+			}
+		} else if (direction.equals(RIGHT)) {
+			if (player1.getLookingDirection().equals(NORTH)) {
+				player1.setLookingDirection(EAST);
+			} else if (player1.getLookingDirection().equals(SOUTH)) {
+				player1.setLookingDirection(WEST);
+			} else if (player1.getLookingDirection().equals(EAST)) {
+				player1.setLookingDirection(SOUTH);
+			} else if (player1.getLookingDirection().equals(WEST)) {
+				player1.setLookingDirection(NORTH);
+			}
+		}
+	}
+
+	private void undo(){
         Command temp = undoStack.pop();
         if(temp!=null)
         {
         	redoStack.add(temp);
+        	commandFrom = "undo";
         	processCommand(temp);
+        	
         }
     }
     
@@ -249,6 +328,7 @@ public class Game extends Observable implements Observer
     	if(temp!=null)
     	{
     		undoStack.add(temp);
+    		commandFrom = "player";
     		processCommand(temp);
     	}
     }
@@ -274,6 +354,7 @@ public class Game extends Observable implements Observer
         }
         
         //Decrease the monster's health
+        
         monster.decreaseHealth();
         
         if (!monster.isAlive()) {
@@ -282,6 +363,7 @@ public class Game extends Observable implements Observer
         	return;
         } else {
         	System.out.println(command.getSecondWord() + " health decreased to " + monster.getHealth());
+        	player1.pushLastMonsterAttacked(monster.getName());
         }
 
 	}
@@ -299,8 +381,8 @@ public class Game extends Observable implements Observer
             System.out.println("There is no monster called " + command.getSecondWord() + "!");
             return;
         }
-        
-        monster.increaseHealth();
+        monsters.get(player1.getLastMonsterAttacked()).increaseHealth();
+        //monster.increaseHealth();
     }
 
     
@@ -317,7 +399,7 @@ public class Game extends Observable implements Observer
 
     private void look(){
         System.out.println(player1.getCurrentPlayerRoom().getLongDescription());
-        System.out.println();
+        System.out.println(player1.getPlayerName() + "'s health :" + player1.getHealth());
     }
 
     // implementations of user commands:
@@ -374,6 +456,11 @@ public class Game extends Observable implements Observer
         }
 
         String direction = command.getSecondWord();
+        
+        if (direction.equals("straight")) {
+        	direction = player1.getLookingDirection();
+        }
+        
         Room nextRoom = player1.getCurrentPlayerRoom().getExit(direction);
 
         if (nextRoom == null) {
@@ -383,40 +470,22 @@ public class Game extends Observable implements Observer
             // Try to leave current room.
             //player1.setPreviousRoom(player1.getCurrentPlayerRoom());
             player1.setCurrentRoom(nextRoom);
+            monsterMove();
             printLocationInfo(player1);
             nextRoom.visit();
         }
-        
-        //Notify observers
-        setChanged();
-        notifyObservers(player1.getCurrentPlayerRoom());
-    }
-
-    /** 
-     * "Quit" was entered. Check the rest of the command to see
-     * whether we really quit the game.
-     * @return true, if this command quits the game, false otherwise.
-     */
-    private boolean quit(Command command) 
-    {
-        if(command.hasSecondWord()) {
-            System.out.println("Quit what?");
-            return false;
-        }
-        else {
-            return true;  // signal that we want to quit
-        }
     }
     
-    public static void main(String args[]) {
-    	//Create a 3D First Person View
-    	FirstPersonView view = new FirstPersonView("World of Zuul");
-    	
+    public static void main(String args[]) {    
+    	//Create a new game
     	Game game = new Game();
+    	
+    	//Create a 3D First Person View
+    	FirstPersonView view = new FirstPersonView("World of Zuul", keyListener);
+    	
     	game.addObserver(view);
     	view.addObserver(game);
-    	
-    	
+
     	view.show();
 		game.play();
     }
@@ -425,6 +494,42 @@ public class Game extends Observable implements Observer
 		if (arg1 instanceof Command) {
 			Command command = (Command)arg1;
 			processCommand(command);
+		}
+	}
+	public void monsterMove(){		
+		for(Monster m : monsters.values()){
+			while(true){
+				String monsterExit = m.randomMove();
+				//System.out.println(monsterExit);
+				if(m.getCurrentRoom().getExitString().contains(monsterExit)){
+			
+					m.getCurrentRoom().removeMonster(m.getName());
+					m.getCurrentRoom().getExit(monsterExit).addMonster(m);
+					m.setCurrentRoom(m.getCurrentRoom().getExit(monsterExit));
+					break;
+				}
+			}
+		}
+		
+	}
+	public void monsterAttack(){
+		for(Monster m : player1.getCurrentPlayerRoom().getMonsterList().values()){
+			if (m.isAlive()) {
+				player1.attacked(m.getName());
+			}
+		}
+		player1.addHealthLoss(player1.getCurrentPlayerRoom().getMonsterList().size());
+		
+	}
+	public void monsterUnAttack(){
+		player1.unAttacked();
+	}
+	public void checkMonsterAttack(){
+		if(commandFrom.equals("player")){
+			monsterAttack();
+		}
+		else if(commandFrom.equals("undo")){
+			monsterUnAttack();
 		}
 	}
 }

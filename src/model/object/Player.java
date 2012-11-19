@@ -16,16 +16,23 @@ public class Player{
 	private int currentWeight;
 	private int maxWeight;
 	private HashMap<String,Item> itemsInPossesion;
+	private int health;
+	private Stack<String> lastMonsterAttacked;
+	private String lookingDirection = "north";
+	private Stack<Integer> healthLoss;
 
 	/**
 	 * Constructor for objects of class Player
 	 */
-	public Player(String name, String description, int weight) {
+	public Player(String name, String description, int maxWeight, int health) {
 		this.name = name;
 		this.description = description;
-		this.maxWeight = weight;
+		this.maxWeight = maxWeight;
+		this.health = health;
 		currentWeight = 0;
 		itemsInPossesion = new HashMap<String,Item>();
+		healthLoss = new Stack<Integer>();
+		lastMonsterAttacked = new Stack<String>();
 	}
 
 	/**
@@ -155,5 +162,44 @@ public class Player{
         }
         return str;
     }
+	
+	public int getCurrentWeight() {
+		return currentWeight;
+	}
+	
+	public int getMaxWeight() {
+		return maxWeight;
+	}
+	
+	public void attacked(String monsterName){
+		health--;
+		System.out.println(name + " attacked by " + monsterName + ". Stamina reduced to " + health);
+	}
+	public void unAttacked(){
+		health += healthLoss.pop();
+	}
+	public void heal(){
+		health += 5;
+	}
+	public int getHealth(){
+		return health;
+	}
+	public void addHealthLoss(int n){
+		healthLoss.push(n);
+	}
+	public void pushLastMonsterAttacked(String monsterName){
+		lastMonsterAttacked.push(monsterName);
+	}
+	public String getLastMonsterAttacked(){
+		return lastMonsterAttacked.pop();
+	}
+
+	public String getLookingDirection() {
+		return lookingDirection;
+	}
+
+	public void setLookingDirection(String lookingDirection) {
+		this.lookingDirection = lookingDirection;
+	}
 
 }

@@ -161,6 +161,9 @@ public class Room {
 	public Monster getMonster(String key) {
 		return monsters.get(key);
 	}
+	public HashMap<String, Monster> getMonsterList(){
+		return monsters;
+	}
 	
 	/**
 	 * Addition by Sean Byron

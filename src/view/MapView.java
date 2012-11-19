@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import model.Room;
+import model.object.Player;
 
 /**
  * MapView represents the 2D view of a room
@@ -66,9 +67,11 @@ public class MapView extends JFrame implements Observer {
 	 * Update the tiles with the current state of the game
 	 */
 	public void update(Observable arg0, Object arg1) {
-		if (arg1 instanceof MapRoom) {
+		if (arg1 instanceof Player) {
+			Player player = (Player) arg1;
+			
 			//Cast arg1 as a drawable room
-			MapRoom currentRoom = (MapRoom)arg1;
+			MapRoom currentRoom = (MapRoom)player.getCurrentPlayerRoom();
 			
 			//Create a new SIZExSIZE array to hold the current rooms
 			Room rooms[][] = new Room[SIZE][SIZE];
