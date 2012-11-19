@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Label;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,11 +14,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import model.command.Command;
 import model.object.Player;
 
 import controller.FPKeyListener;
-import controller.FPMouseListener;
 
 public class FirstPersonView extends Observable implements Observer {
 	

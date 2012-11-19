@@ -14,8 +14,6 @@ import model.object.*;
 
 import view.FirstPersonRoom;
 import view.FirstPersonView;
-import view.MapRoom;
-import view.MapView;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -98,8 +96,6 @@ public class Game extends Observable implements Observer
         rooms.put("technician room",technician = new FirstPersonRoom("Technician Room", mouseListener));
         rooms.put("waiting room",waitingroom = new FirstPersonRoom("Waiting Room", mouseListener));
 
-        
-
         // Initialize room exits
         gallery.setExits(SOUTH,workshop);
         
@@ -175,7 +171,7 @@ public class Game extends Observable implements Observer
     {            
         printWelcome();
 
-        //Notify observers
+        //Refresh the View
         setChanged();
         notifyObservers(player1);
         
@@ -230,6 +226,7 @@ public class Game extends Observable implements Observer
             System.out.println("I don't know what you mean...");
             return false;
         }
+        
         if(parser.isReversible(command.getCommandWord()))
         {
         	redoStack.empty();
