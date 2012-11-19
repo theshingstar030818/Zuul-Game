@@ -4,6 +4,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Observable;
 
+import model.command.Command;
+
 
 public class FPKeyListener extends Observable implements KeyListener {
 
@@ -22,17 +24,17 @@ public class FPKeyListener extends Observable implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 	        setChanged();
-	        notifyObservers(LEFT);
+	        notifyObservers(new Command("turn","left"));
 	        return;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 	        setChanged();
-	        notifyObservers(RIGHT);
+	        notifyObservers(new Command("turn","right"));
 	        return;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			setChanged();
-	        notifyObservers(UP);
+	        notifyObservers(new Command("go","straight"));
 	        return;
 		}
 	}

@@ -19,6 +19,7 @@ public class Player{
 	private HashMap<String,Item> itemsInPossesion;
 	private int stamina = 10;
 	private Stack<String> lastMonsterAttacked;
+	private String lookingDirection = "north";
 	
 	
 	private Stack<Integer> staminaLoss;
@@ -197,6 +198,14 @@ public class Player{
 	}
 	public String getLastMonsterAttacked(){
 		return lastMonsterAttacked.pop();
+	}
+
+	public String getLookingDirection() {
+		return lookingDirection;
+	}
+
+	public void setLookingDirection(String lookingDirection) {
+		this.lookingDirection = lookingDirection;
 	}
 
 }

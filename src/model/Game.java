@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.swing.JOptionPane;
 
+import controller.FPKeyListener;
 import controller.FPMouseListener;
 
 import model.command.Command;
@@ -36,6 +37,14 @@ public class Game extends Observable implements Observer
 	private final static String PLAYER_DESCRIPTION = "Me";
     private final static int MAX_WEIGHT = 1000;
     private final static String DEFAULT_START_ROOM = "entrance";
+    
+	private static final String LEFT = "left";
+	private static final String RIGHT = "right";
+	
+	private static final String SOUTH = "south";
+	private static final String EAST = "east";
+	private static final String WEST = "west";
+	private static final String NORTH = "north";
 
 	private Parser parser;
     private Player player1;
@@ -43,7 +52,8 @@ public class Game extends Observable implements Observer
     private HashMap<String,Monster> monsters;
     private CommandStack redoStack;
     private CommandStack undoStack;
-    private FPMouseListener listener;
+    private FPMouseListener mouseListener;
+    private static FPKeyListener keyListener;
     private String commandFrom;
 
     
@@ -55,8 +65,10 @@ public class Game extends Observable implements Observer
         parser = new Parser();
         rooms = new HashMap<String,Room>();
         monsters = new HashMap<String,Monster>();
-        listener = new FPMouseListener();
-        listener.addObserver(this);
+        mouseListener = new FPMouseListener();
+        mouseListener.addObserver(this);
+        keyListener = new FPKeyListener();
+        keyListener.addObserver(this);
         initializeGame();
         undoStack = new CommandStack();
         redoStack = new CommandStack();
@@ -71,16 +83,16 @@ public class Game extends Observable implements Observer
         Room gallery,waitingroom, workshop, lobby, entrance, dinningroom,studio,theater, dressingroom,technician;
         
         // create the rooms
-        rooms.put("gallary",gallery = new FirstPersonRoom("Gallery", listener));
-        rooms.put("workshop",workshop = new FirstPersonRoom("Workshop", listener));
-        rooms.put("lobby",lobby = new FirstPersonRoom("Lobby", listener));
-        rooms.put("entrance",entrance = new FirstPersonRoom("Entrance", listener));
-        rooms.put("dinning room",dinningroom = new FirstPersonRoom("Dinning Room", listener));
-        rooms.put("studio",studio = new FirstPersonRoom("Studio", listener));
-        rooms.put("theater",theater = new FirstPersonRoom("Theater", listener));
-        rooms.put("dressing room",dressingroom = new FirstPersonRoom("Dressing Room", listener));
-        rooms.put("technician room",technician = new FirstPersonRoom("Technician Room", listener));
-        rooms.put("waiting room",waitingroom = new FirstPersonRoom("Waiting Room", listener));
+        rooms.put("gallary",gallery = new FirstPersonRoom("Gallery", mouseListener));
+        rooms.put("workshop",workshop = new FirstPersonRoom("Workshop", mouseListener));
+        rooms.put("lobby",lobby = new FirstPersonRoom("Lobby", mouseListener));
+        rooms.put("entrance",entrance = new FirstPersonRoom("Entrance", mouseListener));
+        rooms.put("dinning room",dinningroom = new FirstPersonRoom("Dinning Room", mouseListener));
+        rooms.put("studio",studio = new FirstPersonRoom("Studio", mouseListener));
+        rooms.put("theater",theater = new FirstPersonRoom("Theater", mouseListener));
+        rooms.put("dressing room",dressingroom = new FirstPersonRoom("Dressing Room", mouseListener));
+        rooms.put("technician room",technician = new FirstPersonRoom("Technician Room", mouseListener));
+        rooms.put("waiting room",waitingroom = new FirstPersonRoom("Waiting Room", mouseListener));
 
         
 
@@ -252,6 +264,9 @@ public class Game extends Observable implements Observer
         	heal(command);
         	checkMonsterAttack();
         }
+        else if (commandWord.equals("turn")) {
+        	turn(command);
+        }
         
         //Notify observers
         setChanged();
@@ -260,7 +275,39 @@ public class Game extends Observable implements Observer
         return wantToQuit;
     }
 
-    private void undo(){
+    private void turn(Command command) {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't who to attack
+            System.out.println("Turn where?");
+            return;
+        }
+        
+        String direction = command.getSecondWord();
+        
+        if (direction.equals(LEFT)) {
+			if (player1.getLookingDirection().equals(NORTH)) {
+				player1.setLookingDirection(WEST);
+			} else if (player1.getLookingDirection().equals(SOUTH)) {
+				player1.setLookingDirection(EAST);
+			} else if (player1.getLookingDirection().equals(EAST)) {
+				player1.setLookingDirection(NORTH);
+			} else if (player1.getLookingDirection().equals(WEST)) {
+				player1.setLookingDirection(SOUTH);
+			}
+		} else if (direction.equals(RIGHT)) {
+			if (player1.getLookingDirection().equals(NORTH)) {
+				player1.setLookingDirection(EAST);
+			} else if (player1.getLookingDirection().equals(SOUTH)) {
+				player1.setLookingDirection(WEST);
+			} else if (player1.getLookingDirection().equals(EAST)) {
+				player1.setLookingDirection(SOUTH);
+			} else if (player1.getLookingDirection().equals(WEST)) {
+				player1.setLookingDirection(NORTH);
+			}
+		}
+	}
+
+	private void undo(){
         Command temp = undoStack.pop();
         if(temp!=null)
         {
@@ -405,6 +452,11 @@ public class Game extends Observable implements Observer
         }
 
         String direction = command.getSecondWord();
+        
+        if (direction.equals("straight")) {
+        	direction = player1.getLookingDirection();
+        }
+        
         Room nextRoom = player1.getCurrentPlayerRoom().getExit(direction);
 
         if (nextRoom == null) {
@@ -436,15 +488,16 @@ public class Game extends Observable implements Observer
         }
     }
     
-    public static void main(String args[]) {
-    	//Create a 3D First Person View
-    	FirstPersonView view = new FirstPersonView("World of Zuul");
-    	
+    public static void main(String args[]) {    
+    	//Create a new game
     	Game game = new Game();
+    	
+    	//Create a 3D First Person View
+    	FirstPersonView view = new FirstPersonView("World of Zuul", keyListener);
+    	
     	game.addObserver(view);
     	view.addObserver(game);
-    	
-    	
+
     	view.show();
 		game.play();
     }
