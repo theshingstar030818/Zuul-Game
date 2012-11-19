@@ -33,7 +33,8 @@ import view.MapView;
 
 public class Game extends Observable implements Observer
 {
-    private static final int STARTING_HEALTH = 10;
+    private static final String GAME_OVER = "GAME OVER";
+	private static final int STARTING_HEALTH = 10;
 	private final static String PLAYER_DESCRIPTION = "Me";
     private final static int MAX_WEIGHT = 1000;
     private final static String DEFAULT_START_ROOM = "entrance";
@@ -97,34 +98,34 @@ public class Game extends Observable implements Observer
         
 
         // Initialize room exits
-        gallery.setExits("south",workshop);
+        gallery.setExits(SOUTH,workshop);
         
-        workshop.setExits("north",gallery);
-        workshop.setExits("east",dressingroom);
+        workshop.setExits(NORTH,gallery);
+        workshop.setExits(EAST,dressingroom);
         
-        dressingroom.setExits("west",workshop);
-        dressingroom.setExits("east", technician);
+        dressingroom.setExits(WEST,workshop);
+        dressingroom.setExits(EAST, technician);
         
-        technician.setExits("west",dressingroom);
-        technician.setExits("north",studio);
+        technician.setExits(WEST,dressingroom);
+        technician.setExits(NORTH,studio);
         
-        studio.setExits("south",technician);
-        studio.setExits("west",theater);
-        studio.setExits("north",dinningroom);
+        studio.setExits(SOUTH,technician);
+        studio.setExits(WEST,theater);
+        studio.setExits(NORTH,dinningroom);
         
-        dinningroom.setExits("south", studio);
-        dinningroom.setExits("west", lobby);
+        dinningroom.setExits(SOUTH, studio);
+        dinningroom.setExits(WEST, lobby);
         
-        lobby.setExits("east",dinningroom);
-        lobby.setExits("south",theater);
-        lobby.setExits("west",waitingroom);
-        lobby.setExits("north",entrance);
+        lobby.setExits(EAST,dinningroom);
+        lobby.setExits(SOUTH,theater);
+        lobby.setExits(WEST,waitingroom);
+        lobby.setExits(NORTH,entrance);
         
-        waitingroom.setExits("east",lobby);
+        waitingroom.setExits(EAST,lobby);
         
-        theater.setExits("north",lobby);
-        theater.setExits("east",studio);
-        entrance.setExits("south",lobby);
+        theater.setExits(NORTH,lobby);
+        theater.setExits(EAST,studio);
+        entrance.setExits(SOUTH,lobby);
         
         //create the items
         Item plant = new Item("Plant",2.0);
@@ -184,12 +185,13 @@ public class Game extends Observable implements Observer
             undoStack.add(command);
             commandFrom = "player";
             finished = processCommand(command);
-            if(gameOver()){
-            	System.out.println("GAME OVER!YOU'RE DEAD!!!");
-            	break;
-            	}
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        
+        //Notify observers that the game is over
+        setChanged();
+        notifyObservers(GAME_OVER);
+        
+        System.out.println("Game over! Thank you for playing.  Good bye.");
     }
 
     /**
@@ -218,7 +220,7 @@ public class Game extends Observable implements Observer
      */
     private boolean processCommand(Command command) 
     {
-        boolean wantToQuit = false;
+        boolean quit = false;
 
         if(command==null || command.getCommandWord()==null) {
             System.out.println("I don't know what you mean...");
@@ -237,7 +239,7 @@ public class Game extends Observable implements Observer
             goRoom(command);
         }
         else if (commandWord.equals("quit")) {
-            wantToQuit = quit(command);
+            quit = true;
         }
         else if (commandWord.equals("look")){
             look();
@@ -267,17 +269,19 @@ public class Game extends Observable implements Observer
         else if (commandWord.equals("turn")) {
         	turn(command);
         }
+   
+        //Check to see if the player is still alive
+        quit = player1.getHealth() <= 0;
         
         //Notify observers
         setChanged();
         notifyObservers(player1);
         
-        return wantToQuit;
+        return quit;
     }
 
     private void turn(Command command) {
         if(!command.hasSecondWord()) {
-            // if there is no second word, we don't who to attack
             System.out.println("Turn where?");
             return;
         }
@@ -471,22 +475,6 @@ public class Game extends Observable implements Observer
             nextRoom.visit();
         }
     }
-
-    /** 
-     * "Quit" was entered. Check the rest of the command to see
-     * whether we really quit the game.
-     * @return true, if this command quits the game, false otherwise.
-     */
-    private boolean quit(Command command) 
-    {
-        if(command.hasSecondWord()) {
-            System.out.println("Quit what?");
-            return false;
-        }
-        else {
-            return true;  // signal that we want to quit
-        }
-    }
     
     public static void main(String args[]) {    
     	//Create a new game
@@ -526,7 +514,9 @@ public class Game extends Observable implements Observer
 	}
 	public void monsterAttack(){
 		for(Monster m : player1.getCurrentPlayerRoom().getMonsterList().values()){
-			player1.attacked(m.getName());	
+			if (m.isAlive()) {
+				player1.attacked(m.getName());
+			}
 		}
 		player1.addHealthLoss(player1.getCurrentPlayerRoom().getMonsterList().size());
 		
@@ -541,9 +531,5 @@ public class Game extends Observable implements Observer
 		else if(commandFrom.equals("undo")){
 			monsterUnAttack();
 		}
-	}
-	public boolean gameOver(){
-		if(player1.getHealth() < 1) return true;
-		return false;
 	}
 }

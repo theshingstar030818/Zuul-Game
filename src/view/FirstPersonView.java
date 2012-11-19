@@ -10,6 +10,7 @@ import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.command.Command;
@@ -27,6 +28,9 @@ public class FirstPersonView extends Observable implements Observer {
 	private JPanel gamePanel;
 	private JFrame mainFrame;
 	private Player player;
+	private boolean gameOver;
+	
+	private static final String GAME_OVER = "GAME OVER";
 	
 	private static final String SOUTH = "south";
 	private static final String EAST = "east";
@@ -58,6 +62,7 @@ public class FirstPersonView extends Observable implements Observer {
 		
 		currentRoom = new FirstPersonRoom(null);
 		player = new Player(null, null, 0, 0);
+		gameOver = false;
 	}
 
 	public void update(Observable arg0, Object arg1) {
@@ -68,40 +73,12 @@ public class FirstPersonView extends Observable implements Observer {
 			refreshView();
 		}
 		
-		if (arg1 instanceof Command) {
-			notifyObservers(arg1);
+		if (arg1 instanceof String) {
+			String command = (String)arg1;
+			if (command.equals(GAME_OVER)) {
+				gameOver = true;
+			}
 		}
-		
-//		if (arg0 instanceof FPKeyListener && arg1 instanceof String) {
-//			String direction = (String) arg1;
-//			
-//			if (direction.equals(LEFT)) {
-//				if (lookingDirection.equals(NORTH)) {
-//					lookingDirection = WEST;
-//				} else if (lookingDirection.equals(SOUTH)) {
-//					lookingDirection = EAST;
-//				} else if (lookingDirection.equals(EAST)) {
-//					lookingDirection = NORTH;
-//				} else if (lookingDirection.equals(WEST)) {
-//					lookingDirection = SOUTH;
-//				}
-//			} else if (direction.equals(RIGHT)) {
-//				if (lookingDirection.equals(NORTH)) {
-//					lookingDirection = EAST;
-//				} else if (lookingDirection.equals(SOUTH)) {
-//					lookingDirection = WEST;
-//				} else if (lookingDirection.equals(EAST)) {
-//					lookingDirection = SOUTH;
-//				} else if (lookingDirection.equals(WEST)) {
-//					lookingDirection = NORTH;
-//				}
-//			} else if (direction.equals(UP)) {
-//				setChanged();
-//				notifyObservers(new Command("go",lookingDirection));
-//			}
-//			
-//			refreshView();
-//		}
 	}
 	
 	private void refreshView() {
@@ -154,6 +131,9 @@ public class FirstPersonView extends Observable implements Observer {
 	
 	public void show() {
 		mainFrame.setVisible(true);
+		JOptionPane.showMessageDialog(mainFrame, "Welcome to Zuul! An incredibly boring adventure game. Use the left and right arrow keys to\n" +
+				"look around the room. Click on a door to go through it, click on items to pick them up, and click on Monsters to\n" +
+				"attack them. Enjoy!","Welcome", 0);
 	}
 
 }
