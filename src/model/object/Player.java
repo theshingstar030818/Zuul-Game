@@ -15,14 +15,11 @@ public class Player{
 	private Room currentRoom;
 	private int currentWeight;
 	private int maxWeight;
-	private int health;
 	private HashMap<String,Item> itemsInPossesion;
-	private int stamina = 10;
+	private int health;
 	private Stack<String> lastMonsterAttacked;
 	private String lookingDirection = "north";
-	
-	
-	private Stack<Integer> staminaLoss;
+	private Stack<Integer> healthLoss;
 
 	/**
 	 * Constructor for objects of class Player
@@ -34,7 +31,7 @@ public class Player{
 		this.health = health;
 		currentWeight = 0;
 		itemsInPossesion = new HashMap<String,Item>();
-		staminaLoss = new Stack<Integer>();
+		healthLoss = new Stack<Integer>();
 		lastMonsterAttacked = new Stack<String>();
 	}
 
@@ -174,24 +171,21 @@ public class Player{
 		return maxWeight;
 	}
 	
-	public int getHealth() {
-		return health;
-	}
 	public void attacked(String monsterName){
-		stamina--;
-		System.out.println(name + " attacked by " + monsterName + ". Stamina reduced to " + stamina);
+		health--;
+		System.out.println(name + " attacked by " + monsterName + ". Stamina reduced to " + health);
 	}
 	public void unAttacked(){
-		stamina += staminaLoss.pop();
+		health += healthLoss.pop();
 	}
 	public void heal(){
-		stamina += 5;
+		health += 5;
 	}
-	public int getStamina(){
-		return stamina;
+	public int getHealth(){
+		return health;
 	}
-	public void addStaminaLoss(int n){
-		staminaLoss.push(n);
+	public void addHealthLoss(int n){
+		healthLoss.push(n);
 	}
 	public void pushLastMonsterAttacked(String monsterName){
 		lastMonsterAttacked.push(monsterName);

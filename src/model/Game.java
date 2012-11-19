@@ -207,7 +207,7 @@ public class Game extends Observable implements Observer
 
     private void printLocationInfo(Player player){
         System.out.println(player.getCurrentPlayerRoom().getLongDescription());
-        System.out.println(player1.getPlayerName() + "'s stamina :" + player1.getStamina());
+        System.out.println(player1.getPlayerName() + "'s health :" + player1.getHealth());
     }
 
     /**
@@ -224,10 +224,10 @@ public class Game extends Observable implements Observer
             System.out.println("I don't know what you mean...");
             return false;
         }
-        if(parser.isReversible(command.getCommandWord()))
-        {
-        	redoStack.empty();
-        }
+        //if(parser.isReversible(command.getCommandWord()))
+        //{
+        //	redoStack.empty();
+        //}
 
         String commandWord = command.getCommandWord();
         if (commandWord.equals("help")) {
@@ -395,7 +395,7 @@ public class Game extends Observable implements Observer
 
     private void look(){
         System.out.println(player1.getCurrentPlayerRoom().getLongDescription());
-        System.out.println(player1.getPlayerName() + "'s stamina :" + player1.getStamina());
+        System.out.println(player1.getPlayerName() + "'s health :" + player1.getHealth());
     }
 
     // implementations of user commands:
@@ -528,7 +528,7 @@ public class Game extends Observable implements Observer
 		for(Monster m : player1.getCurrentPlayerRoom().getMonsterList().values()){
 			player1.attacked(m.getName());	
 		}
-		player1.addStaminaLoss(player1.getCurrentPlayerRoom().getMonsterList().size());
+		player1.addHealthLoss(player1.getCurrentPlayerRoom().getMonsterList().size());
 		
 	}
 	public void monsterUnAttack(){
@@ -543,7 +543,7 @@ public class Game extends Observable implements Observer
 		}
 	}
 	public boolean gameOver(){
-		if(player1.getStamina() < 1) return true;
+		if(player1.getHealth() < 1) return true;
 		return false;
 	}
 }
