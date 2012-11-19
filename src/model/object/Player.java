@@ -26,10 +26,10 @@ public class Player{
 	/**
 	 * Constructor for objects of class Player
 	 */
-	public Player(String name, String description, int weight, int health) {
+	public Player(String name, String description, int maxWeight, int health) {
 		this.name = name;
 		this.description = description;
-		this.maxWeight = weight;
+		this.maxWeight = maxWeight;
 		this.health = health;
 		currentWeight = 0;
 		itemsInPossesion = new HashMap<String,Item>();

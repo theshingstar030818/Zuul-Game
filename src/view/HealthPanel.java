@@ -22,7 +22,7 @@ public class HealthPanel extends JPanel {
 			add(heart);
 		}
 		
-		JLabel lblInventoryWeight = new JLabel("Inventory Weight: " + currWeight + "/" + maxWeight);
+		JLabel lblInventoryWeight = new JLabel("    Inventory Weight: " + currWeight + "/" + maxWeight);
 		add(lblInventoryWeight);
 
 	}

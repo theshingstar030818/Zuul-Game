@@ -253,6 +253,10 @@ public class Game extends Observable implements Observer
         	checkMonsterAttack();
         }
         
+        //Notify observers
+        setChanged();
+        notifyObservers(player1);
+        
         return wantToQuit;
     }
 
@@ -414,11 +418,6 @@ public class Game extends Observable implements Observer
             printLocationInfo(player1);
             nextRoom.visit();
         }
-        
-        //Notify observers
-        setChanged();
-        notifyObservers(player1);
-        
     }
 
     /** 
