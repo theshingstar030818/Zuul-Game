@@ -40,9 +40,11 @@ public class Game extends Observable implements Observer
 	private Parser parser;
     private Player player1;
     private HashMap<String,Room> rooms;
+    private HashMap<String,Monster> monsters;
     private CommandStack redoStack;
     private CommandStack undoStack;
     private FPMouseListener listener;
+    private String commandFrom;
 
     
     /**
@@ -52,6 +54,7 @@ public class Game extends Observable implements Observer
     {
         parser = new Parser();
         rooms = new HashMap<String,Room>();
+        monsters = new HashMap<String,Monster>();
         listener = new FPMouseListener();
         listener.addObserver(this);
         initializeGame();
@@ -123,14 +126,22 @@ public class Game extends Observable implements Observer
         
         //Create monsters
         Monster kracken = new Monster("Kracken",10);
+        monsters.put("Kracken", kracken);
         Monster grendel = new Monster("Grendel", 8);
+        monsters.put("Grendel", grendel);
         Monster goblin = new Monster("Goblin",3);
+        monsters.put("Goblin", goblin);
         
         
         //Add Monsters to room
         entrance.addMonster(kracken);
+        kracken.setCurrentRoom(entrance);
+        
         workshop.addMonster(grendel);
+        grendel.setCurrentRoom(workshop);
+        
         dinningroom.addMonster(goblin);
+        goblin.setCurrentRoom(dinningroom);
         
         String playerName = JOptionPane.showInputDialog("Please enter your name:");
         player1 = new Player(playerName,PLAYER_DESCRIPTION,MAX_WEIGHT,STARTING_HEALTH);
@@ -159,7 +170,12 @@ public class Game extends Observable implements Observer
         while (! finished) {
             Command command = parser.getCommand();
             undoStack.add(command);
+            commandFrom = "player";
             finished = processCommand(command);
+            if(gameOver()){
+            	System.out.println("GAME OVER!YOU'RE DEAD!!!");
+            	break;
+            	}
         }
         System.out.println("Thank you for playing.  Good bye.");
     }
@@ -179,6 +195,7 @@ public class Game extends Observable implements Observer
 
     private void printLocationInfo(Player player){
         System.out.println(player.getCurrentPlayerRoom().getLongDescription());
+        System.out.println(player1.getPlayerName() + "'s stamina :" + player1.getStamina());
     }
 
     /**
@@ -221,17 +238,21 @@ public class Game extends Observable implements Observer
         }
         else if (commandWord.equals("pick")){
             pick(command);
+            checkMonsterAttack();
         }
         else if (commandWord.equals("drop")){
             drop(command);
+            checkMonsterAttack();
         } 
         else if (commandWord.equals("attack")) {
         	attack(command);
+        	checkMonsterAttack();
         }        
         else if (commandWord.equals("heal")) {
         	heal(command);
+        	checkMonsterAttack();
         }
-
+        
         return wantToQuit;
     }
 
@@ -240,7 +261,9 @@ public class Game extends Observable implements Observer
         if(temp!=null)
         {
         	redoStack.add(temp);
+        	commandFrom = "undo";
         	processCommand(temp);
+        	
         }
     }
     
@@ -250,6 +273,7 @@ public class Game extends Observable implements Observer
     	if(temp!=null)
     	{
     		undoStack.add(temp);
+    		commandFrom = "player";
     		processCommand(temp);
     	}
     }
@@ -275,6 +299,7 @@ public class Game extends Observable implements Observer
         }
         
         //Decrease the monster's health
+        
         monster.decreaseHealth();
         
         if (!monster.isAlive()) {
@@ -283,6 +308,7 @@ public class Game extends Observable implements Observer
         	return;
         } else {
         	System.out.println(command.getSecondWord() + " health decreased to " + monster.getHealth());
+        	player1.pushLastMonsterAttacked(monster.getName());
         }
 
 	}
@@ -300,8 +326,8 @@ public class Game extends Observable implements Observer
             System.out.println("There is no monster called " + command.getSecondWord() + "!");
             return;
         }
-        
-        monster.increaseHealth();
+        monsters.get(player1.getLastMonsterAttacked()).increaseHealth();
+        //monster.increaseHealth();
     }
 
     
@@ -318,7 +344,7 @@ public class Game extends Observable implements Observer
 
     private void look(){
         System.out.println(player1.getCurrentPlayerRoom().getLongDescription());
-        System.out.println();
+        System.out.println(player1.getPlayerName() + "'s stamina :" + player1.getStamina());
     }
 
     // implementations of user commands:
@@ -384,6 +410,7 @@ public class Game extends Observable implements Observer
             // Try to leave current room.
             //player1.setPreviousRoom(player1.getCurrentPlayerRoom());
             player1.setCurrentRoom(nextRoom);
+            monsterMove();
             printLocationInfo(player1);
             nextRoom.visit();
         }
@@ -391,6 +418,7 @@ public class Game extends Observable implements Observer
         //Notify observers
         setChanged();
         notifyObservers(player1);
+        
     }
 
     /** 
@@ -427,5 +455,43 @@ public class Game extends Observable implements Observer
 			Command command = (Command)arg1;
 			processCommand(command);
 		}
+	}
+	public void monsterMove(){		
+		for(Monster m : monsters.values()){
+			while(true){
+				String monsterExit = m.randomMove();
+				//System.out.println(monsterExit);
+				if(m.getCurrentRoom().getExitString().contains(monsterExit)){
+			
+					m.getCurrentRoom().removeMonster(m.getName());
+					m.getCurrentRoom().getExit(monsterExit).addMonster(m);
+					m.setCurrentRoom(m.getCurrentRoom().getExit(monsterExit));
+					break;
+				}
+			}
+		}
+		
+	}
+	public void monsterAttack(){
+		for(Monster m : player1.getCurrentPlayerRoom().getMonsterList().values()){
+			player1.attacked(m.getName());	
+		}
+		player1.addStaminaLoss(player1.getCurrentPlayerRoom().getMonsterList().size());
+		
+	}
+	public void monsterUnAttack(){
+		player1.unAttacked();
+	}
+	public void checkMonsterAttack(){
+		if(commandFrom.equals("player")){
+			monsterAttack();
+		}
+		else if(commandFrom.equals("undo")){
+			monsterUnAttack();
+		}
+	}
+	public boolean gameOver(){
+		if(player1.getStamina() < 1) return true;
+		return false;
 	}
 }
