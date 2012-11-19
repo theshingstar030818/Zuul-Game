@@ -25,6 +25,7 @@ public class FirstPersonView extends Observable implements Observer {
 	private String lookingDirection;
 	private FirstPersonRoom currentRoom;
 	private JFrame frame;
+	private Player player;
 	
 	private static final String LEFT = "left";
 	private static final String RIGHT = "right";
@@ -39,7 +40,7 @@ public class FirstPersonView extends Observable implements Observer {
 		frame = new JFrame(name);
 		
 		//Initialize the layout
-		layout = new GridLayout(0,2);
+		layout = new GridLayout(1,2);
 		frame.getContentPane().setLayout(layout);
 		
 		//Initialize the map
@@ -60,11 +61,12 @@ public class FirstPersonView extends Observable implements Observer {
 		lookingDirection = NORTH;
 		
 		currentRoom = new FirstPersonRoom(null);
+		player = new Player(null, null, 0, 0);
 	}
 
 	public void update(Observable arg0, Object arg1) {
 		if (arg1 instanceof Player) {
-			Player player = (Player) arg1;
+			player = (Player) arg1;
 			currentRoom = (FirstPersonRoom) player.getCurrentPlayerRoom();
 			map.update(arg0, arg1);
 			refreshView();
@@ -129,6 +131,7 @@ public class FirstPersonView extends Observable implements Observer {
 		arrow.setBounds(875, 300, 40, 40);
 		
 		glassPane.add(arrow);
+		glassPane.add(new HealthPanel(player.getHealth(), player.getCurrentWeight(), player.getMaxWeight()));
 		glassPane.setVisible(true);
 		
 		//Repaint the 3D View

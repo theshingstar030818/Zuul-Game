@@ -15,12 +15,13 @@ public class Player{
 	private Room currentRoom;
 	private int currentWeight;
 	private int maxWeight;
+	private int health;
 	private HashMap<String,Item> itemsInPossesion;
 
 	/**
 	 * Constructor for objects of class Player
 	 */
-	public Player(String name, String description, int weight) {
+	public Player(String name, String description, int weight, int health) {
 		this.name = name;
 		this.description = description;
 		this.maxWeight = weight;
@@ -155,5 +156,17 @@ public class Player{
         }
         return str;
     }
+	
+	public int getCurrentWeight() {
+		return currentWeight;
+	}
+	
+	public int getMaxWeight() {
+		return maxWeight;
+	}
+	
+	public int getHealth() {
+		return health;
+	}
 
 }
