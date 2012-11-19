@@ -112,8 +112,9 @@ public class FirstPersonView extends Observable implements Observer {
 	}
 	
 	private void refreshView() {
-		//Remove everything from the content pane
+		//Remove everything from the gamePanel and mainFrame
 		gamePanel.removeAll();
+		mainFrame.getContentPane().removeAll();
 
 		//Add the 3D perspective and the map perspective
 		gamePanel.add(currentRoom.getView(lookingDirection));
@@ -145,7 +146,14 @@ public class FirstPersonView extends Observable implements Observer {
 		healthPanel.setVisible(true);
 		mainFrame.add(healthPanel, BorderLayout.SOUTH);
 		
-		//Repaint the 3D View
+		//Repaint the gamePanel
+		gamePanel.validate();
+		gamePanel.repaint();
+		
+		//Add the gamePanel
+		mainFrame.add(gamePanel, BorderLayout.CENTER);
+		
+		//Repaint the mainFrame
 		mainFrame.validate();
 		mainFrame.repaint();
 		
