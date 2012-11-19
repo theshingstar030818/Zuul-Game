@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.util.Observable;
@@ -12,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import model.command.Command;
 import model.object.Player;
@@ -77,6 +79,7 @@ public class FirstPersonView extends Observable implements Observer {
 			String command = (String)arg1;
 			if (command.equals(GAME_OVER)) {
 				gameOver = true;
+				refreshView();
 			}
 		}
 	}
@@ -86,42 +89,53 @@ public class FirstPersonView extends Observable implements Observer {
 		gamePanel.removeAll();
 		mainFrame.getContentPane().removeAll();
 
-		//Add the 3D perspective and the map perspective
-		gamePanel.add(currentRoom.getView(player.getLookingDirection()));
-		gamePanel.add(map.getContentPane());
-		
-		//Add the glasspane with the direction arrow
-		JPanel glassPane = (JPanel)mainFrame.getGlassPane();
+		//Remove everything from the glass pane
+		JPanel glassPane = (JPanel) mainFrame.getGlassPane();
 		glassPane.removeAll();
 		glassPane.setLayout(null);
 		
-		JLabel arrow = new JLabel("");
-		if (player.getLookingDirection().equals(NORTH)) {
-			arrow.setIcon(new ImageIcon(FirstPersonRoom.class.getResource("/img/firstperson/arrow/north.png")));
-		} else if (player.getLookingDirection().equals(SOUTH)) {
-			arrow.setIcon(new ImageIcon(FirstPersonRoom.class.getResource("/img/firstperson/arrow/south.png")));
-		} else if (player.getLookingDirection().equals(EAST)) {
-			arrow.setIcon(new ImageIcon(FirstPersonRoom.class.getResource("/img/firstperson/arrow/east.png")));
-		} else if (player.getLookingDirection().equals(WEST)) {
-			arrow.setIcon(new ImageIcon(FirstPersonRoom.class.getResource("/img/firstperson/arrow/west.png")));
+		if (!gameOver) {
+			//Add the 3D perspective and the map perspective
+			gamePanel.add(currentRoom.getView(player.getLookingDirection()));
+			gamePanel.add(map.getContentPane());
+			
+			JLabel arrow = new JLabel("");
+			if (player.getLookingDirection().equals(NORTH)) {
+				arrow.setIcon(new ImageIcon(FirstPersonRoom.class
+						.getResource("/img/firstperson/arrow/north.png")));
+			} else if (player.getLookingDirection().equals(SOUTH)) {
+				arrow.setIcon(new ImageIcon(FirstPersonRoom.class
+						.getResource("/img/firstperson/arrow/south.png")));
+			} else if (player.getLookingDirection().equals(EAST)) {
+				arrow.setIcon(new ImageIcon(FirstPersonRoom.class
+						.getResource("/img/firstperson/arrow/east.png")));
+			} else if (player.getLookingDirection().equals(WEST)) {
+				arrow.setIcon(new ImageIcon(FirstPersonRoom.class
+						.getResource("/img/firstperson/arrow/west.png")));
+			}
+			
+			arrow.setBounds(875, 280, 40, 40);
+			glassPane.add(arrow);
+			glassPane.setVisible(true);
+			
+			//Add the health panel
+			HealthPanel healthPanel = new HealthPanel(player.getHealth(), player.getCurrentWeight(), player.getMaxWeight());
+			healthPanel.setVisible(true);
+			mainFrame.add(healthPanel, BorderLayout.SOUTH);
+			
+			//Repaint the gamePanel
+			gamePanel.validate();
+			gamePanel.repaint();
+			
+			//Add the gamePanel to mainFrame
+			mainFrame.add(gamePanel, BorderLayout.CENTER);
+		} else {
+			JLabel temp = new JLabel("GAME OVER");
+			temp.setFont(new Font("Lucida Grande", Font.PLAIN, 50));
+			temp.setHorizontalAlignment(SwingConstants.CENTER);
+			temp.setForeground(Color.RED);
+			mainFrame.add(temp, BorderLayout.CENTER);
 		}
-		
-		arrow.setBounds(875, 280, 40, 40);
-		
-		glassPane.add(arrow);
-		glassPane.setVisible(true);
-		
-		//Add the health panel
-		HealthPanel healthPanel = new HealthPanel(player.getHealth(), player.getCurrentWeight(), player.getMaxWeight());
-		healthPanel.setVisible(true);
-		mainFrame.add(healthPanel, BorderLayout.SOUTH);
-		
-		//Repaint the gamePanel
-		gamePanel.validate();
-		gamePanel.repaint();
-		
-		//Add the gamePanel
-		mainFrame.add(gamePanel, BorderLayout.CENTER);
 		
 		//Repaint the mainFrame
 		mainFrame.validate();

@@ -271,7 +271,9 @@ public class Game extends Observable implements Observer
         }
    
         //Check to see if the player is still alive
-        quit = player1.getHealth() <= 0;
+        if (!quit) {
+        	quit = player1.getHealth() <= 0;
+        }
         
         //Notify observers
         setChanged();
