@@ -36,7 +36,7 @@ public class Game extends Observable implements Observer
     private static final String GAME_OVER = "GAME OVER";
 	private static final int STARTING_HEALTH = 10;
 	private final static String PLAYER_DESCRIPTION = "Me";
-    private final static int MAX_WEIGHT = 1000;
+    private final static int MAX_WEIGHT = 10;
     private final static String DEFAULT_START_ROOM = "entrance";
     
 	private static final String LEFT = "left";
@@ -66,14 +66,17 @@ public class Game extends Observable implements Observer
         parser = new Parser();
         rooms = new HashMap<String,Room>();
         monsters = new HashMap<String,Monster>();
+        
         mouseListener = new FPMouseListener();
         mouseListener.addObserver(this);
+        
         keyListener = new FPKeyListener();
         keyListener.addObserver(this);
-        initializeGame();
+        
         undoStack = new CommandStack();
         redoStack = new CommandStack();
         
+        initializeGame();        
     }
 
     /**
@@ -182,7 +185,6 @@ public class Game extends Observable implements Observer
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
-            undoStack.add(command);
             commandFrom = "player";
             finished = processCommand(command);
         }
@@ -220,16 +222,18 @@ public class Game extends Observable implements Observer
      */
     private boolean processCommand(Command command) 
     {
+    	undoStack.add(command);
+    	
         boolean quit = false;
 
         if(command==null || command.getCommandWord()==null) {
             System.out.println("I don't know what you mean...");
             return false;
         }
-        //if(parser.isReversible(command.getCommandWord()))
-        //{
-        //	redoStack.empty();
-        //}
+        if(parser.isReversible(command.getCommandWord()))
+        {
+        	redoStack.empty();
+        }
 
         String commandWord = command.getCommandWord();
         if (commandWord.equals("help")) {
@@ -270,7 +274,7 @@ public class Game extends Observable implements Observer
         	turn(command);
         }
    
-        //Check to see if the player is still alive
+        //Check to see if the player is still alive, if not, quit
         if (!quit) {
         	quit = player1.getHealth() <= 0;
         }
