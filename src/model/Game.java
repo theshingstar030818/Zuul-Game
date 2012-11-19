@@ -24,7 +24,7 @@ import view.MapView;
  *  To play this game, create an instance of this class and call the "play"
  *  method.
  * 
- *  This main class creates and initialises all the others: it creates all
+ *  This main class creates and initializes all the others: it creates all
  *  rooms, creates the parser and starts the game.  It also evaluates and
  *  executes the commands that the parser returns.
  * 
@@ -149,7 +149,7 @@ public class Game extends Observable implements Observer
 
         //Notify observers
         setChanged();
-        notifyObservers(player1.getCurrentPlayerRoom());
+        notifyObservers(player1);
         
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over.
@@ -389,7 +389,7 @@ public class Game extends Observable implements Observer
         
         //Notify observers
         setChanged();
-        notifyObservers(player1.getCurrentPlayerRoom());
+        notifyObservers(player1);
     }
 
     /** 

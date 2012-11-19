@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.command.Command;
+import model.object.Player;
 
 import controller.FPKeyListener;
 import controller.FPMouseListener;
@@ -62,8 +63,9 @@ public class FirstPersonView extends Observable implements Observer {
 	}
 
 	public void update(Observable arg0, Object arg1) {
-		if (arg1 instanceof FirstPersonRoom) {
-			currentRoom = (FirstPersonRoom) arg1;
+		if (arg1 instanceof Player) {
+			Player player = (Player) arg1;
+			currentRoom = (FirstPersonRoom) player.getCurrentPlayerRoom();
 			map.update(arg0, arg1);
 			refreshView();
 		}
