@@ -270,6 +270,12 @@ public class Game extends Observable implements Observer
         else if (commandWord.equals("turn")) {
         	turn(command);
         }
+        else if(commandWord.equals("straight"))
+        {
+        	Command temp = new Command("go",player1.getLookingDirection());
+        	undoStack.add(temp);
+        	goRoom(temp);
+        }
    
         //Check to see if the player is still alive, if not, quit
         if (!quit) {
