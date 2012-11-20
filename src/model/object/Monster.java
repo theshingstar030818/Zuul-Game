@@ -77,5 +77,24 @@ public class Monster {
 		return exits[r.nextInt(4)];
 	}
 
+	public void attack(Player p) {
+		Random r = new Random();
+		int temp = r.nextInt()%8;
+		if(temp % 2 == 0)//50% chance attack does one damage
+		{
+			p.attacked(getName(), 1);
+		}
+		else if(temp == 1)//1 in 8 chance attack does double damage
+		{
+			p.attacked(getName(), 2);
+		}
+		else//3 in 8 chance attack misses
+		{
+			System.out.println("Monster "+name+" attacked but missed");
+		}
+		p.attacked(name, 1);
+		
+	}
+
 
 }

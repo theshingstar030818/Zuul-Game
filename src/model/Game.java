@@ -31,7 +31,7 @@ import view.*;
 public class Game extends Observable implements Observer
 {
     private static final String GAME_OVER = "GAME OVER";
-	private static final int STARTING_HEALTH = 10;
+	private static final int STARTING_HEALTH = 20;
 	private final static String PLAYER_DESCRIPTION = "Me";
     private final static int MAX_WEIGHT = 10;
     private final static String DEFAULT_START_ROOM = "entrance";
@@ -279,15 +279,23 @@ public class Game extends Observable implements Observer
         	goRoom(temp);
         }
    
-        //Check to see if the player is still alive, if not, quit
-        if (!quit) {
-        	quit = player1.getHealth() <= 0;
-        }
+        
         
         //Notify observers
         setChanged();
         notifyObservers(player1);
         
+        ArrayList<Monster> m = player1.getCurrentPlayerRoom().getMonsters();
+    	for(Monster monster: m)
+    	{
+    		monster.attack(player1);
+    	}
+        
+    	//Check to see if the player is still alive, if not, quit
+        if (!quit) {
+        	quit = player1.getHealth() <= 0;
+        }
+    	
         return quit;
     }
 
@@ -374,7 +382,7 @@ public class Game extends Observable implements Observer
         	return;
         } else {
         	System.out.println(command.getSecondWord() + " health decreased to " + monster.getHealth());
-        	player1.pushLastMonsterAttacked(monster.getName());
+        	//player1.pushLastMonsterAttacked(monster.getName());
         }
 
 	}
@@ -400,6 +408,11 @@ public class Game extends Observable implements Observer
     private void drop(Command command){
     	Item item = player1.drop(command.getSecondWord());
     	if (item != null) {
+    		if(player1.getCurrentPlayerRoom().getWall(player1.getLookingDirection()).getItem()!=null)
+    		{
+    			System.out.println("Cannot place item onto of another item.  Please drop somewhere else.");
+    			return;
+    		}
     		System.out.println(item.getItemName() + " has been dropped by " + player1.getPlayerName());
 		    player1.getCurrentPlayerRoom().addItem(item,player1.getLookingDirection());
 		    player1.printItemsAndWeight();

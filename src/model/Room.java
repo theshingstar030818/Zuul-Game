@@ -221,9 +221,32 @@ public class Room {
 		}
 		return null;
 	}
+	
+	public ArrayList<Monster> getMonsters()
+	{
+		ArrayList<Monster> m = new ArrayList<Monster>();
+		Set<String> keys = walls.keySet();
+		for(String direction : keys)
+		{
+			if(walls.get(direction).getMonster()!=null)
+			{
+				m.add(walls.get(direction).getMonster());
+			}
+		}
+		return m;
+	}
 	/*public HashMap<String, Monster> getMonsterList(){
 		return monsters;
 	}*/
+	public boolean hasMonster()
+	{
+		Set<String> keys = walls.keySet();
+		for(String direction : keys)
+			if(walls.get(direction).getMonster()!=null)
+				return true;
+		
+		return false;
+	}
 	
 	/**
 	 * Addition by Sean Byron

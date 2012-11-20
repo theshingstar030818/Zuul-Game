@@ -171,8 +171,8 @@ public class Player{
 		return maxWeight;
 	}
 	
-	public void attacked(String monsterName){
-		health--;
+	public void attacked(String monsterName, int damage){
+		health-=damage;
 		System.out.println(name + " attacked by " + monsterName + ". Stamina reduced to " + health);
 	}
 	public void unAttacked(){
@@ -184,7 +184,7 @@ public class Player{
 	public int getHealth(){
 		return health;
 	}
-	public void addHealthLoss(int n){
+	/*public void addHealthLoss(int n){
 		healthLoss.push(n);
 	}
 	public void pushLastMonsterAttacked(String monsterName){
@@ -192,7 +192,7 @@ public class Player{
 	}
 	public String getLastMonsterAttacked(){
 		return lastMonsterAttacked.pop();
-	}
+	}*/
 
 	public String getLookingDirection() {
 		return lookingDirection;
