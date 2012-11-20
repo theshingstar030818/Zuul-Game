@@ -34,7 +34,7 @@ public class FPKeyListener extends Observable implements KeyListener {
 		}
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			setChanged();
-	        notifyObservers(new Command("go","straight"));
+	        notifyObservers(new Command("straight", null));
 	        return;
 		}
 	}
