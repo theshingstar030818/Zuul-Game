@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
@@ -43,6 +44,7 @@ public class FirstPersonView extends Observable implements Observer {
 	
 	private JMenu pickMenu;
 	private JMenu attackMenu;
+	private JMenu dropMenu;
 	
 	private static final String GAME_OVER = "GAME OVER";
 	
@@ -152,9 +154,11 @@ public class FirstPersonView extends Observable implements Observer {
 		pickMenu = new JMenu("Pick Up");
 		menuBar.add(pickMenu);
 		
+		dropMenu = new JMenu("Drop");
+		menuBar.add(dropMenu);
+		
 		attackMenu = new JMenu("Attack");
-		menuBar.add(attackMenu);
-	
+		menuBar.add(attackMenu);	
 	}
 
 	public void update(Observable arg0, Object arg1) {
@@ -204,7 +208,7 @@ public class FirstPersonView extends Observable implements Observer {
 						.getResource("/img/firstperson/arrow/west.png")));
 			}
 			
-			arrow.setBounds(875, 280, 40, 40);
+			arrow.setBounds(875, 290, 40, 40);
 			glassPane.add(arrow);
 			glassPane.setVisible(true);
 			
@@ -218,6 +222,7 @@ public class FirstPersonView extends Observable implements Observer {
 			
 			pickMenu.removeAll();
 			attackMenu.removeAll();
+			dropMenu.removeAll();
 			
 			if (wall.getItem() != null) {
 				String itemName = wall.getItem().getItemName();
@@ -233,6 +238,14 @@ public class FirstPersonView extends Observable implements Observer {
 				temp.setToolTipText("attack," + monsterName);
 				temp.addActionListener(menuListener);
 				attackMenu.add(temp);
+			}
+			
+			ArrayList<String> items = player.getItemsInPosession();
+			for (int i=0; i<items.size(); i++) {
+				JMenuItem temp = new JMenuItem(items.get(i));
+				temp.setToolTipText("drop," + items.get(i));
+				temp.addActionListener(menuListener);
+				dropMenu.add(temp);
 			}
 			
 			//Repaint the gamePanel

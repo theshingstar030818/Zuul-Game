@@ -201,5 +201,8 @@ public class Player{
 	public void setLookingDirection(String lookingDirection) {
 		this.lookingDirection = lookingDirection;
 	}
+	public ArrayList<String> getItemsInPosession() {
+		return new ArrayList<String>(itemsInPossesion.keySet());
+	}
 
 }
