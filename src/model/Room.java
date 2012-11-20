@@ -36,13 +36,14 @@ public class Room {
 		//exits = new HashMap<String, Room>();
 		//items = new HashMap<String, Item>();
 		//monsters = new HashMap<String, Monster>();
-		walls = new HashMap<String, Wall>();
+		
 		initWalls();
 		visited = false;
 	}
 
 	private void initWalls()
 	{
+		walls = new HashMap<String, Wall>();
 		walls.put("north",new Wall());
 		walls.put("south",new Wall());
 		walls.put("east",new Wall());
@@ -78,8 +79,10 @@ public class Room {
 		String s = "Exits : ";
 		Set<String> keys = walls.keySet();
 		for (String exit : keys) {
-			if(walls.get(exit)!=null)
-				s += " " + walls.get(exit).getExit().description;
+			if(walls.get(exit).getExit()!=null)
+			{
+				s += " " + walls.get(exit).getExit().getDescription();
+			}
 		}
 
 		return s + "\n";
