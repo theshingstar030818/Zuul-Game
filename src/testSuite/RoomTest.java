@@ -34,11 +34,11 @@ public class RoomTest extends TestCase {
 		gallery.setExits(NORTH, workshop);
 		gallery.setExits(SOUTH, lobby);
 		lobby.setExits(NORTH, gallery);
-		lobby.addItem(bat);
-		lobby.addMonster(pikachu);
+		lobby.addItem(bat,NORTH);
+		lobby.addMonster(pikachu,NORTH);
 		other.setExits(NORTH, gallery);
-		other.addItem(bat);
-		other.addMonster(pikachu);
+		other.addItem(bat,NORTH);
+		other.addMonster(pikachu,NORTH);
 	}
 
 	public void testSetExits() {

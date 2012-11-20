@@ -18,9 +18,10 @@ import model.object.Monster;
  */
 public class Room {
 	private String description;
-	private HashMap<String, Room> exits;
-	private HashMap<String, Item> items;
-	private HashMap<String, Monster> monsters;
+	//private HashMap<String, Room> exits;
+	//private HashMap<String, Item> items;
+	//private HashMap<String, Monster> monsters;
+	private HashMap<String, Wall> walls;
 	private boolean visited;
 
 	/**
@@ -32,12 +33,22 @@ public class Room {
 	 */
 	public Room(String description) {
 		this.description = description;
-		exits = new HashMap<String, Room>();
-		items = new HashMap<String, Item>();
-		monsters = new HashMap<String, Monster>();
+		//exits = new HashMap<String, Room>();
+		//items = new HashMap<String, Item>();
+		//monsters = new HashMap<String, Monster>();
+		walls = new HashMap<String, Wall>();
+		initWalls();
 		visited = false;
 	}
 
+	private void initWalls()
+	{
+		walls.put("north",new Wall());
+		walls.put("south",new Wall());
+		walls.put("east",new Wall());
+		walls.put("west",new Wall());
+	}
+	
 	/**
 	 * Define the exits of this room. Every direction either leads to another
 	 * room or is null (no exit there).
@@ -52,7 +63,7 @@ public class Room {
 	 *            The west exit.
 	 */
 	public void setExits(String direction, Room neighbor) {
-		exits.put(direction, neighbor);
+		walls.get(direction).setExit(neighbor);
 	}
 
 	/**
@@ -65,9 +76,10 @@ public class Room {
 	public String getExitString() {
 
 		String s = "Exits : ";
-		Set<String> keys = exits.keySet();
+		Set<String> keys = walls.keySet();
 		for (String exit : keys) {
-			s += " " + exit;
+			if(walls.get(exit)!=null)
+				s += " " + walls.get(exit).getExit().description;
 		}
 
 		return s + "\n";
@@ -86,20 +98,23 @@ public class Room {
 	}
 
 	public Room getExit(String direction) {
-		return exits.get(direction);
+		return walls.get(direction).getExit();
 	}
 
-	public void addItem(Item item) {
-		items.put(item.getItemName(), item);
+	public void addItem(Item item, String direction) {
+		walls.get(direction).setItem(item);
 	}
 
 	private String getItemString() {
 		String itemString = "Items in room : ";
-		Set<String> keys = items.keySet();
+		Set<String> keys = walls.keySet();
 		for (String item : keys) {
-			itemString += " Key : " + item + " Description : "
-					+ items.get(item).getItemName() + " Weight : "
-					+ items.get(item).getItemWeight() + "\n";
+			if(walls.get(item).getItem()!=null)
+			{
+				itemString += " Key : " + walls.get(item).getItem().getItemName() + " Description : "
+						+ walls.get(item).getItem().getItemName() + " Weight : "
+						+ walls.get(item).getItem().getItemWeight() + "\n";
+			}
 		}
 		return itemString;
 	}
@@ -110,27 +125,54 @@ public class Room {
 	 */
 	private String getMonstersString() {
 		String ret = "Monsters in room:\n";
-		Set<String> keys = monsters.keySet();
+		Set<String> keys = walls.keySet();
 		for (String monster : keys) {
-			if (monsters.get(monster).isAlive()) {
-				ret += "- Name : " + monster + " (" + monsters.get(monster).getHealth() + ")\n";
-			} else {
-				ret += "- Name : " + monster + " (DEAD)\n";
+			if(walls.get(monster).getMonster()!=null)
+			{
+				if (walls.get(monster).getMonster().isAlive()) {
+					ret += "- Name : " + walls.get(monster).getMonster().getName() + " (" + walls.get(monster).getMonster().getHealth() + ")\n";
+				} else {
+					ret += "- Name : " + walls.get(monster).getMonster().getName() + " (DEAD)\n";
+				}
 			}
 		}
 		return ret;
 	}
 
 	public void removeItem(String itemKey) {
-		items.remove(itemKey);
+		Set<String> keys = walls.keySet();
+		for(String direction : keys)
+		{
+			if(walls.get(direction).getItem()!=null && walls.get(direction).getItem().getItemName().equals(itemKey))
+			{
+				walls.get(direction).setItem(null);
+				return;
+			}
+		}
 	}
 
 	public Item getItem(String itemKey) {
-		return items.get(itemKey);
+		Set<String> keys = walls.keySet();
+		for(String direction : keys)
+		{
+			if(walls.get(direction).getItem()!=null && walls.get(direction).getItem().getItemName().equals(itemKey))
+			{
+				return walls.get(direction).getItem();
+			}
+		}
+		return null;
 	}
 
 	public boolean containsItem(String itemKey) {
-		return items.containsKey(itemKey);
+		Set<String> keys = walls.keySet();
+		for(String direction : keys)
+		{
+			if(walls.get(direction).getItem()!=null && walls.get(direction).getItem().getItemName().equals(itemKey))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -139,8 +181,8 @@ public class Room {
 	 * @param key
 	 * @param monster
 	 */
-	public void addMonster(Monster monster) {
-		monsters.put(monster.getName(), monster);
+	public void addMonster(Monster monster, String direction) {
+		walls.get(direction).setMonster(monster);
 	}
 
 	/**
@@ -149,7 +191,14 @@ public class Room {
 	 * @param key
 	 */
 	public void removeMonster(String key) {
-		monsters.remove(key);
+		Set<String> keys = walls.keySet();
+		for(String direction : keys)
+		{
+			if(walls.get(direction).getMonster()!=null && walls.get(direction).getMonster().getName().equals(key))
+			{
+				walls.get(direction).setMonster(null);
+			}
+		}
 	}
 
 	/**
@@ -159,11 +208,19 @@ public class Room {
 	 * @return
 	 */
 	public Monster getMonster(String key) {
-		return monsters.get(key);
+		Set<String> keys = walls.keySet();
+		for(String direction : keys)
+		{
+			if(walls.get(direction).getMonster()!=null && walls.get(direction).getMonster().getName().equals(key))
+			{
+				return walls.get(direction).getMonster();
+			}
+		}
+		return null;
 	}
-	public HashMap<String, Monster> getMonsterList(){
+	/*public HashMap<String, Monster> getMonsterList(){
 		return monsters;
-	}
+	}*/
 	
 	/**
 	 * Addition by Sean Byron
