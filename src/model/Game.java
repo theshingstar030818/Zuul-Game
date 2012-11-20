@@ -136,7 +136,7 @@ public class Game extends Observable implements Observer
         dressingroom.addItem(pogoStick,"east");
         
         //Create monsters
-        Monster kracken = new FirstPersonMonster("Kracken",10,"Kracken.png" );
+        Monster kracken = new FirstPersonMonster("Kracken",5,"Kracken.png" );
         //monsters.put("Kracken", kracken);
         Monster grendel = new FirstPersonMonster("Grendel", 8,"Grendle.png");
         //monsters.put("Grendel", grendel);
@@ -278,18 +278,16 @@ public class Game extends Observable implements Observer
         	undoStack.add(temp);
         	goRoom(temp);
         }
-   
-        
-        
-        //Notify observers
-        setChanged();
-        notifyObservers(player1);
         
         ArrayList<Monster> m = player1.getCurrentPlayerRoom().getMonsters();
     	for(Monster monster: m)
     	{
     		monster.attack(player1);
     	}
+    	
+        //Notify observers (must notify AFTER monster attacks)
+        setChanged();
+        notifyObservers(player1);
         
     	//Check to see if the player is still alive, if not, quit
         if (!quit) {
