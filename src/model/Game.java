@@ -182,7 +182,7 @@ public class Game extends Observable implements Observer
         while (! finished) {
             Command command = parser.getCommand();
             //commandFrom = "player";
-            finished = processCommand(command);
+            finished = processCommand(command, true);
         }
         
         //Notify observers that the game is over
@@ -216,7 +216,7 @@ public class Game extends Observable implements Observer
      * @return true If the command ends the game, false otherwise.
      * @throws CloneNotSupportedException 
      */
-    private boolean processCommand(Command command) 
+    private boolean processCommand(Command command, boolean addToStack) 
     {
     	
         boolean quit = false;
@@ -226,7 +226,9 @@ public class Game extends Observable implements Observer
             return false;
         }
 
-		undoStack.add(command);
+        if (addToStack) {
+        	undoStack.add(command);
+        }
         //if(parser.isReversible(command.getCommandWord()))
         //{
         //	redoStack.empty();
@@ -326,7 +328,7 @@ public class Game extends Observable implements Observer
         {
         	redoStack.add(temp);
         	//commandFrom = "undo";
-        	processCommand(temp);
+        	processCommand(temp, false);
         	
         }
     }
@@ -338,7 +340,7 @@ public class Game extends Observable implements Observer
     	{
     		undoStack.add(temp);
     		//commandFrom = "player";
-    		processCommand(temp);
+    		processCommand(temp, false);
     	}
     }
         
@@ -502,7 +504,7 @@ public class Game extends Observable implements Observer
 	public void update(Observable arg0, Object arg1) {
 		if (arg1 instanceof Command) {
 			Command command = (Command)arg1;
-			processCommand(command);
+			processCommand(command, true);
 		}
 	}
 	/*public void monsterMove(){		
