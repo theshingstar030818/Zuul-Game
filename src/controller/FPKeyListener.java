@@ -8,10 +8,6 @@ import model.command.Command;
 
 
 public class FPKeyListener extends Observable implements KeyListener {
-
-	private static final String LEFT = "left";
-	private static final String RIGHT = "right";
-	private static final String UP = "up";
 	
 	public void keyReleased(KeyEvent arg0) {
 		return;
@@ -34,7 +30,7 @@ public class FPKeyListener extends Observable implements KeyListener {
 		}
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			setChanged();
-	        notifyObservers(new Command("go","straight"));
+	        notifyObservers(new Command("straight", null));
 	        return;
 		}
 	}

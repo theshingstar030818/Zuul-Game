@@ -14,7 +14,7 @@ public class Monster {
 	private String name;
 	private int health;
 	private Room currentRoom;
-	private Room lastRoom;
+//	private Room lastRoom;
 
 	/**
 	 * Create a new monster

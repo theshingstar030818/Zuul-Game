@@ -9,7 +9,7 @@ public class RoomTest extends TestCase {
 	private final static String NORTH = "north";
 	private final static String SOUTH = "south";
 	private final static String EAST = "east";
-	private final static String WEST = "west";
+//	private final static String WEST = "west";
 	private final static String LOBBY = "Lobby";
 	private final static String GALLERY = "Gallery";
 	private final static String WORKSHOP = "Workshop";
@@ -34,11 +34,11 @@ public class RoomTest extends TestCase {
 		gallery.setExits(NORTH, workshop);
 		gallery.setExits(SOUTH, lobby);
 		lobby.setExits(NORTH, gallery);
-		lobby.addItem(bat);
-		lobby.addMonster(pikachu);
+		lobby.addItem(bat,NORTH);
+		lobby.addMonster(pikachu,NORTH);
 		other.setExits(NORTH, gallery);
-		other.addItem(bat);
-		other.addMonster(pikachu);
+		other.addItem(bat,NORTH);
+		other.addMonster(pikachu,NORTH);
 	}
 
 	public void testSetExits() {

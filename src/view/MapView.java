@@ -1,5 +1,4 @@
 package view;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.Observable;
@@ -19,6 +18,7 @@ import model.object.Player;
 
 public class MapView extends JFrame implements Observer {
 	
+	private static final long serialVersionUID = 1L;
 	private static final String SOUTH = "south";
 	private static final String EAST = "east";
 	private static final String WEST = "west";
