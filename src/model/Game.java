@@ -53,7 +53,7 @@ public class Game extends Observable implements Observer
     private CommandStack undoStack;
     private FPMouseListener mouseListener;
     private static FPKeyListener keyListener;
-    private String commandFrom;
+    //private String commandFrom;
 
     
     /**
@@ -181,7 +181,7 @@ public class Game extends Observable implements Observer
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
-            commandFrom = "player";
+            //commandFrom = "player";
             finished = processCommand(command);
         }
         
@@ -218,7 +218,6 @@ public class Game extends Observable implements Observer
      */
     private boolean processCommand(Command command) 
     {
-    	undoStack.add(command);
     	
         boolean quit = false;
 
@@ -226,11 +225,12 @@ public class Game extends Observable implements Observer
             System.out.println("I don't know what you mean...");
             return false;
         }
-        
-        if(parser.isReversible(command.getCommandWord()))
-        {
-        	redoStack.empty();
-        }
+
+		undoStack.add(command);
+        //if(parser.isReversible(command.getCommandWord()))
+        //{
+        //	redoStack.empty();
+        //}
 
         String commandWord = command.getCommandWord();
         if (commandWord.equals("help")) {
@@ -253,19 +253,19 @@ public class Game extends Observable implements Observer
         }
         else if (commandWord.equals("pick")){
             pick(command);
-            checkMonsterAttack();
+            //checkMonsterAttack();
         }
         else if (commandWord.equals("drop")){
             drop(command);
-            checkMonsterAttack();
+            //checkMonsterAttack();
         } 
         else if (commandWord.equals("attack")) {
         	attack(command);
-        	checkMonsterAttack();
+        	//checkMonsterAttack();
         }        
         else if (commandWord.equals("heal")) {
         	heal(command);
-        	checkMonsterAttack();
+        	//checkMonsterAttack();
         }
         else if (commandWord.equals("turn")) {
         	turn(command);
@@ -319,7 +319,7 @@ public class Game extends Observable implements Observer
         if(temp!=null)
         {
         	redoStack.add(temp);
-        	commandFrom = "undo";
+        	//commandFrom = "undo";
         	processCommand(temp);
         	
         }
@@ -331,7 +331,7 @@ public class Game extends Observable implements Observer
     	if(temp!=null)
     	{
     		undoStack.add(temp);
-    		commandFrom = "player";
+    		//commandFrom = "player";
     		processCommand(temp);
     	}
     }
@@ -473,7 +473,7 @@ public class Game extends Observable implements Observer
             // Try to leave current room.
             //player1.setPreviousRoom(player1.getCurrentPlayerRoom());
             player1.setCurrentRoom(nextRoom);
-            monsterMove();
+            //monsterMove();
             printLocationInfo(player1);
             nextRoom.visit();
         }
@@ -499,7 +499,7 @@ public class Game extends Observable implements Observer
 			processCommand(command);
 		}
 	}
-	public void monsterMove(){		
+	/*public void monsterMove(){		
 		for(Monster m : monsters.values()){
 			while(true){
 				String monsterExit = m.randomMove();
@@ -534,5 +534,5 @@ public class Game extends Observable implements Observer
 		else if(commandFrom.equals("undo")){
 			monsterUnAttack();
 		}
-	}
+	}*/
 }
