@@ -39,22 +39,22 @@ public class FirstPersonRoom extends MapRoom {
 		
 		panel.setLayout(null);
 		
-		if (getMonster(direction) != null)
+		if (getWall(direction).getMonster() != null && getWall(direction).getMonster().isAlive())
 		{
 			//Add a monster image
 			JLabel monster = new JLabel("");
-			monster.setToolTipText("attack," + getMonster(direction).getName());
-			monster.setIcon(new ImageIcon(FirstPersonRoom.class.getResource(((FirstPersonMonster)getMonster(direction)).getImage())));
+			monster.setToolTipText("attack," + getWall(direction).getMonster().getName());
+			monster.setIcon(new ImageIcon(FirstPersonRoom.class.getResource(((FirstPersonMonster)getWall(direction).getMonster()).getImage())));
 			monster.setBounds(219, 253, 150, 250);
 			monster.addMouseListener(listener); //Add the mouse listener to the door, so when it is clicked the listener fires
 			panel.add(monster);
 		}
-		if(getItem(direction) != null)
+		if(getWall(direction).getItem() != null)
 		{
 			//Add a item image
 			JLabel item = new JLabel("");
-			item.setToolTipText("attack," + getItem(direction).getItemName());
-			item.setIcon(new ImageIcon(FirstPersonRoom.class.getResource(((FirstPersonItem)getItem(direction)).getImage())));
+			item.setToolTipText("pick," + getWall(direction).getItem().getItemName());
+			item.setIcon(new ImageIcon(FirstPersonRoom.class.getResource(((FirstPersonItem)getWall(direction).getItem()).getImage())));
 			item.setBounds(405, 253, 180, 250);
 			item.addMouseListener(listener); //Add the mouse listener to the door, so when it is clicked the listener fires
 			panel.add(item);
