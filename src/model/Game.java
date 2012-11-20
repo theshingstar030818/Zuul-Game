@@ -405,7 +405,7 @@ public class Game extends Observable implements Observer
             return;
         }
         //monsters.get(player1.getLastMonsterAttacked()).increaseHealth();
-        //monster.increaseHealth();
+        monster.increaseHealth();
     }
 
     
