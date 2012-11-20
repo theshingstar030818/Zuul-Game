@@ -126,9 +126,9 @@ public class Game extends Observable implements Observer
         entrance.setExits(SOUTH,lobby);
         
         //create the items
-        Item plant = new FirstPersonItem("Plant",2.0,"rubber-plant.jpg");
-        Item sword = new FirstPersonItem("Sword", 7.0, "excalibur-sword.jpg");
-        Item pogoStick = new FirstPersonItem("PogoStix", 5.0,"PogoStick.jpg");
+        Item plant = new FirstPersonItem("Plant",2.0,"Plant1.png");
+        Item sword = new FirstPersonItem("Sword", 7.0, "Sword1.png");
+        Item pogoStick = new FirstPersonItem("PogoStix", 5.0,"PogoStick1.png");
         
         //Add Items
         entrance.addItem(plant,"north");
@@ -136,11 +136,11 @@ public class Game extends Observable implements Observer
         dressingroom.addItem(pogoStick,"east");
         
         //Create monsters
-        Monster kracken = new FirstPersonMonster("Kracken",10,"Kracken.jpg" );
+        Monster kracken = new FirstPersonMonster("Kracken",10,"Kracken.png" );
         //monsters.put("Kracken", kracken);
-        Monster grendel = new FirstPersonMonster("Grendel", 8,"Grendel___old_by_nguy0699.jpg");
+        Monster grendel = new FirstPersonMonster("Grendel", 8,"Grendle.png");
         //monsters.put("Grendel", grendel);
-        Monster goblin = new FirstPersonMonster("Goblin",3,"troll.jpg");
+        Monster goblin = new FirstPersonMonster("Goblin",3,"TrollBig.png");
         //monsters.put("Goblin", goblin);
         
         
