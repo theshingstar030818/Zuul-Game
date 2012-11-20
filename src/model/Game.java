@@ -146,7 +146,7 @@ public class Game extends Observable implements Observer
         
         
         //Add Monsters to room
-        entrance.addMonster(kracken,"west");
+        entrance.addMonster(kracken,"south");
         //kracken.setCurrentRoom(entrance);
         
         workshop.addMonster(grendel,"north");
@@ -477,8 +477,9 @@ public class Game extends Observable implements Observer
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
-        }
-        else {
+        } else if (player1.getCurrentPlayerRoom().getWall(direction).getMonster() != null && player1.getCurrentPlayerRoom().getWall(direction).getMonster().isAlive()) {
+        	System.out.println("Cannot go through that door! There is a monster in the way");
+        } else {
             // Try to leave current room.
             //player1.setPreviousRoom(player1.getCurrentPlayerRoom());
             player1.setCurrentRoom(nextRoom);
