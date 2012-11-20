@@ -263,9 +263,19 @@ public class Game extends Observable implements Observer
         } 
         else if (commandWord.equals("attack")) {
         	attack(command);
+        	ArrayList<Monster> m = player1.getCurrentPlayerRoom().getMonsters();
+        	for(Monster monster: m)
+        	{
+        		monster.attack(player1);
+        	}
         	//checkMonsterAttack();
         }        
         else if (commandWord.equals("heal")) {
+        	ArrayList<Monster> m = player1.getCurrentPlayerRoom().getMonsters();
+        	for(Monster monster: m)
+        	{
+        		monster.heal(player1);
+        	}
         	heal(command);
         	//checkMonsterAttack();
         }
@@ -279,11 +289,7 @@ public class Game extends Observable implements Observer
         	goRoom(temp);
         }
         
-        ArrayList<Monster> m = player1.getCurrentPlayerRoom().getMonsters();
-    	for(Monster monster: m)
-    	{
-    		monster.attack(player1);
-    	}
+        
     	
         //Notify observers (must notify AFTER monster attacks)
         setChanged();

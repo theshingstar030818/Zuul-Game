@@ -171,12 +171,12 @@ public class Player{
 		return maxWeight;
 	}
 	
-	public void attacked(String monsterName, int damage){
-		health-=damage;
+	public void attacked(String monsterName){
+		health--;
 		System.out.println(name + " attacked by " + monsterName + ". Stamina reduced to " + health);
 	}
 	public void unAttacked(){
-		health += healthLoss.pop();
+		health ++;
 	}
 	public void heal(){
 		health += 5;
