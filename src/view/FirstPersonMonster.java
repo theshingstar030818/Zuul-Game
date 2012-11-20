@@ -15,6 +15,6 @@ public class FirstPersonMonster extends Monster{
 	}
 
 	public void setImage(String image) {
-		this.image = new String("/img/firstperson/monster"+image);
+		this.image = new String("/img/firstperson/monster/"+image);
 	}
 }
