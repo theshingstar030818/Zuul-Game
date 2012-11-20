@@ -505,7 +505,11 @@ public class Game extends Observable implements Observer
 	public void update(Observable arg0, Object arg1) {
 		if (arg1 instanceof Command) {
 			Command command = (Command)arg1;
-			processCommand(command, true);
+			if (processCommand(command, true)) {
+		        //Notify observers that the game is over
+		        setChanged();
+		        notifyObservers(GAME_OVER);
+			}
 		}
 	}
 	/*public void monsterMove(){		

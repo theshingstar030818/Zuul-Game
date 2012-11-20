@@ -241,5 +241,9 @@ public class Room {
 	public boolean hasBeenVisited() {
 		return visited;
 	}
+	
+	public Wall getWall(String direction) {
+		return walls.get(direction);
+	}
 
 }

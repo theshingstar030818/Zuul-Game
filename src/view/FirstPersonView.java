@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import model.Wall;
 import model.command.Command;
 import model.object.Player;
 
@@ -39,6 +40,9 @@ public class FirstPersonView extends Observable implements Observer {
 	private Player player;
 	private boolean gameOver;
 	private MenuListener menuListener;
+	
+	private JMenu pickMenu;
+	private JMenu attackMenu;
 	
 	private static final String GAME_OVER = "GAME OVER";
 	
@@ -82,14 +86,14 @@ public class FirstPersonView extends Observable implements Observer {
 		JMenu gameMenu = new JMenu("Game");
 		menuBar.add(gameMenu);
 		
-		JMenuItem newGame = new JMenuItem("New");
-		gameMenu.add(newGame);
-		
-		JMenuItem loadGame = new JMenuItem("Load");
-		gameMenu.add(loadGame);
-		
-		JMenuItem saveGame = new JMenuItem("Save");
-		gameMenu.add(saveGame);
+//		JMenuItem newGame = new JMenuItem("New");
+//		gameMenu.add(newGame);
+//		
+//		JMenuItem loadGame = new JMenuItem("Load");
+//		gameMenu.add(loadGame);
+//		
+//		JMenuItem saveGame = new JMenuItem("Save");
+//		gameMenu.add(saveGame);
 		
 		JMenuItem quitGame = new JMenuItem("Quit");
 		quitGame.setToolTipText("quit");
@@ -145,33 +149,12 @@ public class FirstPersonView extends Observable implements Observer {
 		redoMenu.addActionListener(menuListener);
 		editMenu.add(redoMenu);
 		
-		
-		JMenu pickMenu = new JMenu("Pick Up");
+		pickMenu = new JMenu("Pick Up");
 		menuBar.add(pickMenu);
 		
-//		Set<String> items = currentRoom.get.keySet();
-//		Iterator<String> iterator = monsters.iterator();
-//		
-//		while(iterator.hasNext()) {
-//			String monsterName = iterator.next();
-//			JMenuItem temp = new JMenuItem(monsterName);
-//			temp.setToolTipText("attack," + monsterName);
-//			attackMenu.add(temp);
-//		}
-
-		
-		JMenu attackMenu = new JMenu("Attack");
+		attackMenu = new JMenu("Attack");
 		menuBar.add(attackMenu);
-		
-//		Set<String> monsters = currentRoom.getMonsterList().keySet();
-//		Iterator<String> iterator = monsters.iterator();
-//		
-//		while(iterator.hasNext()) {
-//			String monsterName = iterator.next();
-//			JMenuItem temp = new JMenuItem(monsterName);
-//			temp.setToolTipText("attack," + monsterName);
-//			attackMenu.add(temp);
-//		}
+	
 	}
 
 	public void update(Observable arg0, Object arg1) {
@@ -229,6 +212,28 @@ public class FirstPersonView extends Observable implements Observer {
 			HealthPanel healthPanel = new HealthPanel(player.getHealth(), player.getCurrentWeight(), player.getMaxWeight());
 			healthPanel.setVisible(true);
 			mainFrame.add(healthPanel, BorderLayout.SOUTH);
+			
+			//Refresh the Pick Up and Attack menu's
+			Wall wall = currentRoom.getWall(player.getLookingDirection());
+			
+			pickMenu.removeAll();
+			attackMenu.removeAll();
+			
+			if (wall.getItem() != null) {
+				String itemName = wall.getItem().getItemName();
+				JMenuItem temp = new JMenuItem(itemName);
+				temp.setToolTipText("pick," + itemName);
+				temp.addActionListener(menuListener);
+				pickMenu.add(temp);
+			}
+			
+			if (wall.getMonster() != null && wall.getMonster().isAlive()) {
+				String monsterName = wall.getMonster().getName();
+				JMenuItem temp = new JMenuItem(monsterName);
+				temp.setToolTipText("attack," + monsterName);
+				temp.addActionListener(menuListener);
+				attackMenu.add(temp);
+			}
 			
 			//Repaint the gamePanel
 			gamePanel.validate();
