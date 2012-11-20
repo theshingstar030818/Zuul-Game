@@ -55,7 +55,7 @@ public class FirstPersonRoom extends MapRoom {
 			JLabel item = new JLabel("");
 			item.setToolTipText("pick," + getWall(direction).getItem().getItemName());
 			item.setIcon(new ImageIcon(FirstPersonRoom.class.getResource(((FirstPersonItem)getWall(direction).getItem()).getImage())));
-			item.setBounds(405, 253, 180, 250);
+			item.setBounds(405, 253, item.getIcon().getIconWidth(), item.getIcon().getIconHeight());
 			item.addMouseListener(listener); //Add the mouse listener to the door, so when it is clicked the listener fires
 			panel.add(item);
 		}
