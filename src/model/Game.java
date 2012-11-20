@@ -12,8 +12,7 @@ import model.command.CommandStack;
 
 import model.object.*;
 
-import view.FirstPersonRoom;
-import view.FirstPersonView;
+import view.*;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -48,7 +47,7 @@ public class Game extends Observable implements Observer
 	private Parser parser;
     private Player player1;
     private HashMap<String,Room> rooms;
-    private HashMap<String,Monster> monsters;
+    //private HashMap<String,Monster> monsters;
     private CommandStack redoStack;
     private CommandStack undoStack;
     private FPMouseListener mouseListener;
@@ -63,7 +62,7 @@ public class Game extends Observable implements Observer
     {
         parser = new Parser();
         rooms = new HashMap<String,Room>();
-        monsters = new HashMap<String,Monster>();
+        //monsters = new HashMap<String,Monster>();
         
         mouseListener = new FPMouseListener();
         mouseListener.addObserver(this);
@@ -127,9 +126,9 @@ public class Game extends Observable implements Observer
         entrance.setExits(SOUTH,lobby);
         
         //create the items
-        Item plant = new Item("Plant",2.0);
-        Item sword = new Item("Sword", 7.0);
-        Item pogoStick = new Item("PogoStix", 5.0);
+        Item plant = new FirstPersonItem("Plant",2.0,"rubber-plant.jpg");
+        Item sword = new FirstPersonItem("Sword", 7.0, "excalibur-sword.jpg");
+        Item pogoStick = new FirstPersonItem("PogoStix", 5.0,"PogoStick.jpg");
         
         //Add Items
         entrance.addItem(plant,"north");
@@ -137,12 +136,12 @@ public class Game extends Observable implements Observer
         dressingroom.addItem(pogoStick,"east");
         
         //Create monsters
-        Monster kracken = new Monster("Kracken",10);
-        monsters.put("Kracken", kracken);
-        Monster grendel = new Monster("Grendel", 8);
-        monsters.put("Grendel", grendel);
-        Monster goblin = new Monster("Goblin",3);
-        monsters.put("Goblin", goblin);
+        Monster kracken = new FirstPersonMonster("Kracken",10,"Kracken.jpg" );
+        //monsters.put("Kracken", kracken);
+        Monster grendel = new FirstPersonMonster("Grendel", 8,"Grendel___old_by_nguy0699.jpg");
+        //monsters.put("Grendel", grendel);
+        Monster goblin = new FirstPersonMonster("Goblin",3,"troll.jpg");
+        //monsters.put("Goblin", goblin);
         
         
         //Add Monsters to room
@@ -393,7 +392,7 @@ public class Game extends Observable implements Observer
             System.out.println("There is no monster called " + command.getSecondWord() + "!");
             return;
         }
-        monsters.get(player1.getLastMonsterAttacked()).increaseHealth();
+        //monsters.get(player1.getLastMonsterAttacked()).increaseHealth();
         //monster.increaseHealth();
     }
 
