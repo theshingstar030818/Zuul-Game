@@ -4,16 +4,26 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import model.command.Command;
 import model.object.Player;
 
 import controller.FPKeyListener;
@@ -28,6 +38,7 @@ public class FirstPersonView extends Observable implements Observer {
 	private JFrame mainFrame;
 	private Player player;
 	private boolean gameOver;
+	private MenuListener menuListener;
 	
 	private static final String GAME_OVER = "GAME OVER";
 	
@@ -62,6 +73,105 @@ public class FirstPersonView extends Observable implements Observer {
 		currentRoom = new FirstPersonRoom(null);
 		player = new Player(null, null, 0, 0);
 		gameOver = false;
+		
+		//Initialize the JMenu
+		menuListener = new MenuListener();
+		JMenuBar menuBar = new JMenuBar();
+		mainFrame.setJMenuBar(menuBar);
+		
+		JMenu gameMenu = new JMenu("Game");
+		menuBar.add(gameMenu);
+		
+		JMenuItem newGame = new JMenuItem("New");
+		gameMenu.add(newGame);
+		
+		JMenuItem loadGame = new JMenuItem("Load");
+		gameMenu.add(loadGame);
+		
+		JMenuItem saveGame = new JMenuItem("Save");
+		gameMenu.add(saveGame);
+		
+		JMenuItem quitGame = new JMenuItem("Quit");
+		quitGame.setToolTipText("quit");
+		quitGame.addActionListener(menuListener);
+		gameMenu.add(quitGame);
+		
+		JMenu mnGo = new JMenu("Go");
+		menuBar.add(mnGo);
+		
+		JMenuItem goNorth = new JMenuItem("North");
+		goNorth.setToolTipText("go,north");
+		goNorth.addActionListener(menuListener);
+		mnGo.add(goNorth);
+		
+		JMenuItem goSouth = new JMenuItem("South");
+		goSouth.setToolTipText("go,south");
+		goSouth.addActionListener(menuListener);
+		mnGo.add(goSouth);
+		
+		JMenuItem goEast = new JMenuItem("East");
+		goEast.setToolTipText("go,east");
+		goEast.addActionListener(menuListener);
+		mnGo.add(goEast);
+		
+		JMenuItem goWest = new JMenuItem("West");
+		goWest.setToolTipText("go,west");
+		goWest.addActionListener(menuListener);
+		mnGo.add(goWest);
+		
+		JMenu turnMenu = new JMenu("Turn");
+		menuBar.add(turnMenu);
+		
+		JMenuItem turnLeft = new JMenuItem("Left");
+		turnLeft.setToolTipText("turn,left");
+		turnLeft.addActionListener(menuListener);
+		turnMenu.add(turnLeft);
+		
+		JMenuItem turnRight = new JMenuItem("Right");
+		turnRight.setToolTipText("turn,right");
+		turnRight.addActionListener(menuListener);
+		turnMenu.add(turnRight);
+		
+		JMenu editMenu = new JMenu("Edit");
+		menuBar.add(editMenu);
+		
+		JMenuItem undoMenu = new JMenuItem("Undo");
+		undoMenu.setToolTipText("undo");
+		undoMenu.addActionListener(menuListener);
+		editMenu.add(undoMenu);
+		
+		JMenuItem redoMenu = new JMenuItem("Redo");
+		redoMenu.setToolTipText("redo");
+		redoMenu.addActionListener(menuListener);
+		editMenu.add(redoMenu);
+		
+		
+		JMenu pickMenu = new JMenu("Pick Up");
+		menuBar.add(pickMenu);
+		
+//		Set<String> items = currentRoom.get.keySet();
+//		Iterator<String> iterator = monsters.iterator();
+//		
+//		while(iterator.hasNext()) {
+//			String monsterName = iterator.next();
+//			JMenuItem temp = new JMenuItem(monsterName);
+//			temp.setToolTipText("attack," + monsterName);
+//			attackMenu.add(temp);
+//		}
+
+		
+		JMenu attackMenu = new JMenu("Attack");
+		menuBar.add(attackMenu);
+		
+//		Set<String> monsters = currentRoom.getMonsterList().keySet();
+//		Iterator<String> iterator = monsters.iterator();
+//		
+//		while(iterator.hasNext()) {
+//			String monsterName = iterator.next();
+//			JMenuItem temp = new JMenuItem(monsterName);
+//			temp.setToolTipText("attack," + monsterName);
+//			attackMenu.add(temp);
+//		}
 	}
 
 	public void update(Observable arg0, Object arg1) {
@@ -146,5 +256,26 @@ public class FirstPersonView extends Observable implements Observer {
 				"look around the room. Click on a door to go through it, click on items to pick them up, and click on Monsters to\n" +
 				"attack them. Enjoy!","Welcome", 0);
 	}
+	
+	private final class MenuListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			if (arg0.getSource() instanceof JMenuItem) {
+				JMenuItem source = (JMenuItem) arg0.getSource();
+				
+				if (source.getToolTipText() != null) {
+					String commands[] = source.getToolTipText().split(",");
+					if (commands.length == 2) {
+						setChanged();
+						notifyObservers(new Command(commands[0], commands[1]));
+					} else if (commands.length == 1) {
+						setChanged();
+						notifyObservers(new Command(commands[0], null));
+					}
+				}
+			}
+		}
+	}
+
 
 }
