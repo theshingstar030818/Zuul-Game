@@ -278,7 +278,7 @@ public class FirstPersonView extends Observable implements Observer {
 	private final class MenuListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			if (arg0.getSource() instanceof JMenuItem) {
+			if (arg0.getSource() instanceof JMenuItem && !gameOver) {
 				JMenuItem source = (JMenuItem) arg0.getSource();
 				
 				if (source.getToolTipText() != null) {
