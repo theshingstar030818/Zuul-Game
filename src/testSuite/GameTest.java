@@ -15,7 +15,7 @@ public class GameTest extends TestCase{
 		game.processCommand(new Command("go","south"), true);
 		assertEquals("Entrance",game.getPlayer().getCurrentPlayerRoom().getDescription());
 		//killmonster
-		for(int i = 5;i>0;i--){
+		for(int i = 10;i>0;i--){
 			game.processCommand(new Command("attack","Kracken"), true);
 		}
 		//no monster in the room.Test all direction
@@ -46,11 +46,11 @@ public class GameTest extends TestCase{
 	public void testAttack(){
 		//attack Kracken that is in the same room as player
 		game.processCommand(new Command("attack","Kracken"), true);
-		assertEquals(4,game.getPlayer().getCurrentPlayerRoom().getMonster("Kracken").getHealth());
+		assertEquals(9,game.getPlayer().getCurrentPlayerRoom().getMonster("Kracken").getHealth());
 		
 		//attack monster that is not exist.Monster in the same room of player,Kracken's health shouldnt drop
 		game.processCommand(new Command("attack","Booboo"), true);
-		assertEquals(4,game.getPlayer().getCurrentPlayerRoom().getMonster("Kracken").getHealth());	
+		assertEquals(9,game.getPlayer().getCurrentPlayerRoom().getMonster("Kracken").getHealth());	
 	}
 	public void testUndo(){
 		//TEST  UNDO FOR ATTACK 
@@ -58,7 +58,7 @@ public class GameTest extends TestCase{
 		game.processCommand(new Command("attack","Kracken"), true);
 		//undo
 		game.processCommand(new Command("undo",null), true);
-		assertEquals(5,game.getPlayer().getCurrentPlayerRoom().getMonster("Kracken").getHealth());
+		assertEquals(10,game.getPlayer().getCurrentPlayerRoom().getMonster("Kracken").getHealth());
 		
 		//kill the monster first since it's blocking the door
 		for(int i = 5;i>0;i--){
@@ -108,10 +108,10 @@ public class GameTest extends TestCase{
 		game.processCommand(new Command("undo",null), true);
 		//redo
 		game.processCommand(new Command("redo",null), true);
-		assertEquals(4,game.getPlayer().getCurrentPlayerRoom().getMonster("Kracken").getHealth());
+		assertEquals(9,game.getPlayer().getCurrentPlayerRoom().getMonster("Kracken").getHealth());
 		
 		//kill the monster first since it's blocking the door
-		for(int i = 5;i>0;i--){
+		for(int i = 10;i>0;i--){
 			game.processCommand(new Command("attack","Kracken"), true);
 		}
 		

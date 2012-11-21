@@ -17,9 +17,7 @@ public class Player{
 	private int maxWeight;
 	private HashMap<String,Item> itemsInPossesion;
 	private int health;
-	private Stack<String> lastMonsterAttacked;
 	private String lookingDirection = "north";
-	private Stack<Integer> healthLoss;
 
 	/**
 	 * Constructor for objects of class Player
@@ -31,8 +29,6 @@ public class Player{
 		this.health = health;
 		currentWeight = 0;
 		itemsInPossesion = new HashMap<String,Item>();
-		healthLoss = new Stack<Integer>();
-		lastMonsterAttacked = new Stack<String>();
 	}
 
 	/**

@@ -1,8 +1,8 @@
 package testSuite;
 
 import junit.framework.TestCase;
-import model.Game;
-import model.object.*;
+import model.object.Monster;
+import model.object.Player;
 public class MosnterTest extends TestCase{
 	Monster kracken;
 	Player player1;

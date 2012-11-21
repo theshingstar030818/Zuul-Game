@@ -535,40 +535,4 @@ public class Game extends Observable implements Observer
 
 		}
 	}
-	/*public void monsterMove(){		
-		for(Monster m : monsters.values()){
-			while(true){
-				String monsterExit = m.randomMove();
-				//System.out.println(monsterExit);
-				if(m.getCurrentRoom().getExitString().contains(monsterExit)){
-			
-					m.getCurrentRoom().removeMonster(m.getName());
-					m.getCurrentRoom().getExit(monsterExit).addMonster(m);
-					m.setCurrentRoom(m.getCurrentRoom().getExit(monsterExit));
-					break;
-				}
-			}
-		}
-		
-	}
-	public void monsterAttack(){
-		for(Monster m : player1.getCurrentPlayerRoom().getMonsterList().values()){
-			if (m.isAlive()) {
-				player1.attacked(m.getName());
-			}
-		}
-		player1.addHealthLoss(player1.getCurrentPlayerRoom().getMonsterList().size());
-		
-	}
-	public void monsterUnAttack(){
-		player1.unAttacked();
-	}
-	public void checkMonsterAttack(){
-		if(commandFrom.equals("player")){
-			monsterAttack();
-		}
-		else if(commandFrom.equals("undo")){
-			monsterUnAttack();
-		}
-	}*/
 }
