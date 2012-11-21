@@ -12,7 +12,7 @@ import javax.swing.SwingConstants;
  * A 3D representation of a room
  * @author seanbyron
  *
- */
+ */				
 
 public class FirstPersonRoom extends MapRoom {
 	
