@@ -31,6 +31,7 @@ import view.*;
 public class Game extends Observable implements Observer
 {
     private static final String GAME_OVER = "GAME OVER";
+    private boolean gameOver;
 	private static final int STARTING_HEALTH = 20;
 	private final static String PLAYER_DESCRIPTION = "Me";
     private final static int MAX_WEIGHT = 10;
@@ -72,6 +73,8 @@ public class Game extends Observable implements Observer
         
         undoStack = new CommandStack();
         redoStack = new CommandStack();
+        
+        gameOver = false;
         
         initializeGame();        
     }
@@ -136,7 +139,7 @@ public class Game extends Observable implements Observer
         dressingroom.addItem(pogoStick,"east");
         
         //Create monsters
-        Monster kracken = new FirstPersonMonster("Kracken",5,"Kracken.png" );
+        Monster kracken = new FirstPersonMonster("Kracken",10,"Kracken.png" );
         //monsters.put("Kracken", kracken);
         Monster grendel = new FirstPersonMonster("Grendel", 8,"Grendle.png");
         //monsters.put("Grendel", grendel);
@@ -177,11 +180,9 @@ public class Game extends Observable implements Observer
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over.
 
-        boolean finished = false;
-        while (! finished) {
+        while (!gameOver) {
             Command command = parser.getCommand();
-            //commandFrom = "player";
-            finished = processCommand(command, true);
+            processCommand(command, true);
         }
         
         //Notify observers that the game is over
@@ -212,17 +213,16 @@ public class Game extends Observable implements Observer
     /**
      * Given a command, process (that is: execute) the command.
      * @param command The command to be processed.
+     * @return 
      * @return true If the command ends the game, false otherwise.
      * @throws CloneNotSupportedException 
      */
-    private boolean processCommand(Command command, boolean addToStack) 
+    public void processCommand(Command command, boolean addToStack) 
     {
-    	
-        boolean quit = false;
 
         if(command==null || command.getCommandWord()==null) {
             System.out.println("I don't know what you mean...");
-            return false;
+            return;
         }
 
         if (addToStack) {
@@ -242,7 +242,7 @@ public class Game extends Observable implements Observer
             goRoom(command);
         }
         else if (commandWord.equals("quit")) {
-            quit = true;
+            gameOver = true;
         }
         else if (commandWord.equals("look")){
             look();
@@ -296,11 +296,13 @@ public class Game extends Observable implements Observer
         notifyObservers(player1);
         
     	//Check to see if the player is still alive, if not, quit
-        if (!quit) {
-        	quit = player1.getHealth() <= 0;
+        if (!gameOver) {
+        	gameOver = player1.getHealth() <= 0;
         }
-    	
-        return quit;
+
+    }
+    public Player getPlayer(){
+    	return player1;
     }
 
     private void turn(Command command) {
@@ -410,13 +412,14 @@ public class Game extends Observable implements Observer
 
     
     private void drop(Command command){
+		if(player1.getCurrentPlayerRoom().getWall(player1.getLookingDirection()).getItem()!=null)
+		{
+			System.out.println("Cannot place item onto of another item.  Please drop somewhere else.");
+			return;
+		}
+    	
     	Item item = player1.drop(command.getSecondWord());
     	if (item != null) {
-    		if(player1.getCurrentPlayerRoom().getWall(player1.getLookingDirection()).getItem()!=null)
-    		{
-    			System.out.println("Cannot place item onto of another item.  Please drop somewhere else.");
-    			return;
-    		}
     		System.out.println(item.getItemName() + " has been dropped by " + player1.getPlayerName());
 		    player1.getCurrentPlayerRoom().addItem(item,player1.getLookingDirection());
 		    player1.printItemsAndWeight();
@@ -522,11 +525,14 @@ public class Game extends Observable implements Observer
 	public void update(Observable arg0, Object arg1) {
 		if (arg1 instanceof Command) {
 			Command command = (Command)arg1;
-			if (processCommand(command, true)) {
+			processCommand(command, true);
+			
+			if (gameOver) {
 		        //Notify observers that the game is over
 		        setChanged();
 		        notifyObservers(GAME_OVER);
 			}
+
 		}
 	}
 	/*public void monsterMove(){		
