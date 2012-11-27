@@ -1,6 +1,7 @@
 package editor;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
@@ -42,11 +43,17 @@ public class EditorMap extends JFrame implements Observer {
 	private int maxX;
 	private int maxY;
 	
-	public EditorMap(String name, int x, int y) {
+	private EditorMouseListener mouseListener;
+	
+	public EditorMap(String name, int x, int y, EditorMouseListener mouseListener) {
 		super(name);
 		
 		maxX = x;
 		maxY = y;
+		
+		//Initialize the starting position to (0,0)
+		x = 0;
+		y = 0;
 		
 		//Initialize the layout
 		layout = new GridLayout(SIZE,SIZE);
@@ -54,42 +61,31 @@ public class EditorMap extends JFrame implements Observer {
 		
 		tiles = new JPanel[SIZE][SIZE];
 		
-		//Initialize the tiles
-		for (int i=0; i<SIZE; i++ ){
-			for (int j=0; j<SIZE; j++) {
-				tiles[i][j] = new JPanel();
-				tiles[i][j].setBackground(Color.BLACK);
-				tiles[i][j].setBorder(BorderFactory.createDashedBorder(Color.white));
-				JLabel temp = new JLabel("(" + i + "," + j + ")");
-				temp.setForeground(Color.white);
-				tiles[i][j].add(temp);
-				getContentPane().add(tiles[i][j]);
-			}
-		}
-		
 		//Setup the window
 		setSize(WINDOW_SIZE,WINDOW_SIZE);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setBackground(Color.BLACK);
+		
+		this.mouseListener = mouseListener;
 	}
 	
-	/**
-	 * Creates and shows a new map view
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		EditorKeyListener listener = new EditorKeyListener();
-		
-		EditorMap view = new EditorMap("World of Zuul", 5, 5);
-		view.setVisible(true);
-		
-		String[][] roomsArray = new String[5][5];
-		HashMap<String, Room> rooms = new HashMap<String, Room>();
-		
-		EditorUpdateObject test = new EditorUpdateObject(roomsArray, rooms, 3, 3);
-		view.update(null, test);
-	}
+//	/**
+//	 * Creates and shows a new map view
+//	 * @param args
+//	 */
+//	public static void main(String args[]) {
+//		EditorKeyListener listener = new EditorKeyListener();
+//		
+//		EditorMap view = new EditorMap("World of Zuul", 5, 5);
+//		view.setVisible(true);
+//		
+//		String[][] roomsArray = new String[5][5];
+//		HashMap<String, Room> rooms = new HashMap<String, Room>();
+//		
+//		EditorUpdateObject test = new EditorUpdateObject(roomsArray, rooms, 3, 3);
+//		view.update(null, test);
+//	}
 
 	/**
 	 * Update the tiles with the current state of the game
@@ -105,7 +101,18 @@ public class EditorMap extends JFrame implements Observer {
 			rooms = update.getRooms();
 		}
 		
-		
+		if (arg1 instanceof Point) {
+			Point point = (Point)arg1;
+			
+			int tempX = (int) point.getX();
+			int tempY  = (int) point.getY();
+			
+			if (tempX >= 0 && tempX < maxX && tempY >=0 && tempY < maxY) {
+				x = tempX;
+				y = tempY;
+			}
+		}
+
 		int tempX = 0;
 		int tempY = 0;
 		
@@ -131,6 +138,8 @@ public class EditorMap extends JFrame implements Observer {
 					tiles[tempX][tempY].setBackground(Color.WHITE);
 					getContentPane().add(tiles[tempX][tempY]);
 				}
+				tiles[tempX][tempY].setToolTipText(i+","+j);
+				tiles[tempX][tempY].addMouseListener(mouseListener);
 				getContentPane().add(tiles[tempX][tempY]);
 				tempY++;
 			}
@@ -139,7 +148,8 @@ public class EditorMap extends JFrame implements Observer {
 		}
 
 		//Set the border of the middle tile to red to indicate its selected
-		tiles[1][1].setBorder(BorderFactory.createDashedBorder(Color.red));
+		tiles[1][1].setBorder(null);
+		tiles[1][1].setBorder(BorderFactory.createLineBorder(Color.red));
 
 		//Repaint the 2D View
 		validate();
