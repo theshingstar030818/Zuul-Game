@@ -9,7 +9,7 @@ public class MosnterTest extends TestCase{
 	protected void setUp() throws Exception {
 		super.setUp();
 		kracken = new Monster("Kracken",2);
-		player1 = new Player("Dummy","Me",10,10);
+		player1 = new Player("Dummy",10,10);
 	}
 	public void testDecreaseHealth(){
 		//check health decrease by one

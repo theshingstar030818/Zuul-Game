@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Observable;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -13,19 +14,16 @@ import model.command.Command;
 public class EditorMouseListener extends Observable implements MouseListener {
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
-//		if (arg0.getSource() instanceof JLabel) {
-//			JLabel source = (JLabel)arg0.getSource();
-//			String[] temp = source.getToolTipText().split(",");
-//			setChanged();
-//			notifyObservers(new Command(temp[0],temp[1]));
-//		}
-		
+	public void mouseClicked(MouseEvent arg0) {		
 		if (arg0.getSource() instanceof JPanel) {
 			JPanel source = (JPanel)arg0.getSource();
 			String[] temp = source.getToolTipText().split(",");
 			setChanged();
 			notifyObservers(new Point(Integer.parseInt(temp[0]), Integer.parseInt(temp[1])));
+		}
+		if (arg0.getSource() instanceof JButton) {
+			JButton source = (JButton)arg0.getSource();
+			System.out.println(source.getToolTipText());
 		}
 		
 	}

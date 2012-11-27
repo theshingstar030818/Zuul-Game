@@ -269,4 +269,8 @@ public class Room {
 		return walls.get(direction);
 	}
 
+	public void removeExit(String direction) {
+		walls.get(direction).setExit(null);
+	}
+
 }

@@ -72,7 +72,7 @@ public class FirstPersonView extends Observable implements Observer {
 		mainFrame.addKeyListener(listener);
 		
 		currentRoom = new FirstPersonRoom(null);
-		player = new Player(null, null, 0, 0);
+		player = new Player(null, 0, 0);
 		gameOver = false;
 		
 		//Initialize the JMenu

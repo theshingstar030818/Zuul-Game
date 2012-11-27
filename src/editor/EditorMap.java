@@ -68,24 +68,12 @@ public class EditorMap extends JFrame implements Observer {
 		setBackground(Color.BLACK);
 		
 		this.mouseListener = mouseListener;
+		
+		roomsArray = new String[maxX][maxY];
+		rooms = new HashMap<String, Room>();
+		
+		update(null,null);
 	}
-	
-//	/**
-//	 * Creates and shows a new map view
-//	 * @param args
-//	 */
-//	public static void main(String args[]) {
-//		EditorKeyListener listener = new EditorKeyListener();
-//		
-//		EditorMap view = new EditorMap("World of Zuul", 5, 5);
-//		view.setVisible(true);
-//		
-//		String[][] roomsArray = new String[5][5];
-//		HashMap<String, Room> rooms = new HashMap<String, Room>();
-//		
-//		EditorUpdateObject test = new EditorUpdateObject(roomsArray, rooms, 3, 3);
-//		view.update(null, test);
-//	}
 
 	/**
 	 * Update the tiles with the current state of the game

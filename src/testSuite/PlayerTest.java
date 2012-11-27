@@ -13,7 +13,7 @@ public class PlayerTest extends TestCase{
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		player1 = new Player("Dummy","Me",10,10);	
+		player1 = new Player("Dummy",10,10);	
 		entrance = new Room("entrance");
 		lobby = new Room("lobby");
 		key = new Item("key",8);

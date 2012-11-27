@@ -33,7 +33,6 @@ public class Game extends Observable implements Observer
     private static final String GAME_OVER = "GAME OVER";
     private boolean gameOver;
 	private static final int STARTING_HEALTH = 20;
-	private final static String PLAYER_DESCRIPTION = "Me";
     private final static int MAX_WEIGHT = 10;
     private final static String DEFAULT_START_ROOM = "entrance";
     
@@ -158,7 +157,7 @@ public class Game extends Observable implements Observer
         //goblin.setCurrentRoom(dinningroom);
         
         String playerName = JOptionPane.showInputDialog("Please enter your name:");
-        player1 = new Player(playerName,PLAYER_DESCRIPTION,MAX_WEIGHT,STARTING_HEALTH);
+        player1 = new Player(playerName,MAX_WEIGHT,STARTING_HEALTH);
         
         rooms.get(DEFAULT_START_ROOM).visit();
         player1.setCurrentRoom(rooms.get(DEFAULT_START_ROOM));  // start game outside

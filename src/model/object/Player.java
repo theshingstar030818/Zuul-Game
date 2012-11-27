@@ -11,7 +11,6 @@ import model.Room;
 public class Player{
 
 	private String name;
-	private String description;
 	private Room currentRoom;
 	private int currentWeight;
 	private int maxWeight;
@@ -22,9 +21,8 @@ public class Player{
 	/**
 	 * Constructor for objects of class Player
 	 */
-	public Player(String name, String description, int maxWeight, int health) {
+	public Player(String name, int maxWeight, int health) {
 		this.name = name;
-		this.description = description;
 		this.maxWeight = maxWeight;
 		this.health = health;
 		currentWeight = 0;
@@ -37,14 +35,6 @@ public class Player{
 	 */
 	public Room getCurrentPlayerRoom() {
 		return currentRoom;
-	}
-
-	/**
-	 * Get the player's description
-	 * @return description
-	 */
-	public String getPlayerDescription() {
-		return description;
 	}
 
 	/**

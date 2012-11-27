@@ -15,8 +15,6 @@ import javax.swing.JPanel;
 import model.Room;
 import model.object.Player;
 import view.FirstPersonRoom;
-import view.MapView;
-import controller.FPKeyListener;
 
 public class EditorView extends Observable implements Observer {
 	
@@ -26,12 +24,11 @@ public class EditorView extends Observable implements Observer {
 	private FirstPersonRoom currentRoom;
 	private JPanel gamePanel;
 	private JFrame mainFrame;
-	private Player player;
 	
-	private static final String SOUTH = "south";
-	private static final String EAST = "east";
-	private static final String WEST = "west";
-	private static final String NORTH = "north";
+//	private static final String SOUTH = "south";
+//	private static final String EAST = "east";
+//	private static final String WEST = "west";
+//	private static final String NORTH = "north";
 	
 	private String[][] roomsArray;
 	private HashMap<String,Room> rooms;
@@ -41,8 +38,9 @@ public class EditorView extends Observable implements Observer {
 	private int maxX;
 	private int maxY;
 	
-	private EditorMouseListener mouseListener;
 	private EditorToolsPanel toolsPanel;
+	
+	private Player player;
 	
 	public EditorView(String name, int maxX, int maxY, EditorMouseListener mouseListener) {
 		gamePanel = new JPanel();
@@ -67,16 +65,17 @@ public class EditorView extends Observable implements Observer {
 		map = new EditorMap("Map", maxX, maxY, mouseListener);
 		
 		//Setup the window
-		mainFrame.setSize(1400,600);
+		mainFrame.setSize(1440,600);
 		mainFrame.setResizable(false);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setBackground(Color.BLACK);
 		
-		currentRoom = new FirstPersonRoom(null);
-		player = new Player(null, null, 0, 0);
+		currentRoom = null;
 		
-		this.mouseListener = mouseListener;
-		toolsPanel = new EditorToolsPanel();
+		toolsPanel = new EditorToolsPanel(mouseListener);
+		
+		roomsArray = new String[maxX][maxY];
+		rooms = new HashMap<String, Room>();
 	}
 
 	public void update(Observable arg0, Object arg1) {
@@ -88,6 +87,7 @@ public class EditorView extends Observable implements Observer {
 			
 			roomsArray = update.getRoomsArray();
 			rooms = update.getRooms();
+			player = update.getPlayer();
 		}
 		
 		if (arg1 instanceof Point) {
@@ -144,6 +144,7 @@ public class EditorView extends Observable implements Observer {
 	}
 	
 	public void show() {
+		refreshView();
 		mainFrame.setVisible(true);
 	}
 }

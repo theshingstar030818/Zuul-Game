@@ -1,34 +1,31 @@
 package editor;
 
-import java.util.HashMap;
-
-import view.FirstPersonRoom;
-
-import model.Room;
 
 public class Driver {
+	
+	private static int maxX = 5;
+	private static int maxY = 5;
+	
+	private static int health = 20;
+	private static int weight = 20;
+	
+	private static EditorMouseListener mouseListener;
+	private static EditorView view;
+	private static LevelEditor model;
+	
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		EditorMouseListener mouseListener = new EditorMouseListener();
+		mouseListener = new EditorMouseListener();
+		view = new EditorView("Zuul Level Editor",maxX,maxY,mouseListener);
+		model = new LevelEditor(maxX, maxY, health, weight);
 		
-		EditorView editor = new EditorView("Zuul Level Editor",5,5,mouseListener);
-		mouseListener.addObserver(editor);
+		mouseListener.addObserver(model);
+		model.addObserver(view);
 		
-		String[][] roomsArray = new String[5][5];
-		HashMap<String, Room> rooms = new HashMap<String, Room>();
-		
-		FirstPersonRoom room = new FirstPersonRoom("Test");
-		roomsArray[1][1] = "Test";
-		rooms.put("Test", room);
-		
-		EditorUpdateObject test = new EditorUpdateObject(roomsArray, rooms, 0, 0);
-		
-		editor.update(null, test);
-		
-		editor.show();
+		view.show();
 	}
 
 }
