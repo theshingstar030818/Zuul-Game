@@ -3,7 +3,6 @@ package editor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
@@ -24,11 +23,6 @@ public class EditorView extends Observable implements Observer {
 	private FirstPersonRoom currentRoom;
 	private JPanel gamePanel;
 	private JFrame mainFrame;
-	
-//	private static final String SOUTH = "south";
-//	private static final String EAST = "east";
-//	private static final String WEST = "west";
-//	private static final String NORTH = "north";
 	
 	private String[][] roomsArray;
 	private HashMap<String,Room> rooms;
@@ -65,7 +59,7 @@ public class EditorView extends Observable implements Observer {
 		map = new EditorMap("Map", maxX, maxY, mouseListener);
 		
 		//Setup the window
-		mainFrame.setSize(1440,600);
+		mainFrame.setSize(1505,600);
 		mainFrame.setResizable(false);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setBackground(Color.BLACK);
@@ -92,17 +86,6 @@ public class EditorView extends Observable implements Observer {
 			roomsArray = update.getRoomsArray();
 			rooms = update.getRooms();
 			player = update.getPlayer();
-		}
-		
-		if (arg1 instanceof Point) {
-			Point point = (Point)arg1;
-			int tempX = (int) point.getX();
-			int tempY  = (int) point.getY();
-			
-			if (tempX >= 0 && tempX < maxX && tempY >=0 && tempY < maxY) {
-				x = tempX;
-				y = tempY;
-			}
 		}
 			
 		if (x>=0 && x<maxX && y>=0 && y<maxY) {

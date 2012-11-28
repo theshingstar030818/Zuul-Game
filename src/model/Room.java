@@ -153,6 +153,13 @@ public class Room {
 			}
 		}
 	}
+	
+	public void removeItemByDirection(String direction) {
+		Wall wall = walls.get(direction);
+		if (wall != null) {
+			wall.setItem(null);
+		}
+	}
 
 	public Item getItem(String itemKey) {
 		Set<String> keys = walls.keySet();
@@ -201,6 +208,13 @@ public class Room {
 			{
 				walls.get(direction).setMonster(null);
 			}
+		}
+	}
+	
+	public void removeMonsterByDirection(String direction) {
+		Wall wall = walls.get(direction);
+		if (wall != null) {
+			wall.setMonster(null);
 		}
 	}
 
