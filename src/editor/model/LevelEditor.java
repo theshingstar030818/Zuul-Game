@@ -1,4 +1,4 @@
-package editor;
+package editor.model;
 
 import java.awt.Point;
 import java.util.HashMap;
@@ -6,6 +6,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JOptionPane;
+
+import editor.controller.EditorUpdateObject;
 
 import model.Room;
 import model.object.Item;

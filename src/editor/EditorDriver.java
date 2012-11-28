@@ -1,7 +1,11 @@
 package editor;
 
+import editor.controller.EditorMouseListener;
+import editor.model.LevelEditor;
+import editor.view.EditorView;
 
-public class Driver {
+
+public class EditorDriver {
 	
 	private static int maxX = 5;
 	private static int maxY = 5;

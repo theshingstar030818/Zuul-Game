@@ -1,4 +1,4 @@
-package editor;
+package editor.controller;
 
 import java.util.HashMap;
 

@@ -1,4 +1,4 @@
-package editor;
+package editor.view;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -11,6 +11,8 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+
+import editor.controller.EditorMouseListener;
 
 public class EditorToolsPanel extends JPanel {
 
