@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,6 +20,11 @@ import model.object.Player;
 import view.FirstPersonRoom;
 
 public class EditorView extends Observable implements Observer {
+	
+	private static final String SOUTH = "south";
+	private static final String EAST = "east";
+	private static final String WEST = "west";
+	private static final String NORTH = "north";
 	
 	private GridLayout gridLayout;
 	private BorderLayout borderLayout;
@@ -73,6 +79,8 @@ public class EditorView extends Observable implements Observer {
 		
 		roomsArray = new String[maxX][maxY];
 		rooms = new HashMap<String, Room>();
+		
+		player = new Player(null, 0, 0);
 	}
 
 	public void update(Observable arg0, Object arg1) {
@@ -107,6 +115,28 @@ public class EditorView extends Observable implements Observer {
 		//Remove everything from the gamePanel and mainFrame
 		gamePanel.removeAll();
 		mainFrame.getContentPane().removeAll();
+		
+		//Remove everything from the glass pane
+		JPanel glassPane = (JPanel) mainFrame.getGlassPane();
+		glassPane.removeAll();
+		glassPane.setLayout(null);
+		
+		if (roomsArray[x][y] != null) {
+			JLabel arrow = new JLabel("");
+			if (player.getLookingDirection().equals(NORTH)) {
+				arrow.setIcon(new ImageIcon(FirstPersonRoom.class.getResource("/img/firstperson/arrow/north.png")));
+			} else if (player.getLookingDirection().equals(SOUTH)) {
+				arrow.setIcon(new ImageIcon(FirstPersonRoom.class.getResource("/img/firstperson/arrow/south.png")));
+			} else if (player.getLookingDirection().equals(EAST)) {
+				arrow.setIcon(new ImageIcon(FirstPersonRoom.class.getResource("/img/firstperson/arrow/east.png")));
+			} else if (player.getLookingDirection().equals(WEST)) {
+				arrow.setIcon(new ImageIcon(FirstPersonRoom.class.getResource("/img/firstperson/arrow/west.png")));
+			}
+			arrow.setBounds(1180, 300, 40, 40);
+			glassPane.add(arrow);
+			glassPane.setVisible(true);
+		
+		}
 		
 		//Add the 3D perspective and the map perspective
 		if (currentRoom != null) {
