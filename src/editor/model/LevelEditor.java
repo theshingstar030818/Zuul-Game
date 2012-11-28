@@ -106,11 +106,6 @@ public class LevelEditor extends Observable implements Observer {
 	}
 	
 	public void addExit(String direction) {
-		//Check that the room is within the bounds of the game
-		if (!checkXY(x, y)) {
-			return;
-		}
-		
 		//Check that the specified room exist
 		if (roomsArray[x][y] == null) {
 			return;
@@ -183,12 +178,7 @@ public class LevelEditor extends Observable implements Observer {
 		update();
 	}
 	
-	public void removeExit(String direction) {
-		//Check that the rooms are within the bounds of the game
-		if (!checkXY(x, y)) {
-			return;
-		}
-		
+	public void removeExit(String direction) {		
 		//Check that the specified rooms exist
 		if (roomsArray[x][y] == (null) || rooms.get(roomsArray[x][y]).getExit(direction) == null) {
 			return;
@@ -220,43 +210,35 @@ public class LevelEditor extends Observable implements Observer {
 	}
 	
 	public void addMonster(String monsterName) {
-		if (checkXY(x,y)) {
-			Room room = rooms.get(roomsArray[x][y]);
-			Monster monster = monsters.get(monsterName);
-			if (room != null && monster != null) {
-				room.addMonster(monster, player.getLookingDirection());
-			}
+		Room room = rooms.get(roomsArray[x][y]);
+		Monster monster = monsters.get(monsterName);
+		if (room != null && monster != null) {
+			room.addMonster(monster, player.getLookingDirection());
 		}
 		update();
 	}
 	
 	public void removeMonster() {
-		if (checkXY(x,y)) {
-			Room room = rooms.get(roomsArray[x][y]);
-			if (room != null) {
-				room.removeMonsterByDirection(player.getLookingDirection());
-			}
+		Room room = rooms.get(roomsArray[x][y]);
+		if (room != null) {
+			room.removeMonsterByDirection(player.getLookingDirection());
 		}
 		update();
 	}
 	
 	public void addItem(String itemName) {
-		if (checkXY(x,y)) {
-			Room room = rooms.get(roomsArray[x][y]);
-			Item item = items.get(itemName);
-			if (room != null && item != null) {
-				room.addItem(item, player.getLookingDirection());
-			}
+		Room room = rooms.get(roomsArray[x][y]);
+		Item item = items.get(itemName);
+		if (room != null && item != null) {
+			room.addItem(item, player.getLookingDirection());
 		}
 		update();
 	}
 	
 	public void removeItem() {
-		if (checkXY(x,y)) {
-			Room room = rooms.get(roomsArray[x][y]);
-			if (room != null) {
-				room.removeItemByDirection(player.getLookingDirection());
-			}
+		Room room = rooms.get(roomsArray[x][y]);
+		if (room != null) {
+			room.removeItemByDirection(player.getLookingDirection());
 		}
 		update();
 	}
@@ -276,19 +258,6 @@ public class LevelEditor extends Observable implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		if (arg1 instanceof EditorUpdateObject) {
-			EditorUpdateObject update = (EditorUpdateObject)arg1;
-			
-			x = update.getSelectedX();
-			y = update.getSelectedY();
-			
-			roomsArray = update.getRoomsArray();
-			rooms = update.getRooms();
-			player = update.getPlayer();
-			
-			update();
-		}
-		
 		if (arg1 instanceof Point) {
 			Point point = (Point)arg1;
 			int tempX = (int) point.getX();
