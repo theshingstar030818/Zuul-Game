@@ -79,6 +79,10 @@ public class EditorView extends Observable implements Observer {
 	}
 
 	public void update(Observable arg0, Object arg1) {
+		if (arg1 instanceof String) {
+			//A command was passed through by the toolPane
+		}
+		
 		if (arg1 instanceof EditorUpdateObject) {
 			EditorUpdateObject update = (EditorUpdateObject)arg1;
 			

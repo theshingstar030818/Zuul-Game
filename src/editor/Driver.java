@@ -24,6 +24,7 @@ public class Driver {
 		
 		mouseListener.addObserver(model);
 		model.addObserver(view);
+		view.addObserver(model);
 		
 		view.show();
 	}
