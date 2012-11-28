@@ -178,9 +178,13 @@ public class LevelEditor extends Observable implements Observer {
 		update();
 	}
 	
-	public void removeExit(String direction) {		
+	public void removeExit(String direction) {	
+		if (direction == null || direction.equals("null")) {
+			return;
+		}
+		
 		//Check that the specified rooms exist
-		if (roomsArray[x][y] == (null) || rooms.get(roomsArray[x][y]).getExit(direction) == null) {
+		if (roomsArray[x][y] == null || rooms.get(roomsArray[x][y]).getExit(direction) == null) {
 			return;
 		}
 		
