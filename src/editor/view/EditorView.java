@@ -1,7 +1,6 @@
 package editor.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.HashMap;
 import java.util.Observable;
@@ -12,12 +11,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import editor.controller.EditorMouseListener;
-import editor.controller.EditorUpdateObject;
-
 import model.Room;
 import model.object.Player;
 import view.FirstPersonRoom;
+import editor.controller.EditorMouseListener;
+import editor.controller.EditorUpdateObject;
 
 public class EditorView extends Observable implements Observer {
 

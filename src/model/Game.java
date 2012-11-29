@@ -1,18 +1,20 @@
 package model;
 
-import java.util.*;
-
-import javax.swing.JOptionPane;
-
-import controller.FPKeyListener;
-import controller.FPMouseListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 
 import model.command.Command;
 import model.command.CommandStack;
+import model.object.Item;
+import model.object.Monster;
+import model.object.Player;
+import view.FirstPersonItem;
+import view.FirstPersonMonster;
+import view.FirstPersonRoom;
+import controller.FPMouseListener;
 
-import model.object.*;
-
-import view.*;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -44,31 +46,17 @@ public class Game extends Observable implements Observer
 	private static final String WEST = "west";
 	private static final String NORTH = "north";
 
-	private Parser parser;
     private Player player1;
     private HashMap<String,Room> rooms;
-    //private HashMap<String,Monster> monsters;
     private CommandStack redoStack;
     private CommandStack undoStack;
-    private FPMouseListener mouseListener;
-//    private static FPKeyListener keyListener;
-    //private String commandFrom;
-
     
     /**
      * Create the game and initialize its internal map.
      */
     public Game() 
     {
-        parser = new Parser();
         rooms = new HashMap<String,Room>();
-        //monsters = new HashMap<String,Monster>();
-        
-        mouseListener = new FPMouseListener();
-        mouseListener.addObserver(this);
-        
-//        keyListener = new FPKeyListener();
-//        keyListener.addObserver(this);
         
         undoStack = new CommandStack();
         redoStack = new CommandStack();
@@ -79,7 +67,7 @@ public class Game extends Observable implements Observer
     /**
      * Create all the rooms and link their exits together.
      */
-    public void loadDefaultGame(String playerName)
+    public void loadDefaultGame(String playerName, FPMouseListener mouseListener)
     {
         Room gallery,waitingroom, workshop, lobby, entrance, dinningroom,studio,theater, dressingroom,technician;
         
@@ -178,51 +166,6 @@ public class Game extends Observable implements Observer
 	  notifyObservers(player1);
    }
 
-//    /**
-//     *  Main play routine.  Loops until end of play.
-//     * @throws CloneNotSupportedException 
-//     */
-//    public void play()
-//    {            
-//        printWelcome();
-//
-//        //Refresh the View
-//        setChanged();
-//        notifyObservers(player1);
-//        
-//        // Enter the main command loop.  Here we repeatedly read commands and
-//        // execute them until the game is over.
-//
-//        while (!gameOver) {
-//            Command command = parser.getCommand();
-//            processCommand(command, true);
-//        }
-//        
-//        //Notify observers that the game is over
-//        setChanged();
-//        notifyObservers(GAME_OVER);
-//        
-//        System.out.println("Game over! Thank you for playing.  Good bye.");
-//    }
-
-//    /**
-//     * Print out the opening message for the player.
-//     */
-//    private void printWelcome()
-//    {
-//        System.out.println();
-//        System.out.println("Welcome to the World of Zuul!");
-//        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
-//        System.out.println("Type 'help' if you need help.");
-//        System.out.println();
-//        printLocationInfo(player1);
-//    }
-//
-//    private void printLocationInfo(Player player){
-//        System.out.println(player.getCurrentPlayerRoom().getLongDescription());
-//        System.out.println(player1.getPlayerName() + "'s health :" + player1.getHealth());
-//    }
-
     /**
      * Given a command, process (that is: execute) the command.
      * @param command The command to be processed.
@@ -243,11 +186,6 @@ public class Game extends Observable implements Observer
         if (addToStack) {
         	undoStack.add(command);
         }
-        
-        //if(parser.isReversible(command.getCommandWord()))
-        //{
-        //	redoStack.empty();
-        //}
 
         String commandWord = command.getCommandWord();
         if (commandWord.equals("help")) {
@@ -259,9 +197,6 @@ public class Game extends Observable implements Observer
         else if (commandWord.equals("quit")) {
             gameOver = true;
         }
-        else if (commandWord.equals("look")){
-            look();
-        }
         else if (commandWord.equals("undo")){
             undo();
         }
@@ -270,11 +205,9 @@ public class Game extends Observable implements Observer
         }
         else if (commandWord.equals("pick")){
             pick(command);
-            //checkMonsterAttack();
         }
         else if (commandWord.equals("drop")){
             drop(command);
-            //checkMonsterAttack();
         } 
         else if (commandWord.equals("attack")) {
         	attack(command);
@@ -283,7 +216,6 @@ public class Game extends Observable implements Observer
         	{
         		monster.attack(player1);
         	}
-        	//checkMonsterAttack();
         }        
         else if (commandWord.equals("heal")) {
         	ArrayList<Monster> m = player1.getCurrentPlayerRoom().getMonsters();
@@ -292,7 +224,6 @@ public class Game extends Observable implements Observer
         		monster.heal(player1);
         	}
         	heal(command);
-        	//checkMonsterAttack();
         }
         else if (commandWord.equals("turn")) {
         	turn(command);
@@ -303,8 +234,6 @@ public class Game extends Observable implements Observer
         	undoStack.add(temp);
         	goRoom(temp);
         }
-        
-        
     	
         //Notify observers (must notify AFTER monster attacks)
         setChanged();
@@ -324,7 +253,6 @@ public class Game extends Observable implements Observer
         if(!command.hasSecondWord()) {
         	setChanged();
         	notifyObservers("Turn where?");
-            //System.out.println("Turn where?");
             return;
         }
         
@@ -358,9 +286,7 @@ public class Game extends Observable implements Observer
         if(temp!=null)
         {
         	redoStack.add(temp);
-        	//commandFrom = "undo";
         	processCommand(temp, false);
-        	
         }
     }
     
@@ -370,7 +296,6 @@ public class Game extends Observable implements Observer
     	if(temp!=null)
     	{
     		undoStack.add(temp);
-    		//commandFrom = "player";
     		processCommand(temp, false);
     	}
     }
@@ -382,7 +307,6 @@ public class Game extends Observable implements Observer
     private void attack(Command command) {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't who to attack
-            //System.out.println("Attack what?");
         	setChanged();
         	notifyObservers("Attacj what?");
             return;
@@ -393,19 +317,15 @@ public class Game extends Observable implements Observer
         
         if (monster == null) {
             // There is no monster by that name in the room
-            //System.out.println("There is no monster called " + command.getSecondWord() + "!");
         	setChanged();
         	notifyObservers("There is no monster called " + command.getSecondWord() + "!");
             return;
         }
         
         //Decrease the monster's health
-        
         monster.decreaseHealth();
         
         if (!monster.isAlive()) {
-        	//currentRoom.removeMonster(command.getSecondWord());
-        	//System.out.println("Good job! You've killed " + command.getSecondWord());
         	setChanged();
         	notifyObservers("Good job! You've killed " + command.getSecondWord());
         	return;
@@ -422,7 +342,6 @@ public class Game extends Observable implements Observer
         
         if (monster == null) {
             // There is no monster by that name in the room
-            //System.out.println("There is no monster called " + command.getSecondWord() + "!");
         	setChanged();
         	notifyObservers("There is no monster called " + command.getSecondWord() + "!");
             return;
@@ -435,7 +354,6 @@ public class Game extends Observable implements Observer
     private void drop(Command command){
 		if(player1.getCurrentPlayerRoom().getWall(player1.getLookingDirection()).getItem()!=null)
 		{
-			//System.out.println("Cannot place item onto of another item.  Please drop somewhere else.");
 			setChanged();
 			notifyObservers("Cannot place item onto of another item.  Please drop somewhere else.");
 			return;
@@ -443,23 +361,14 @@ public class Game extends Observable implements Observer
     	
     	Item item = player1.drop(command.getSecondWord());
     	if (item != null) {
-    		//System.out.println(item.getItemName() + " has been dropped by " + player1.getPlayerName());
 		    player1.getCurrentPlayerRoom().addItem(item,player1.getLookingDirection());
-		    player1.printItemsAndWeight();
     	} else {
     		//System.out.println("You cannot drop an item you're not carrying!");
     		setChanged();
     		notifyObservers("You cannot drop an item you're not carrying!");
     	}
     }
-
-    private void look(){
-        //System.out.println(player1.getCurrentPlayerRoom().getLongDescription());
-        //System.out.println(player1.getPlayerName() + "'s health :" + player1.getHealth());
-    }
-
-    // implementations of user commands:
-
+    
     /**
      * Print out some help information.
      * Here we print some stupid, cryptic messagego and a list of the 
@@ -475,10 +384,8 @@ public class Game extends Observable implements Observer
 
 
     private void pick(Command command) {
-
    
         if(!command.hasSecondWord()) {
-            //System.out.println("Pick what?");
         	setChanged();
         	notifyObservers("Pick what?");
             return;
@@ -488,13 +395,9 @@ public class Game extends Observable implements Observer
         Item item = player1.getCurrentPlayerRoom().getItem(itemName);
 
         // Try to pick up the item.
-        
         if(player1.getCurrentPlayerRoom().containsItem(itemName)&&player1.pick(itemName,item)){
-            //System.out.println(item.getItemName() + " has been picked by " + player1.getPlayerName());
             player1.getCurrentPlayerRoom().removeItem(itemName);
-            player1.printItemsAndWeight();
         }else{
-            //System.out.println("item could not be picked ");
         	setChanged();
         	notifyObservers("Item could not be picked. Make sure you have enough room in your inventory");
         }
@@ -508,7 +411,6 @@ public class Game extends Observable implements Observer
     {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
-            //System.out.println("Go where?");
         	setChanged();
         	notifyObservers("Go where?");
             return;
@@ -530,27 +432,10 @@ public class Game extends Observable implements Observer
         	notifyObservers("Cannot go through that door! There is a monster in the way");
         } else {
             // Try to leave current room.
-            //player1.setPreviousRoom(player1.getCurrentPlayerRoom());
             player1.setCurrentRoom(nextRoom);
-            //monsterMove();
-            //printLocationInfo(player1);
             nextRoom.visit();
         }
     }
-    
-//    public static void main(String args[]) {    
-//    	//Create a new game
-//    	Game game = new Game();
-//    	
-//    	//Create a 3D First Person View
-//    	FirstPersonView view = new FirstPersonView("World of Zuul", keyListener);
-//    	
-//    	game.addObserver(view);
-//    	view.addObserver(game);
-//
-//    	view.show();
-//		game.play();
-//    }
 
 	public void update(Observable arg0, Object arg1) {
 		if (arg1 instanceof Command) {

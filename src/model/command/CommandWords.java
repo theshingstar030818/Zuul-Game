@@ -15,7 +15,7 @@ public class CommandWords
 {
     // a constant array that holds all valid command words
     private static final String[] validCommands = {
-        "quit", "help" , "look", "undo","redo", "straight"
+        "quit", "help", "undo","redo", "straight"
     };
     
     private final static HashMap<String, String> reversibleCommands = new HashMap<String, String>();

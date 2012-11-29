@@ -1,32 +1,38 @@
 import java.util.HashMap;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JOptionPane;
 
-import controller.FPKeyListener;
 import model.Game;
 import model.Room;
 import model.object.Player;
 import view.FirstPersonView;
+import controller.FPKeyListener;
+import controller.FPMouseListener;
 
 
 public class GameDriver {
 	
 	private Game game;
 	private FPKeyListener keyListener;
+	private FPMouseListener mouseListener;
 	private FirstPersonView view;
 
 	/**
 	 * @param args
 	 */
 	public GameDriver() {
+		
+		//Create a mouse listener
+        mouseListener = new FPMouseListener();
+
 		//Create a new game
     	game = new Game();
     	
     	//Create a key listener
     	keyListener = new FPKeyListener();
         keyListener.addObserver(game);
+        
+        mouseListener.addObserver(game);
     	
     	//Create a 3D First Person View
     	view = new FirstPersonView("World of Zuul", keyListener);
@@ -37,7 +43,7 @@ public class GameDriver {
 	
 	public void startDefaultGame() {
 		String name = JOptionPane.showInputDialog("Please enter your name:");
-		game.loadDefaultGame(name);
+		game.loadDefaultGame(name, mouseListener);
 		view.show();
 	}
 	
