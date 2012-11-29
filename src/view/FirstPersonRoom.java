@@ -86,5 +86,9 @@ public class FirstPersonRoom extends MapRoom {
 		
 		return panel;
 	}
+	
+	public void setMouseListener(MouseListener listener) {
+		this.listener = listener;
+	}
 
 }

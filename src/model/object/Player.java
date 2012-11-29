@@ -1,5 +1,6 @@
 package model.object;
 
+import java.io.Serializable;
 import java.util.*;
 
 import model.Room;
@@ -9,8 +10,9 @@ import model.Room;
  * 
  * @author Tanzeel
  */
-public class Player {
+public class Player implements Serializable {
 
+	private static final long serialVersionUID = -1328953072318488091L;
 	private String name;
 	private Room currentRoom;
 	private int currentWeight;

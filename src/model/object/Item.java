@@ -1,14 +1,18 @@
 package model.object;
+
+import java.io.Serializable;
+
 /**
  * An Item in an adventure game.
  * 
  * @author Tanzeel Rana 
  * @version 2012.10.15
  */
-public class Item
+public class Item implements Serializable
 {
     
-    private String itemName;
+	private static final long serialVersionUID = -3301986314361182137L;
+	private String itemName;
     private double itemWeight;
 
     /**

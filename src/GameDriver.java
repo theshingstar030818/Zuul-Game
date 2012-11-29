@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 import model.Game;
 import model.Room;
 import model.object.Player;
+import view.FirstPersonRoom;
 import view.FirstPersonView;
 import controller.FPKeyListener;
 import controller.FPMouseListener;
@@ -46,7 +47,7 @@ public class GameDriver {
 		view.show();
 	}
 	
-	public void startGame(Player player, HashMap<String, Room> rooms) {
+	public void startGame(Player player, HashMap<String, FirstPersonRoom> rooms) {
 		game.loadGame(player, rooms);
 		view.show();
 	}

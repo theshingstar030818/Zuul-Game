@@ -48,7 +48,7 @@ public class Game extends Observable implements Observer
 	private static final String NORTH = "north";
 
     private Player player1;
-    private HashMap<String,Room> rooms;
+    private HashMap<String, FirstPersonRoom> rooms;
     private CommandStack redoStack;
     private CommandStack undoStack;
     private FPMouseListener mouseListener;
@@ -60,7 +60,7 @@ public class Game extends Observable implements Observer
     {
     	this.mouseListener = mouseListener;
     	
-        rooms = new HashMap<String,Room>();
+        rooms = new HashMap<String,FirstPersonRoom>();
         
         undoStack = new CommandStack();
         redoStack = new CommandStack();
@@ -73,9 +73,9 @@ public class Game extends Observable implements Observer
      */
     public void loadDefaultGame()
     {
-    	rooms = new HashMap<String,Room>();
+    	rooms = new HashMap<String,FirstPersonRoom>();
     	
-        Room gallery,waitingroom, workshop, lobby, entrance, dinningroom,studio,theater, dressingroom,technician;
+        FirstPersonRoom gallery,waitingroom, workshop, lobby, entrance, dinningroom,studio,theater, dressingroom,technician;
         
         // create the rooms
         rooms.put("gallary",gallery = new FirstPersonRoom("Gallery", mouseListener));
@@ -163,9 +163,14 @@ public class Game extends Observable implements Observer
     * @param player
     * @param rooms
     */
-   public void loadGame(Player player, HashMap<String,Room> rooms) {
+   public void loadGame(Player player, HashMap<String,FirstPersonRoom> rooms) {
 	  this.player1 = player;
 	  this.rooms = rooms;
+	  
+	  ArrayList<FirstPersonRoom> temp = new ArrayList<FirstPersonRoom>(rooms.values());
+	  for(int i=0; i<temp.size(); i++) {
+		  temp.get(i).setMouseListener(mouseListener);
+	  }
 	  
 	  //Refresh the View
 	  setChanged();
