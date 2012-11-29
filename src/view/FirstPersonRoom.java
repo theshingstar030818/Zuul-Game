@@ -12,7 +12,7 @@ import javax.swing.SwingConstants;
  * A 3D representation of a room
  * @author seanbyron
  *
- */
+ */				
 
 public class FirstPersonRoom extends MapRoom {
 	
@@ -36,7 +36,29 @@ public class FirstPersonRoom extends MapRoom {
 	public JPanel getView(String direction) {
 		
 		JPanel panel = new JPanel();
+		
 		panel.setLayout(null);
+		
+		if (getWall(direction).getMonster() != null && getWall(direction).getMonster().isAlive())
+		{
+			//Add a monster image
+			JLabel monster = new JLabel("");
+			monster.setToolTipText("attack," + getWall(direction).getMonster().getName());
+			monster.setIcon(new ImageIcon(FirstPersonRoom.class.getResource(((FirstPersonMonster)getWall(direction).getMonster()).getImage())));
+			monster.setBounds(219, 510 - monster.getIcon().getIconHeight(), monster.getIcon().getIconWidth(), monster.getIcon().getIconHeight());
+			monster.addMouseListener(listener); //Add the mouse listener to the door, so when it is clicked the listener fires
+			panel.add(monster);
+		}
+		if(getWall(direction).getItem() != null)
+		{
+			//Add a item image
+			JLabel item = new JLabel("");
+			item.setToolTipText("pick," + getWall(direction).getItem().getItemName());
+			item.setIcon(new ImageIcon(FirstPersonRoom.class.getResource(((FirstPersonItem)getWall(direction).getItem()).getImage())));
+			item.setBounds(405, 253, item.getIcon().getIconWidth(), item.getIcon().getIconHeight());
+			item.addMouseListener(listener); //Add the mouse listener to the door, so when it is clicked the listener fires
+			panel.add(item);
+		}
 		
 		//If there is an exit on this side of the room, show a door
 		if (getExit(direction) != null) {
@@ -63,6 +85,10 @@ public class FirstPersonRoom extends MapRoom {
 		panel.add(room);
 		
 		return panel;
+	}
+	
+	public void setMouseListener(MouseListener listener) {
+		this.listener = listener;
 	}
 
 }

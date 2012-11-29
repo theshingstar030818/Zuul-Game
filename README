@@ -149,9 +149,29 @@ All the class have been rearranged into packages to follow MVC representation
 
 Model:
 	game.java
-	Parser.java
-	Room.Java
 	
+	Parser.java
+	
+	Room.java
+			
+		**removed** 
+		
+			-exits:HashMap<String,Room>
+			-items:HashMap<String,Item>
+			-monster:HashMap<String,Monster>	
+		
+		**Room class now has a hash map that stores the walls of the room 
+		  the walls now have monsters items and exits on them insted.
+			
+	Wall.java 
+			
+		This class represents the wall of a room. 
+ 		each room will contain 4 walls
+ 		each wall can have one monster and one item 	
+		
+		++ getWall(String) method added, it returns the Wall 
+		   corresponding to the String
+		
 Model.command:
 	Command.java
 	CommandStack.java
@@ -161,11 +181,49 @@ Model.object:
 	Item.java
 	Monster.java
 	Player.java
+
+testSuite :
+	CommandStackTest.java
+	RoomTest.java
+	TestCommand.java
+	TestCommandWords.java
 	
 view:
-	DrawableRoom.java
+	Removed *****DrawableRoom.java**** changed to ****MapRoom.java****
+	
+			MapRoom.java provides support for drawing a visual representation
+     		of the room on a JPanel
+	
 	MapView.java
-
+			
+			this class is used to show the room in a 2-D view 
+			
+	FirstPersonItem.java
+	
+			FirstPersonItem helps in the visual representation of 
+	 		an item on the wall of a Room.
+			
+	FirstPersonMonster.java
+			
+			FirstPersonMonster helps in the visual representation of 
+	 		an monster on the wall of a Room.
+			
+	FirstPersonRoom.java
+			
+			this class is used to represent the room in a 3-D view 
+			on the Jpanel
+			
+	FirstPersonView.java
+			
+			FirstPersonView is the class that creates the main frame for 
+			the game and hold all the panels,menu bars and menu items.It 
+			keeps the view updated every time a new move is executed. 
+			
+	HealthPanel.java
+	
+			this is a panel at the bottom that represresents the current
+			health of a player.
+	
 6.0 UML
 	
 The UML diagram is updated and added the new class for the GUI part (DrawableRoom.java and MapView.java) and rearranged into their package.

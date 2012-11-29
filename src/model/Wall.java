@@ -1,8 +1,12 @@
 package model;
 
+import java.io.Serializable;
+
 import model.object.*;
 
-public class Wall {
+public class Wall implements Serializable {
+	
+	private static final long serialVersionUID = 6451009201959840066L;
 	private Room exit;
 	private Monster monster;
 	private Item item;

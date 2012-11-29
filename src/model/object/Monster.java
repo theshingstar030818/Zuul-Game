@@ -1,5 +1,6 @@
 package model.object;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import model.Room;
@@ -9,8 +10,9 @@ import model.Room;
  * @author Sean Byron
  *	October 21st 2012
  */
-public class Monster {
+public class Monster implements Serializable {
 
+	private static final long serialVersionUID = -3894136071280546684L;
 	private String name;
 	private int health;
 	private Room currentRoom;
@@ -73,9 +75,19 @@ public class Monster {
 	}
 	public String randomMove(){
 		Random r = new Random();
-		String[] exits = new String[]{"east","west","south","north"};
+		String[] exits = new String[] { "east", "west", "south", "north" };
 		return exits[r.nextInt(4)];
 	}
 
+	public void attack(Player p) {
+		if (isAlive()) {
+			p.attacked(getName());
+		}	
+	}
+	public void heal(Player p)
+	{
+		if(isAlive())
+			p.unAttacked();
+	}
 
 }

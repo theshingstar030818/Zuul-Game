@@ -1,4 +1,5 @@
 package model;
+import java.io.Serializable;
 import java.util.*;
 
 import model.object.Item;
@@ -16,11 +17,10 @@ import model.object.Monster;
  * null if there is no exit in that direction.
  * 
  */
-public class Room {
+public class Room implements Serializable {
+	
+	private static final long serialVersionUID = 413390181119184381L;
 	private String description;
-	//private HashMap<String, Room> exits;
-	//private HashMap<String, Item> items;
-	//private HashMap<String, Monster> monsters;
 	private HashMap<String, Wall> walls;
 	private boolean visited;
 
@@ -153,6 +153,13 @@ public class Room {
 			}
 		}
 	}
+	
+	public void removeItemByDirection(String direction) {
+		Wall wall = walls.get(direction);
+		if (wall != null) {
+			wall.setItem(null);
+		}
+	}
 
 	public Item getItem(String itemKey) {
 		Set<String> keys = walls.keySet();
@@ -203,6 +210,13 @@ public class Room {
 			}
 		}
 	}
+	
+	public void removeMonsterByDirection(String direction) {
+		Wall wall = walls.get(direction);
+		if (wall != null) {
+			wall.setMonster(null);
+		}
+	}
 
 	/**
 	 * Modification by Sean Byron
@@ -221,9 +235,32 @@ public class Room {
 		}
 		return null;
 	}
+	
+	public ArrayList<Monster> getMonsters()
+	{
+		ArrayList<Monster> m = new ArrayList<Monster>();
+		Set<String> keys = walls.keySet();
+		for(String direction : keys)
+		{
+			if(walls.get(direction).getMonster()!=null)
+			{
+				m.add(walls.get(direction).getMonster());
+			}
+		}
+		return m;
+	}
 	/*public HashMap<String, Monster> getMonsterList(){
 		return monsters;
 	}*/
+	public boolean hasMonster()
+	{
+		Set<String> keys = walls.keySet();
+		for(String direction : keys)
+			if(walls.get(direction).getMonster()!=null)
+				return true;
+		
+		return false;
+	}
 	
 	/**
 	 * Addition by Sean Byron
@@ -244,6 +281,10 @@ public class Room {
 	
 	public Wall getWall(String direction) {
 		return walls.get(direction);
+	}
+
+	public void removeExit(String direction) {
+		walls.get(direction).setExit(null);
 	}
 
 }

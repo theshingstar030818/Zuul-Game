@@ -15,6 +15,6 @@ public class FirstPersonItem extends Item{
 	}
 
 	public void setImage(String image) {
-		this.image = new String("/img/firstperson/item"+image);
+		this.image = new String("/img/firstperson/item/"+image);
 	}
 }
