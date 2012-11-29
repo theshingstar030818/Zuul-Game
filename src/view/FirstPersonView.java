@@ -66,7 +66,7 @@ public class FirstPersonView extends Observable implements Observer {
 		mainFrame.setSize(1200,600);
 		mainFrame.setResizable(false);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setBackground(Color.BLACK);
+		//mainFrame.setBackground(Color.BLACK);
 		
 		//Initialize the key listener
 		mainFrame.addKeyListener(listener);
@@ -169,6 +169,8 @@ public class FirstPersonView extends Observable implements Observer {
 			if (command.equals(GAME_OVER)) {
 				gameOver = true;
 				refreshView();
+			} else {
+				JOptionPane.showMessageDialog(mainFrame, command, "Message", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}
@@ -265,9 +267,6 @@ public class FirstPersonView extends Observable implements Observer {
 	
 	public void show() {
 		mainFrame.setVisible(true);
-		JOptionPane.showMessageDialog(mainFrame, "Welcome to Zuul! An incredibly boring adventure game. Use the left and right arrow keys to\n" +
-				"look around the room. Click on a door to go through it, click on items to pick them up, and click on Monsters to\n" +
-				"attack them. Enjoy!","Welcome", 0);
 	}
 	
 	private final class MenuListener implements ActionListener {

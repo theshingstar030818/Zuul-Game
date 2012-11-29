@@ -51,7 +51,7 @@ public class Game extends Observable implements Observer
     private CommandStack redoStack;
     private CommandStack undoStack;
     private FPMouseListener mouseListener;
-    private static FPKeyListener keyListener;
+//    private static FPKeyListener keyListener;
     //private String commandFrom;
 
     
@@ -67,21 +67,19 @@ public class Game extends Observable implements Observer
         mouseListener = new FPMouseListener();
         mouseListener.addObserver(this);
         
-        keyListener = new FPKeyListener();
-        keyListener.addObserver(this);
+//        keyListener = new FPKeyListener();
+//        keyListener.addObserver(this);
         
         undoStack = new CommandStack();
         redoStack = new CommandStack();
         
-        gameOver = false;
-        
-        initializeGame();        
+        gameOver = false;       
     }
 
     /**
      * Create all the rooms and link their exits together.
      */
-    private void initializeGame()
+    public void loadDefaultGame(String playerName)
     {
         Room gallery,waitingroom, workshop, lobby, entrance, dinningroom,studio,theater, dressingroom,technician;
         
@@ -155,59 +153,75 @@ public class Game extends Observable implements Observer
         
         dinningroom.addMonster(goblin,"south");
         //goblin.setCurrentRoom(dinningroom);
-        
-        String playerName = JOptionPane.showInputDialog("Please enter your name:");
+       
         player1 = new Player(playerName,MAX_WEIGHT,STARTING_HEALTH);
         
         rooms.get(DEFAULT_START_ROOM).visit();
         player1.setCurrentRoom(rooms.get(DEFAULT_START_ROOM));  // start game outside
-
-    }
-
-    /**
-     *  Main play routine.  Loops until end of play.
-     * @throws CloneNotSupportedException 
-     */
-    public void play()
-    {            
-        printWelcome();
-
-        //Refresh the View
-        setChanged();
-        notifyObservers(player1);
         
-        // Enter the main command loop.  Here we repeatedly read commands and
-        // execute them until the game is over.
-
-        while (!gameOver) {
-            Command command = parser.getCommand();
-            processCommand(command, true);
-        }
-        
-        //Notify observers that the game is over
-        setChanged();
-        notifyObservers(GAME_OVER);
-        
-        System.out.println("Game over! Thank you for playing.  Good bye.");
+  	  	//Refresh the View
+  	  	setChanged();
+  	  	notifyObservers(player1);
     }
+    
+   /**
+    * Start playing a game with the given player and set of rooms
+    * @param player
+    * @param rooms
+    */
+   public void loadGame(Player player, HashMap<String,Room> rooms) {
+	  this.player1 = player;
+	  this.rooms = rooms;
+	  
+	  //Refresh the View
+	  setChanged();
+	  notifyObservers(player1);
+   }
 
-    /**
-     * Print out the opening message for the player.
-     */
-    private void printWelcome()
-    {
-        System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
-        System.out.println("Type 'help' if you need help.");
-        System.out.println();
-        printLocationInfo(player1);
-    }
+//    /**
+//     *  Main play routine.  Loops until end of play.
+//     * @throws CloneNotSupportedException 
+//     */
+//    public void play()
+//    {            
+//        printWelcome();
+//
+//        //Refresh the View
+//        setChanged();
+//        notifyObservers(player1);
+//        
+//        // Enter the main command loop.  Here we repeatedly read commands and
+//        // execute them until the game is over.
+//
+//        while (!gameOver) {
+//            Command command = parser.getCommand();
+//            processCommand(command, true);
+//        }
+//        
+//        //Notify observers that the game is over
+//        setChanged();
+//        notifyObservers(GAME_OVER);
+//        
+//        System.out.println("Game over! Thank you for playing.  Good bye.");
+//    }
 
-    private void printLocationInfo(Player player){
-        System.out.println(player.getCurrentPlayerRoom().getLongDescription());
-        System.out.println(player1.getPlayerName() + "'s health :" + player1.getHealth());
-    }
+//    /**
+//     * Print out the opening message for the player.
+//     */
+//    private void printWelcome()
+//    {
+//        System.out.println();
+//        System.out.println("Welcome to the World of Zuul!");
+//        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+//        System.out.println("Type 'help' if you need help.");
+//        System.out.println();
+//        printLocationInfo(player1);
+//    }
+//
+//    private void printLocationInfo(Player player){
+//        System.out.println(player.getCurrentPlayerRoom().getLongDescription());
+//        System.out.println(player1.getPlayerName() + "'s health :" + player1.getHealth());
+//    }
 
     /**
      * Given a command, process (that is: execute) the command.
@@ -220,7 +234,9 @@ public class Game extends Observable implements Observer
     {
 
         if(command==null || command.getCommandWord()==null) {
-            System.out.println("I don't know what you mean...");
+        	setChanged();
+        	notifyObservers("Invlaid command. I don't know what you mean...");
+            //System.out.println("I don't know what you mean...");
             return;
         }
 
@@ -306,7 +322,9 @@ public class Game extends Observable implements Observer
 
     private void turn(Command command) {
         if(!command.hasSecondWord()) {
-            System.out.println("Turn where?");
+        	setChanged();
+        	notifyObservers("Turn where?");
+            //System.out.println("Turn where?");
             return;
         }
         
@@ -364,7 +382,9 @@ public class Game extends Observable implements Observer
     private void attack(Command command) {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't who to attack
-            System.out.println("Attack what?");
+            //System.out.println("Attack what?");
+        	setChanged();
+        	notifyObservers("Attacj what?");
             return;
         }
         
@@ -373,7 +393,9 @@ public class Game extends Observable implements Observer
         
         if (monster == null) {
             // There is no monster by that name in the room
-            System.out.println("There is no monster called " + command.getSecondWord() + "!");
+            //System.out.println("There is no monster called " + command.getSecondWord() + "!");
+        	setChanged();
+        	notifyObservers("There is no monster called " + command.getSecondWord() + "!");
             return;
         }
         
@@ -383,13 +405,11 @@ public class Game extends Observable implements Observer
         
         if (!monster.isAlive()) {
         	//currentRoom.removeMonster(command.getSecondWord());
-        	System.out.println("Good job! You've killed " + command.getSecondWord());
+        	//System.out.println("Good job! You've killed " + command.getSecondWord());
+        	setChanged();
+        	notifyObservers("Good job! You've killed " + command.getSecondWord());
         	return;
-        } else {
-        	System.out.println(command.getSecondWord() + " health decreased to " + monster.getHealth());
-        	//player1.pushLastMonsterAttacked(monster.getName());
         }
-
 	}
     
     /**
@@ -402,7 +422,9 @@ public class Game extends Observable implements Observer
         
         if (monster == null) {
             // There is no monster by that name in the room
-            System.out.println("There is no monster called " + command.getSecondWord() + "!");
+            //System.out.println("There is no monster called " + command.getSecondWord() + "!");
+        	setChanged();
+        	notifyObservers("There is no monster called " + command.getSecondWord() + "!");
             return;
         }
         //monsters.get(player1.getLastMonsterAttacked()).increaseHealth();
@@ -413,23 +435,27 @@ public class Game extends Observable implements Observer
     private void drop(Command command){
 		if(player1.getCurrentPlayerRoom().getWall(player1.getLookingDirection()).getItem()!=null)
 		{
-			System.out.println("Cannot place item onto of another item.  Please drop somewhere else.");
+			//System.out.println("Cannot place item onto of another item.  Please drop somewhere else.");
+			setChanged();
+			notifyObservers("Cannot place item onto of another item.  Please drop somewhere else.");
 			return;
 		}
     	
     	Item item = player1.drop(command.getSecondWord());
     	if (item != null) {
-    		System.out.println(item.getItemName() + " has been dropped by " + player1.getPlayerName());
+    		//System.out.println(item.getItemName() + " has been dropped by " + player1.getPlayerName());
 		    player1.getCurrentPlayerRoom().addItem(item,player1.getLookingDirection());
 		    player1.printItemsAndWeight();
     	} else {
-    		System.out.println("You cannot drop an item you're not carrying!");
+    		//System.out.println("You cannot drop an item you're not carrying!");
+    		setChanged();
+    		notifyObservers("You cannot drop an item you're not carrying!");
     	}
     }
 
     private void look(){
-        System.out.println(player1.getCurrentPlayerRoom().getLongDescription());
-        System.out.println(player1.getPlayerName() + "'s health :" + player1.getHealth());
+        //System.out.println(player1.getCurrentPlayerRoom().getLongDescription());
+        //System.out.println(player1.getPlayerName() + "'s health :" + player1.getHealth());
     }
 
     // implementations of user commands:
@@ -441,11 +467,10 @@ public class Game extends Observable implements Observer
      */
     private void printHelp() 
     {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
-        System.out.println();
-        System.out.println("Your command words are:");
-        System.out.println(parser.showCommands());
+    	setChanged();
+    	notifyObservers("Welcome to Zuul! An incredibly boring adventure game. Use the left and right arrow keys to\n" +
+				"look around the room. Click on a door to go through it, click on items to pick them up, and click on Monsters to\n" +
+				"attack them. Enjoy!");
     }
 
 
@@ -453,8 +478,9 @@ public class Game extends Observable implements Observer
 
    
         if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("Pick what?");
+            //System.out.println("Pick what?");
+        	setChanged();
+        	notifyObservers("Pick what?");
             return;
         }
 
@@ -464,13 +490,14 @@ public class Game extends Observable implements Observer
         // Try to pick up the item.
         
         if(player1.getCurrentPlayerRoom().containsItem(itemName)&&player1.pick(itemName,item)){
-            System.out.println(item.getItemName() + " has been picked by " + player1.getPlayerName());
+            //System.out.println(item.getItemName() + " has been picked by " + player1.getPlayerName());
             player1.getCurrentPlayerRoom().removeItem(itemName);
             player1.printItemsAndWeight();
         }else{
-            System.out.println("item could not be picked ");
+            //System.out.println("item could not be picked ");
+        	setChanged();
+        	notifyObservers("Item could not be picked. Make sure you have enough room in your inventory");
         }
-        System.out.println();//
     }
 
     /** 
@@ -481,7 +508,9 @@ public class Game extends Observable implements Observer
     {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
-            System.out.println("Go where?");
+            //System.out.println("Go where?");
+        	setChanged();
+        	notifyObservers("Go where?");
             return;
         }
 
@@ -494,32 +523,34 @@ public class Game extends Observable implements Observer
         Room nextRoom = player1.getCurrentPlayerRoom().getExit(direction);
 
         if (nextRoom == null) {
-            System.out.println("There is no door!");
+        	setChanged();
+        	notifyObservers("There is no door!");
         } else if (player1.getCurrentPlayerRoom().getWall(direction).getMonster() != null && player1.getCurrentPlayerRoom().getWall(direction).getMonster().isAlive()) {
-        	System.out.println("Cannot go through that door! There is a monster in the way");
+        	setChanged();
+        	notifyObservers("Cannot go through that door! There is a monster in the way");
         } else {
             // Try to leave current room.
             //player1.setPreviousRoom(player1.getCurrentPlayerRoom());
             player1.setCurrentRoom(nextRoom);
             //monsterMove();
-            printLocationInfo(player1);
+            //printLocationInfo(player1);
             nextRoom.visit();
         }
     }
     
-    public static void main(String args[]) {    
-    	//Create a new game
-    	Game game = new Game();
-    	
-    	//Create a 3D First Person View
-    	FirstPersonView view = new FirstPersonView("World of Zuul", keyListener);
-    	
-    	game.addObserver(view);
-    	view.addObserver(game);
-
-    	view.show();
-		game.play();
-    }
+//    public static void main(String args[]) {    
+//    	//Create a new game
+//    	Game game = new Game();
+//    	
+//    	//Create a 3D First Person View
+//    	FirstPersonView view = new FirstPersonView("World of Zuul", keyListener);
+//    	
+//    	game.addObserver(view);
+//    	view.addObserver(game);
+//
+//    	view.show();
+//		game.play();
+//    }
 
 	public void update(Observable arg0, Object arg1) {
 		if (arg1 instanceof Command) {
