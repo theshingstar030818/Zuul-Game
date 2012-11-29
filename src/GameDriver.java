@@ -26,7 +26,7 @@ public class GameDriver {
         mouseListener = new FPMouseListener();
 
 		//Create a new game
-    	game = new Game();
+    	game = new Game(mouseListener);
     	
     	//Create a key listener
     	keyListener = new FPKeyListener();
@@ -42,8 +42,7 @@ public class GameDriver {
 	}
 	
 	public void startDefaultGame() {
-		String name = JOptionPane.showInputDialog("Please enter your name:");
-		game.loadDefaultGame(name, mouseListener);
+		game.loadDefaultGame();
 		view.show();
 	}
 	
@@ -52,9 +51,9 @@ public class GameDriver {
 		view.show();
 	}
 	
-	public static void main(String args[]) {
-		GameDriver driver = new GameDriver();
-		driver.startDefaultGame();
-	}
+//	public static void main(String args[]) {
+//		GameDriver driver = new GameDriver();
+//		driver.startDefaultGame();
+//	}
 
 }

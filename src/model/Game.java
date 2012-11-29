@@ -10,6 +10,7 @@ import model.command.CommandStack;
 import model.object.Item;
 import model.object.Monster;
 import model.object.Player;
+import save.GameSave;
 import view.FirstPersonItem;
 import view.FirstPersonMonster;
 import view.FirstPersonRoom;
@@ -50,12 +51,15 @@ public class Game extends Observable implements Observer
     private HashMap<String,Room> rooms;
     private CommandStack redoStack;
     private CommandStack undoStack;
+    private FPMouseListener mouseListener;
     
     /**
      * Create the game and initialize its internal map.
      */
-    public Game() 
+    public Game(FPMouseListener mouseListener) 
     {
+    	this.mouseListener = mouseListener;
+    	
         rooms = new HashMap<String,Room>();
         
         undoStack = new CommandStack();
@@ -67,8 +71,10 @@ public class Game extends Observable implements Observer
     /**
      * Create all the rooms and link their exits together.
      */
-    public void loadDefaultGame(String playerName, FPMouseListener mouseListener)
+    public void loadDefaultGame()
     {
+    	rooms = new HashMap<String,Room>();
+    	
         Room gallery,waitingroom, workshop, lobby, entrance, dinningroom,studio,theater, dressingroom,technician;
         
         // create the rooms
@@ -142,7 +148,7 @@ public class Game extends Observable implements Observer
         dinningroom.addMonster(goblin,"south");
         //goblin.setCurrentRoom(dinningroom);
        
-        player1 = new Player(playerName,MAX_WEIGHT,STARTING_HEALTH);
+        player1 = new Player(MAX_WEIGHT,STARTING_HEALTH);
         
         rooms.get(DEFAULT_START_ROOM).visit();
         player1.setCurrentRoom(rooms.get(DEFAULT_START_ROOM));  // start game outside
@@ -234,7 +240,31 @@ public class Game extends Observable implements Observer
         	undoStack.add(temp);
         	goRoom(temp);
         }
-    	
+        else if (commandWord.equals("new")) {
+        	loadDefaultGame();
+        }
+        else if (commandWord.equals("load")) {
+        	GameSave save = new GameSave(null, null);
+        	boolean success = save.loadFromSerial(command.getSecondWord());
+        	if (success) {
+        		loadGame(save.getPlayer(), save.getRooms());
+        	} else {
+        		setChanged();
+        		notifyObservers("Unable to load specified game. Please make sure the save exists and try again");
+        	}
+        }
+        else if (commandWord.equals("save")) {
+        	GameSave save = new GameSave(player1, rooms);
+        	boolean success = save.serialize(command.getSecondWord());
+        	if (success) {
+        		setChanged();
+        		notifyObservers("Game Saved successfully");
+        	} else {
+        		setChanged();
+        		notifyObservers("Unable to save game. Please try again");
+        	}
+        }
+        
         //Notify observers (must notify AFTER monster attacks)
         setChanged();
         notifyObservers(player1);
@@ -399,7 +429,7 @@ public class Game extends Observable implements Observer
             player1.getCurrentPlayerRoom().removeItem(itemName);
         }else{
         	setChanged();
-        	notifyObservers("Item could not be picked. Make sure you have enough room in your inventory");
+        	notifyObservers("Item could not be picked up. Make sure you have enough room in your inventory");
         }
     }
 

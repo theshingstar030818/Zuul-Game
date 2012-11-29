@@ -22,6 +22,11 @@ public class Player {
 	/**
 	 * Constructor for objects of class Player
 	 */
+	
+	public Player(int weight, int health) {
+		this("Me", weight, health);
+	}
+	
 	public Player(String name, int maxWeight, int health) {
 		this.name = name;
 		this.maxWeight = maxWeight;
