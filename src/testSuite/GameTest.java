@@ -8,7 +8,8 @@ public class GameTest extends TestCase{
 	private Game game;
 	protected void setUp() throws Exception {
 		super.setUp();
-		game = new Game();
+		game = new Game(null);
+		game.loadDefaultGame();
 	}
 	public void testGo(){
 		//cant go through door since monster block the way

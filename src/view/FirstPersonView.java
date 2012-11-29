@@ -66,7 +66,7 @@ public class FirstPersonView extends Observable implements Observer {
 		mainFrame.setSize(1200,600);
 		mainFrame.setResizable(false);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setBackground(Color.BLACK);
+		//mainFrame.setBackground(Color.BLACK);
 		
 		//Initialize the key listener
 		mainFrame.addKeyListener(listener);
@@ -83,14 +83,20 @@ public class FirstPersonView extends Observable implements Observer {
 		JMenu gameMenu = new JMenu("Game");
 		menuBar.add(gameMenu);
 		
-//		JMenuItem newGame = new JMenuItem("New");
-//		gameMenu.add(newGame);
-//		
-//		JMenuItem loadGame = new JMenuItem("Load");
-//		gameMenu.add(loadGame);
-//		
-//		JMenuItem saveGame = new JMenuItem("Save");
-//		gameMenu.add(saveGame);
+		JMenuItem newGame = new JMenuItem("New");
+		newGame.addActionListener(menuListener);
+		newGame.setToolTipText("new");
+		gameMenu.add(newGame);
+		
+		JMenuItem loadGame = new JMenuItem("Load");
+		loadGame.addActionListener(menuListener);
+		loadGame.setToolTipText("load");
+		gameMenu.add(loadGame);
+		
+		JMenuItem saveGame = new JMenuItem("Save");
+		saveGame.addActionListener(menuListener);
+		saveGame.setToolTipText("save");
+		gameMenu.add(saveGame);
 		
 		JMenuItem quitGame = new JMenuItem("Quit");
 		quitGame.setToolTipText("quit");
@@ -169,6 +175,8 @@ public class FirstPersonView extends Observable implements Observer {
 			if (command.equals(GAME_OVER)) {
 				gameOver = true;
 				refreshView();
+			} else {
+				JOptionPane.showMessageDialog(mainFrame, command, "Message", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}
@@ -265,9 +273,6 @@ public class FirstPersonView extends Observable implements Observer {
 	
 	public void show() {
 		mainFrame.setVisible(true);
-		JOptionPane.showMessageDialog(mainFrame, "Welcome to Zuul! An incredibly boring adventure game. Use the left and right arrow keys to\n" +
-				"look around the room. Click on a door to go through it, click on items to pick them up, and click on Monsters to\n" +
-				"attack them. Enjoy!","Welcome", 0);
 	}
 	
 	private final class MenuListener implements ActionListener {
@@ -282,8 +287,25 @@ public class FirstPersonView extends Observable implements Observer {
 						setChanged();
 						notifyObservers(new Command(commands[0], commands[1]));
 					} else if (commands.length == 1) {
-						setChanged();
-						notifyObservers(new Command(commands[0], null));
+						
+						if (commands[0].equals("save")) {
+							String path = JOptionPane.showInputDialog(mainFrame, "Please enter the path where you'd like the game saved:");
+							if (path != null) {
+								setChanged();
+								notifyObservers(new Command(commands[0], path));
+							}
+							return;
+						} else if (commands[0].equals("load")) {
+							String path = JOptionPane.showInputDialog(mainFrame, "Please enter the path to the game you want to load:");
+							if (path != null) {
+								setChanged();
+								notifyObservers(new Command(commands[0], path));
+							}
+							return;
+						} else {
+							setChanged();
+							notifyObservers(new Command(commands[0], null));
+						}
 					}
 				}
 			}

@@ -17,11 +17,7 @@ public class EditorDriver {
 	private static EditorView view;
 	private static LevelEditor model;
 	
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
+	public EditorDriver() {
 		mouseListener = new EditorMouseListener();
 		view = new EditorView("Zuul Level Editor",maxX,maxY,mouseListener);
 		model = new LevelEditor(maxX, maxY, health, weight);
@@ -29,7 +25,17 @@ public class EditorDriver {
 		mouseListener.addObserver(model);
 		model.addObserver(view);
 		view.addObserver(model);
-		
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		EditorDriver driver = new EditorDriver();
+		driver.show();
+	}
+	
+	public void show() {
 		view.show();
 	}
 

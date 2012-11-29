@@ -133,7 +133,6 @@ public class EditorMouseListener extends Observable implements MouseListener, Ac
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() instanceof JComboBox) {
-			@SuppressWarnings("rawtypes")
 			JComboBox source = (JComboBox)arg0.getSource();
 			String comboBox = source.getToolTipText();
 			
