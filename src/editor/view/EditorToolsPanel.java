@@ -76,8 +76,8 @@ public class EditorToolsPanel extends JPanel {
 		btnCreateRoom.addMouseListener(mouseListener);
 		add(btnCreateRoom, "2, 2, 3, 1");
 		
-		JComboBox<String> directionBox = new JComboBox<String>();
-		directionBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Select One","north", "south", "east", "west"}));
+		JComboBox directionBox = new JComboBox();
+		directionBox.setModel(new DefaultComboBoxModel(new String[] {"Select One","north", "south", "east", "west"}));
 		directionBox.addActionListener(mouseListener);
 		
 		JButton btnDeleteRoom = new JButton("Delete Room");
@@ -93,8 +93,8 @@ public class EditorToolsPanel extends JPanel {
 		directionBox.setToolTipText("direction");
 		add(directionBox, "4, 8, fill, default");
 		
-		JComboBox<String> monstersBox = new JComboBox<String>();
-		monstersBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Select One", "Kracken", "Goblin"}));
+		JComboBox monstersBox = new JComboBox();
+		monstersBox.setModel(new DefaultComboBoxModel(new String[] {"Select One", "Kracken", "Goblin"}));
 		monstersBox.addActionListener(mouseListener);
 		
 		JButton btnDeleteExit = new JButton("Delete Exit");
@@ -131,8 +131,8 @@ public class EditorToolsPanel extends JPanel {
 		JLabel lblItem = new JLabel("Item");
 		add(lblItem, "2, 20, right, default");
 		
-		JComboBox<String> itemBox = new JComboBox<String>();
-		itemBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Select One", "Plant", "Sword", "PogoStix"}));
+		JComboBox itemBox = new JComboBox();
+		itemBox.setModel(new DefaultComboBoxModel(new String[] {"Select One", "Plant", "Sword", "PogoStix"}));
 		itemBox.addActionListener(mouseListener);
 		itemBox.setToolTipText("item");
 		add(itemBox, "4, 20, fill, default");

@@ -110,11 +110,11 @@ public class EditorMap extends JFrame implements Observer {
 					if (rooms.get(roomsArray[i][j]) != null) {
 						MapRoom temp = (MapRoom)rooms.get(roomsArray[i][j]);
 						tiles[tempX][tempY] = temp.getMapPanel();
-						tiles[tempX][tempY].setBorder(BorderFactory.createDashedBorder(Color.white));
+						tiles[tempX][tempY].setBorder(BorderFactory.createLineBorder(Color.white));
 					} else {
 						tiles[tempX][tempY] = new JPanel();
 						tiles[tempX][tempY].setBackground(Color.BLACK);
-						tiles[tempX][tempY].setBorder(BorderFactory.createDashedBorder(Color.white));
+						tiles[tempX][tempY].setBorder(BorderFactory.createLineBorder(Color.white));
 						JLabel temp = new JLabel("(" + i + "," + j + ")");
 						temp.setForeground(Color.white);
 						tiles[tempX][tempY].add(temp);
