@@ -1,4 +1,5 @@
 package model;
+import java.io.Serializable;
 import java.util.*;
 
 import model.object.Item;
@@ -16,11 +17,10 @@ import model.object.Monster;
  * null if there is no exit in that direction.
  * 
  */
-public class Room {
+public class Room implements Serializable {
+	
+	private static final long serialVersionUID = 413390181119184381L;
 	private String description;
-	//private HashMap<String, Room> exits;
-	//private HashMap<String, Item> items;
-	//private HashMap<String, Monster> monsters;
 	private HashMap<String, Wall> walls;
 	private boolean visited;
 

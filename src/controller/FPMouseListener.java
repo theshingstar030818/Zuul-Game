@@ -2,13 +2,16 @@ package controller;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.Serializable;
 import java.util.Observable;
 
 import javax.swing.JLabel;
 
 import model.command.Command;
 
-public class FPMouseListener extends Observable implements MouseListener {
+public class FPMouseListener extends Observable implements MouseListener, Serializable {
+
+	private static final long serialVersionUID = 6940778970055072432L;
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {

@@ -1,5 +1,6 @@
 package model.object;
 
+import java.io.Serializable;
 import java.util.*;
 
 import model.Room;
@@ -9,8 +10,12 @@ import model.Room;
  * 
  * @author Tanzeel
  */
-public class Player {
+public class Player implements Serializable {
 
+	private static final int DEFAULT_WEIGHT = 10;
+	private static final int DEFAULT_HEALTH = 20;
+	
+	private static final long serialVersionUID = -1328953072318488091L;
 	private String name;
 	private Room currentRoom;
 	private int currentWeight;
@@ -22,6 +27,10 @@ public class Player {
 	/**
 	 * Constructor for objects of class Player
 	 */
+	public Player() {
+		this(DEFAULT_WEIGHT,DEFAULT_HEALTH);
+	}
+	
 	
 	public Player(int weight, int health) {
 		this("Me", weight, health);
