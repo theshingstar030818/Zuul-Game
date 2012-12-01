@@ -1,0 +1,163 @@
+<Map>
+
+	<Room>
+		<Name>gallary</Name>
+		<Exit>
+			<Direction>south</Direction>
+			<Room>dressing room</Room>
+		</Exit>
+	</Room>
+
+
+	<Room>
+		<Name>workshop</Name>
+		<Exit>
+			<Direction>north</Direction>
+			<Room>gallery</Room>
+		</Exit>
+		<Exit>
+			<Direction>east</Direction>
+			<Room>dressing room</Room>
+		</Exit>
+		<Monster>
+			<Name>Grendel</Name>
+			<Health>8</Health>
+			<Img>Grendle.png</Img>
+			<Wall>north</wall>
+		</Monster>
+		<Item>
+			<Name>Sword</Name>
+			<Weight>7.0</Weight>
+			<Img>Sword.png</Img>
+			<Wall>south</Wall>
+		</Item>
+	</Room>
+
+
+	<Room>
+		<Name>lobby</Name>
+		<Exit>
+			<Direction>east</Direction>
+			<Room>dinning room</Room>
+		</Exit>
+		<Exit>
+			<Direction>south</Direction>
+			<Room>theatre</Room>
+		</Exit>
+		<Exit>
+			<Direction>west</Direction>
+			<Room>waiting room</Room>
+		</Exit>
+		<Exit>
+			<Direction>north</Direction>
+			<Room>entrance</Room>
+		</Exit>
+	</Room>
+
+
+	<Room>
+		<Name>entrance</Name>
+		<Exit>
+			<Direction>south</Direction>
+			<Room>lobby</Room>
+		</Exit>
+		<Monster>
+			<Name>Kracken</Name>
+			<Health>10</Health>
+			<Img>Kracken.png</Img>
+			<Wall>south</wall>
+		</Monster>
+		<Item>
+			<Name>Plant</Name>
+			<Weight>2.0</Weight>
+			<Img>Plant1.png</Img>
+			<Wall>north</Wall>
+		</Item>
+	</Room>
+
+
+	<Room>
+		<Name>dinning room</Name>
+		<Exit>
+			<Direction>south</Direction>
+			<Room>studio</Room>
+		</Exit>
+		<Exit>
+			<Direction>west</Direction>
+			<Room>lobby</Room>
+		</Exit>
+		<Monster>
+			<Name>Goblin</Name>
+			<Health>3</Health>
+			<Img>TrollBig.png</Img>
+			<Wall>south</wall>
+		</Monster>
+	</Room>
+
+
+	<Room>
+		<Name>studio</Name>
+		<Exit>
+			<Direction>south</Direction>
+			<Room>technician room</Room>
+		</Exit>
+		<Exit>
+			<Direction>west</Direction>
+			<Room>theater</Room>
+		</Exit>
+		<Exit>
+			<Direction>north</Direction>
+			<Room>dinning room</Room>
+		</Exit>
+	</Room>
+
+	<Room>
+		<Name>theatre</Name>
+		<Exit>
+			<Direction>north</Direction>
+			<Room>lobby</Room>
+		</Exit>
+		<Exit>
+			<Direction>east</Direction>
+			<Room>studio</Room>
+		</Exit>
+	</Room>
+
+	<Room>
+		<Name>dressing room</Name>
+		<Exit>
+			<Direction>west</Direction>
+			<Room>workshop</Room>
+		</Exit>
+		<Exit>
+			<Direction>east</Direction>
+			<Room>technician room</Room>
+		</Exit>
+		<Item>
+			<Name>PogoStix</Name>
+			<Weight>5.0</Weight>
+			<Img>PogoStick1.png</Img>
+			<Wall>east</Wall>
+		</Item>
+	</Room>
+
+	<Room>
+		<Name>technician room</Name>
+		<Exit>
+			<Direction>west</Direction>
+			<Room>dressing room</Room>
+		</Exit>
+		<Exit>
+			<Direction>north</Direction>
+			<Room>studio</Room>
+		</Exit>
+	</Room>
+
+	<Room>
+		<Name>waiting room</Name>
+		<Exit>
+			<Direction>east</Direction>
+			<Room>lobby</Room>
+		</Exit>
+	</Room>
+</Map>

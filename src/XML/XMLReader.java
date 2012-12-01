@@ -32,7 +32,18 @@ public class XMLReader {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder d = factory.newDocumentBuilder();
 		Document doc = d.parse(f);
-		topLevel = new TopLevelParser(doc);
+		//topLevel = new TopLevelParser(doc);
+		
+		NodeList lst = doc.getDocumentElement().getChildNodes();
+		for(int ii=0; ii<lst.getLength();ii++){
+			Node n = lst.item(ii);
+			System.out.println("Child: " + n.getNodeName() + " --> " +
+			n.getTextContent());
+		}
+
+	}
+	public static void main(String[] args) {
+		XMLReader test = new XMLReader("XML/maps/DefaultMap.xml");
 	}
 
 }

@@ -44,6 +44,6 @@ public class TopLevelParser implements XMLParser{
 
 	@Override
 	public void parse() {
-		doc.
+		//doc.
 	}
 }

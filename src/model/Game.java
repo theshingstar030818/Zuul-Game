@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
+import XML.XMLReader;
+
 import model.command.Command;
 import model.command.CommandStack;
 import model.object.Item;
@@ -52,6 +54,7 @@ public class Game extends Observable implements Observer
     private CommandStack redoStack;
     private CommandStack undoStack;
     private FPMouseListener mouseListener;
+    private XMLReader xmlr;
     
     /**
      * Create the game and initialize its internal map.
@@ -65,7 +68,8 @@ public class Game extends Observable implements Observer
         undoStack = new CommandStack();
         redoStack = new CommandStack();
         
-        gameOver = false;       
+        gameOver = false;    
+        xmlr = new XMLReader("/XML/maps/DefaultMap.xml");
     }
 
     /**
