@@ -1,13 +1,13 @@
 package xml;
 
 
-import java.util.*;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.Game;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class XMLRoom implements XMLParser{
 	private String name;

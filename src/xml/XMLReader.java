@@ -1,23 +1,21 @@
 package xml;
 
-import java.io.*;
-import java.lang.reflect.*;
-import java.util.*;
+import java.io.File;
 
-
-import javax.xml.parsers.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import model.Game;
-import model.Room;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 
 public class XMLReader {
 	private static final String MAP = "Map";
 	
 	private String file;
-	private TopLevelParser topLevel;
+//	private TopLevelParser topLevel;
 	
 	public XMLReader(String file, Game g)
 	{

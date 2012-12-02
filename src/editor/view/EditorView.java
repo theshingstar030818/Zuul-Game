@@ -20,14 +20,14 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
+import model.object.Player;
+import view.FirstPersonRoom;
+
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
-import model.Room;
-import model.object.Player;
-import view.FirstPersonRoom;
 import editor.controller.EditorListener;
 import editor.controller.EditorUpdateObject;
 
@@ -213,6 +213,7 @@ public class EditorView extends Observable implements Observer {
 		/**
 		 * Create the panel.
 		 */
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public EditorToolsPanel() {
 			setLayout(new FormLayout(new ColumnSpec[] {
 					FormFactory.RELATED_GAP_COLSPEC,
@@ -292,7 +293,8 @@ public class EditorView extends Observable implements Observer {
 			JSeparator separator = new JSeparator();
 			add(separator, "2, 6, 3, 1");
 
-			JLabel lblDirection_1 = new JLabel("Exit Direction:");
+			JLabel lblDirection = new JLabel("Exit Direction:");
+			add(lblDirection, "2, 8, fill, default");
 			add(directionBox, "4, 8, fill, default");
 
 			final JComboBox monstersBox = new JComboBox();
@@ -451,12 +453,15 @@ public class EditorView extends Observable implements Observer {
 			JButton btnGeneratePlayableGamesave = new JButton("Play");
 			btnGeneratePlayableGamesave.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-					if (startingRoom.getText() == null || startingRoom.getText().equals("")) {
-						JOptionPane.showMessageDialog(mainFrame, "Error: Please enter a valid name of an exisiting room");
+
+					if (startingRoom.getText() == null
+							|| startingRoom.getText().equals("")) {
+						JOptionPane
+								.showMessageDialog(mainFrame,
+										"Error: Please enter a valid name of an exisiting room");
 						return;
 					}
-					
+
 					setChanged();
 					notifyObservers(PLAY + "," + startingRoom.getText());
 				}

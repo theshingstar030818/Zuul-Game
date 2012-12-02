@@ -1,10 +1,7 @@
 package start;
 import java.util.HashMap;
 
-import javax.swing.JOptionPane;
-
 import model.Game;
-import model.Room;
 import model.object.Player;
 import view.FirstPersonRoom;
 import view.FirstPersonView;

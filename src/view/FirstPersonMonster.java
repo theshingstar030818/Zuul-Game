@@ -2,10 +2,12 @@ package view;
 
 import model.object.Monster;
 
-public class FirstPersonMonster extends Monster{
+public class FirstPersonMonster extends Monster {
+
+	private static final long serialVersionUID = -7830880791392214020L;
 	private String image;
 	private String imageShort;
-	
+
 	public FirstPersonMonster(String name, int health, String image) {
 		super(name, health);
 		setImage(image);
@@ -17,7 +19,7 @@ public class FirstPersonMonster extends Monster{
 	}
 
 	public void setImage(String image) {
-		this.image = new String("/img/firstperson/monster/"+image);
+		this.image = new String("/img/firstperson/monster/" + image);
 	}
 
 	public String getImageShort() {
@@ -27,5 +29,5 @@ public class FirstPersonMonster extends Monster{
 	public void setImageShort(String imageShort) {
 		this.imageShort = imageShort;
 	}
-	
+
 }

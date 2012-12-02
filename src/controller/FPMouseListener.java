@@ -9,17 +9,18 @@ import javax.swing.JLabel;
 
 import model.command.Command;
 
-public class FPMouseListener extends Observable implements MouseListener, Serializable {
+public class FPMouseListener extends Observable implements MouseListener,
+		Serializable {
 
 	private static final long serialVersionUID = 6940778970055072432L;
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		if (arg0.getSource() instanceof JLabel) {
-			JLabel source = (JLabel)arg0.getSource();
+			JLabel source = (JLabel) arg0.getSource();
 			String[] temp = source.getToolTipText().split(",");
 			setChanged();
-			notifyObservers(new Command(temp[0],temp[1]));
+			notifyObservers(new Command(temp[0], temp[1]));
 		}
 	}
 

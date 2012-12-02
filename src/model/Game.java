@@ -57,9 +57,7 @@ public class Game extends Observable implements Observer
     private CommandStack redoStack;
     private CommandStack undoStack;
     private FPMouseListener mouseListener;
-    private XMLReader xmlr;
     private String startingRoom;
-    private String levelName;
     
     /**
      * Create the game and initialize its internal map.
@@ -74,13 +72,6 @@ public class Game extends Observable implements Observer
         redoStack = new CommandStack();
         
         gameOver = false;    
-        
-        this.levelName = DIRECTORY+DEFAULT_LEVEL+XML;
-    }
-    
-    public void setLevelName(String level)
-    {
-    	this.levelName = DIRECTORY+level+XML;
     }
 
     public void addRoom(String name)
@@ -121,7 +112,8 @@ public class Game extends Observable implements Observer
     public void loadGameFromLevel(String levelName) {
     	rooms = new HashMap<String,FirstPersonRoom>();
     	
-    	xmlr = new XMLReader(DIRECTORY + levelName + XML, this);
+    	@SuppressWarnings("unused")
+		XMLReader xmlr = new XMLReader(DIRECTORY + levelName + XML, this);
        
         player1 = new Player(MAX_WEIGHT,STARTING_HEALTH);
         
