@@ -4,8 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -18,6 +20,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 
 import model.Wall;
@@ -49,6 +52,10 @@ public class FirstPersonView extends Observable implements Observer {
 	private static final String NORTH = "north";
 	
 	public FirstPersonView(String name, FPKeyListener listener) {
+		
+		final int SHORTCUT_MASK = Toolkit.getDefaultToolkit()
+				.getMenuShortcutKeyMask();
+		
 		gamePanel = new JPanel();
 		mainFrame = new JFrame(name);
 		
@@ -85,20 +92,28 @@ public class FirstPersonView extends Observable implements Observer {
 		
 		JMenuItem newGame = new JMenuItem("New");
 		newGame.addActionListener(menuListener);
+		newGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
+				SHORTCUT_MASK));
 		newGame.setToolTipText("new");
 		gameMenu.add(newGame);
 		
 		JMenuItem loadGame = new JMenuItem("Load");
 		loadGame.addActionListener(menuListener);
+		loadGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
+				SHORTCUT_MASK));
 		loadGame.setToolTipText("load");
 		gameMenu.add(loadGame);
 		
 		JMenuItem saveGame = new JMenuItem("Save");
 		saveGame.addActionListener(menuListener);
+		saveGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+				SHORTCUT_MASK));
 		saveGame.setToolTipText("save");
 		gameMenu.add(saveGame);
 		
 		JMenuItem quitGame = new JMenuItem("Quit");
+		quitGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
+				SHORTCUT_MASK));
 		quitGame.setToolTipText("quit");
 		quitGame.addActionListener(menuListener);
 		gameMenu.add(quitGame);
@@ -143,11 +158,15 @@ public class FirstPersonView extends Observable implements Observer {
 		menuBar.add(editMenu);
 		
 		JMenuItem undoMenu = new JMenuItem("Undo");
+		undoMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
+				SHORTCUT_MASK));
 		undoMenu.setToolTipText("undo");
 		undoMenu.addActionListener(menuListener);
 		editMenu.add(undoMenu);
 		
 		JMenuItem redoMenu = new JMenuItem("Redo");
+		redoMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y,
+				SHORTCUT_MASK));
 		redoMenu.setToolTipText("redo");
 		redoMenu.addActionListener(menuListener);
 		editMenu.add(redoMenu);
