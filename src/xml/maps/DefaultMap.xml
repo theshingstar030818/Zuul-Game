@@ -1,13 +1,11 @@
 <Map>
-
 	<Room>
-		<Name>gallary</Name>
+		<Name>gallery</Name>
 		<Exit>
 			<Direction>south</Direction>
-			<Room>dressing room</Room>
+			<Room>workshop</Room>
 		</Exit>
 	</Room>
-
 
 	<Room>
 		<Name>workshop</Name>
@@ -23,16 +21,15 @@
 			<Name>Grendel</Name>
 			<Health>8</Health>
 			<Img>Grendle.png</Img>
-			<Wall>north</wall>
+			<Wall>north</Wall>
 		</Monster>
 		<Item>
 			<Name>Sword</Name>
-			<Weight>7.0</Weight>
-			<Img>Sword.png</Img>
+			<Weight>7</Weight>
+			<Img>Sword1.png</Img>
 			<Wall>south</Wall>
 		</Item>
 	</Room>
-
 
 	<Room>
 		<Name>lobby</Name>
@@ -54,7 +51,6 @@
 		</Exit>
 	</Room>
 
-
 	<Room>
 		<Name>entrance</Name>
 		<Exit>
@@ -65,16 +61,15 @@
 			<Name>Kracken</Name>
 			<Health>10</Health>
 			<Img>Kracken.png</Img>
-			<Wall>south</wall>
+			<Wall>south</Wall>
 		</Monster>
 		<Item>
 			<Name>Plant</Name>
-			<Weight>2.0</Weight>
+			<Weight>2</Weight>
 			<Img>Plant1.png</Img>
 			<Wall>north</Wall>
 		</Item>
 	</Room>
-
 
 	<Room>
 		<Name>dinning room</Name>
@@ -90,10 +85,9 @@
 			<Name>Goblin</Name>
 			<Health>3</Health>
 			<Img>TrollBig.png</Img>
-			<Wall>south</wall>
+			<Wall>south</Wall>
 		</Monster>
 	</Room>
-
 
 	<Room>
 		<Name>studio</Name>
@@ -103,7 +97,7 @@
 		</Exit>
 		<Exit>
 			<Direction>west</Direction>
-			<Room>theater</Room>
+			<Room>theatre</Room>
 		</Exit>
 		<Exit>
 			<Direction>north</Direction>
@@ -135,7 +129,7 @@
 		</Exit>
 		<Item>
 			<Name>PogoStix</Name>
-			<Weight>5.0</Weight>
+			<Weight>5</Weight>
 			<Img>PogoStick1.png</Img>
 			<Wall>east</Wall>
 		</Item>
@@ -160,4 +154,6 @@
 			<Room>lobby</Room>
 		</Exit>
 	</Room>
+
+	<Start>entrance</Start>
 </Map>
