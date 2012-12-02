@@ -182,7 +182,14 @@ public class Game extends Observable implements Observer {
 			pick(command);
 		} else if (commandWord.equals("drop")) {
 			drop(command);
-		} else if (commandWord.equals("attack")) {
+		} 
+		else if(commandWord.equals("eat")){
+        	eat();
+        }
+        else if(commandWord.equals("unEat")){
+        	unEat();
+        }
+		else if (commandWord.equals("attack")) {
 			attack(command);
 			ArrayList<Monster> m = player1.getCurrentPlayerRoom().getMonsters();
 			for (Monster monster : m) {
@@ -312,6 +319,8 @@ public class Game extends Observable implements Observer {
 
 		// Decrease the monster's health
 		monster.decreaseHealth();
+		//if player has sword,damage monster again
+		if(player1.hasSword())monster.decreaseHealth();
 
 		if (!monster.isAlive()) {
 			setChanged();
@@ -339,6 +348,7 @@ public class Game extends Observable implements Observer {
 		}
 		// monsters.get(player1.getLastMonsterAttacked()).increaseHealth();
 		monster.increaseHealth();
+		if(player1.hasSword())monster.increaseHealth();
 	}
 
 	private void drop(Command command) {
@@ -359,6 +369,22 @@ public class Game extends Observable implements Observer {
 			notifyObservers("You cannot drop an item you're not carrying!");
 		}
 	}
+	private void eat(){
+    	//Item item = player1.drop("Plant");
+    	if( !player1.hasHealItem()){
+    		return;
+    	}
+    	player1.eat();
+    	setChanged();
+    	notifyObservers();
+    }
+
+    private void unEat(){
+    	
+    	player1.unEat();
+    	setChanged();
+    	notifyObservers();
+    }
 
 	/**
 	 * Print out some help information. Here we print some stupid, cryptic
@@ -418,7 +444,8 @@ public class Game extends Observable implements Observer {
 		} else if (player1.getCurrentPlayerRoom().getWall(direction)
 				.getMonster() != null
 				&& player1.getCurrentPlayerRoom().getWall(direction)
-						.getMonster().isAlive()) {
+						.getMonster().isAlive()
+				&& !player1.hasPogoStick()) {
 			setChanged();
 			notifyObservers("Cannot go through that door! There is a monster in the way");
 		} else {

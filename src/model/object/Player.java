@@ -22,6 +22,9 @@ public class Player implements Serializable {
 	private int maxWeight;
 	private HashMap<String, Item> itemsInPossesion;
 	private int health;
+	private boolean hasSword = false;
+	private int maxHealth;
+	private int lastHealth;
 	private String lookingDirection = "north";
 
 	/**
@@ -40,6 +43,8 @@ public class Player implements Serializable {
 		this.name = name;
 		this.maxWeight = maxWeight;
 		this.health = health;
+		maxHealth = health;
+		lastHealth = 0;
 		currentWeight = 0;
 		itemsInPossesion = new HashMap<String, Item>();
 	}
@@ -82,6 +87,7 @@ public class Player implements Serializable {
 		if (canPickItem(item)) {
 			itemsInPossesion.put(itemName, item);
 			currentWeight += item.getItemWeight();
+			if(itemName.equals("Sword"))hasSword = true;
 			return true;
 		} else {
 			return false;
@@ -99,6 +105,7 @@ public class Player implements Serializable {
 			return null;
 		} else {
 			Item itemDropped = itemsInPossesion.get(itemName);
+			if(itemName.equals("Sword"))hasSword = false;
 			currentWeight -= itemDropped.getItemWeight();
 			itemsInPossesion.remove(itemName);
 			return itemDropped;
@@ -159,6 +166,15 @@ public class Player implements Serializable {
 	public int getHealth() {
 		return health;
 	}
+	public void eat() {
+		lastHealth = health;
+		health = maxHealth;
+	}
+	public void unEat() {
+		if(lastHealth == 0)return;
+		health = lastHealth;
+		lastHealth = 0;
+	}
 
 	public String getLookingDirection() {
 		return lookingDirection;
@@ -170,6 +186,21 @@ public class Player implements Serializable {
 
 	public ArrayList<String> getItemsInPosession() {
 		return new ArrayList<String>(itemsInPossesion.keySet());
+	}
+	public boolean hasSword(){
+		return hasSword;
+	}
+	public boolean hasHealItem(){
+		for(String itemName : itemsInPossesion.keySet()){
+			if(itemName.equals("Plant"))return true;
+		}
+		return false;
+	}
+	public boolean hasPogoStick(){
+		for(String itemName : itemsInPossesion.keySet()){
+			if(itemName.equals("PogoStix"))return true;
+		}
+		return false;
 	}
 
 }

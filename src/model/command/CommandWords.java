@@ -24,6 +24,8 @@ public class CommandWords {
 		reversibleCommands.put("heal", "attack");
 		reversibleCommands.put("go", "go");
 		reversibleCommands.put("turn", "turn");
+		reversibleCommands.put("eat", "unEat");
+    	reversibleCommands.put("unEat", "eat");
 	}
 
 	public final static HashMap<String, String> reverseSecondWord = new HashMap<String, String>();
