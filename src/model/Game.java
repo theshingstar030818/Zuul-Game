@@ -47,6 +47,10 @@ public class Game extends Observable implements Observer
 	private static final String EAST = "east";
 	private static final String WEST = "west";
 	private static final String NORTH = "north";
+	
+	private static final String DEFAULT_LEVEL = "DefaultMap";
+	private static final String DIRECTORY = "src/xml/maps/";
+	private static final String XML = ".xml";
 
     private Player player1;
     private HashMap<String, FirstPersonRoom> rooms;
@@ -55,11 +59,12 @@ public class Game extends Observable implements Observer
     private FPMouseListener mouseListener;
     private XMLReader xmlr;
     private String startingRoom;
+    private String levelName;
     
     /**
      * Create the game and initialize its internal map.
      */
-    public Game(FPMouseListener mouseListener) 
+    public Game(FPMouseListener mouseListener, String levelName) 
     {
     	this.mouseListener = mouseListener;
     	
@@ -69,6 +74,13 @@ public class Game extends Observable implements Observer
         redoStack = new CommandStack();
         
         gameOver = false;    
+        
+        this.levelName = DIRECTORY+levelName+XML;
+    }
+    
+    public Game(FPMouseListener mouseListener)
+    {
+    	this(mouseListener,DEFAULT_LEVEL);
     }
 
     public void addRoom(String name)
@@ -104,7 +116,7 @@ public class Game extends Observable implements Observer
     {
     	rooms = new HashMap<String,FirstPersonRoom>();
     	
-    	xmlr = new XMLReader("src/xml/maps/DefaultMap.xml", this);
+    	xmlr = new XMLReader(this.levelName, this);
        
         player1 = new Player(MAX_WEIGHT,STARTING_HEALTH);
         System.out.println("startingRoom is "+startingRoom);

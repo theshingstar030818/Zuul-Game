@@ -18,7 +18,7 @@ public class XMLWriter {
 	
 	public XMLWriter(HashMap<String,FirstPersonRoom> rooms, String fileName, String start)
 	{
-		this.fileName = fileName;
+		this.fileName = "src/xml/maps/"+fileName+".xml";
 		writeMap(rooms,start);
 	}
 	
