@@ -38,14 +38,12 @@ public class TopLevelParser implements XMLParser{
 				parseRoom(nodes.item(i));
 			if(nodes.item(i).getNodeName().equals("Start"))
 			{
-				System.out.println("setting starting room");
 				startingRoom = nodes.item(i).getTextContent();
 			}
 		}
 		for(XMLRoom r : rooms)
 		{
 			r.parseSecondPass();
-			System.out.println("adding starting room");
 		}
 		g.setStart(startingRoom);
 	}
