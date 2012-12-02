@@ -47,6 +47,13 @@ public class GameDriver {
 		view.show();
 	}
 	
+	public void startGameMap(String file)
+	{
+		game.setLevelName(file);
+		game.loadDefaultGame();
+		view.show();
+	}
+	
 	public void startGame(Player player, HashMap<String, FirstPersonRoom> rooms) {
 		game.loadGame(player, rooms);
 		view.show();

@@ -26,8 +26,8 @@ public class ItemWriter {
 	private void write(Item i,String d, PrintWriter out) {
 		out.println(START_ITEM);
 		out.println(START_NAME+i.getItemName()+END_NAME);
-		out.println(START_WEIGHT+i.getItemWeight()+END_WEIGHT);
-		out.println(START_IMG+((FirstPersonItem)i).getImage()+END_IMG);
+		out.println(START_WEIGHT+(int)i.getItemWeight()+END_WEIGHT);
+		out.println(START_IMG+((FirstPersonItem)i).getImageShort()+END_IMG);
 		out.println(START_WALL+d+END_WALL);
 		out.println(END_ITEM);
 	}

@@ -11,6 +11,8 @@ import model.object.*;
 public class RoomWriter {
 	private static final String START_ROOM = "<Room>";
 	private static final String END_ROOM = "</Room>";
+	private static final String START_NAME = "<Name>";
+	private static final String END_NAME = "</Name>";
 	
 	public RoomWriter(Room room, PrintWriter out) {
 		write(room, out);
@@ -18,6 +20,7 @@ public class RoomWriter {
 
 	private void write(Room room, PrintWriter out) {
 		out.println(START_ROOM);
+		out.println(START_NAME+room.getDescription()+END_NAME);
 		Set<String> keys = room.getWalls().keySet();
 		for(String direction : keys)
 		{

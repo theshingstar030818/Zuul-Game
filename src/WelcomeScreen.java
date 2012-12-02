@@ -181,12 +181,18 @@ public class WelcomeScreen {
 		frame.getContentPane().add(lblPath_1, "2, 22, right, default");
 		
 		txtpathtolevelxml = new JTextField();
-		txtpathtolevelxml.setText("/path/to/level.xml");
+		txtpathtolevelxml.setText("DefaultMap");
 		frame.getContentPane().add(txtpathtolevelxml, "4, 22, fill, default");
 		txtpathtolevelxml.setColumns(10);
 		
 		JButton btnOpenLevel = new JButton("Open Level");
 		frame.getContentPane().add(btnOpenLevel, "4, 24");
+		btnOpenLevel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				gameDriver.startGameMap(txtpathtolevelxml.getText());
+			}
+		});
 	}
 
 }
