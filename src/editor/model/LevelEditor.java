@@ -285,8 +285,10 @@ public class LevelEditor extends Observable implements Observer {
 			
 			if (temp[0].equals(ADD_ROOM)) {
 				String name = JOptionPane.showInputDialog("Please enter a name for the room:");
-				FirstPersonRoom room = new FirstPersonRoom(name);
-				addRoom(room);
+				if (name != null && !name.equals("") && !name.equals("null") && !name.equals(" ")) {
+					FirstPersonRoom room = new FirstPersonRoom(name);
+					addRoom(room);
+				}
 			} else if (temp[0].equals(REMOVE_ROOM)) {
 				removeRoom();
 			} else if (temp[0].equals(REMOVE_MONSTER)) {
@@ -338,6 +340,17 @@ public class LevelEditor extends Observable implements Observer {
 	}
 	
 	private void save(String startingRoom, String name) {
+		
+		if (rooms.get(startingRoom) == null) {
+			JOptionPane.showMessageDialog(null, "Error: Please enter a valid name of an exisiting room");
+			return;
+		}
+		
+		if (name == null || name.equals("")) {
+			JOptionPane.showMessageDialog(null, "Error: Please enter a valid name for the level");
+			return;
+		}
+			
 		XMLWriter writer = new XMLWriter(rooms, name, startingRoom);
 	}
 
