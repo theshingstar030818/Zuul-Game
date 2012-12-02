@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -450,6 +451,12 @@ public class EditorView extends Observable implements Observer {
 			JButton btnGeneratePlayableGamesave = new JButton("Play");
 			btnGeneratePlayableGamesave.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
+					if (startingRoom.getText() == null || startingRoom.getText().equals("")) {
+						JOptionPane.showMessageDialog(mainFrame, "Error: Please enter a valid name of an exisiting room");
+						return;
+					}
+					
 					setChanged();
 					notifyObservers(PLAY + "," + startingRoom.getText());
 				}

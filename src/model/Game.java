@@ -260,10 +260,6 @@ public class Game extends Observable implements Observer
     public Player getPlayer(){
     	return player1;
     }
-    
-    public HashMap<String, FirstPersonRoom> getRooms() {
-    	return rooms;
-    }
 
     private void turn(Command command) {
         if(!command.hasSecondWord()) {
