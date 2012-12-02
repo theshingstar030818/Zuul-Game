@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
+
 import model.command.Command;
 import model.command.CommandStack;
 import model.object.Item;
@@ -14,6 +15,7 @@ import save.GameSave;
 import view.FirstPersonItem;
 import view.FirstPersonMonster;
 import view.FirstPersonRoom;
+import xml.XMLReader;
 import controller.FPMouseListener;
 
 /**
@@ -37,7 +39,6 @@ public class Game extends Observable implements Observer
     private boolean gameOver;
 	private static final int STARTING_HEALTH = 20;
     private final static int MAX_WEIGHT = 10;
-    private final static String DEFAULT_START_ROOM = "entrance";
     
 	private static final String LEFT = "left";
 	private static final String RIGHT = "right";
@@ -46,17 +47,24 @@ public class Game extends Observable implements Observer
 	private static final String EAST = "east";
 	private static final String WEST = "west";
 	private static final String NORTH = "north";
+	
+	private static final String DEFAULT_LEVEL = "DefaultMap";
+	private static final String DIRECTORY = "src/xml/maps/";
+	private static final String XML = ".xml";
 
     private Player player1;
     private HashMap<String, FirstPersonRoom> rooms;
     private CommandStack redoStack;
     private CommandStack undoStack;
     private FPMouseListener mouseListener;
+    private XMLReader xmlr;
+    private String startingRoom;
+    private String levelName;
     
     /**
      * Create the game and initialize its internal map.
      */
-    public Game(FPMouseListener mouseListener) 
+    public Game(FPMouseListener mouseListener, String levelName) 
     {
     	this.mouseListener = mouseListener;
     	
@@ -65,9 +73,42 @@ public class Game extends Observable implements Observer
         undoStack = new CommandStack();
         redoStack = new CommandStack();
         
-        gameOver = false;       
+        gameOver = false;    
+        
+        this.levelName = DIRECTORY+levelName+XML;
+    }
+    
+    public Game(FPMouseListener mouseListener)
+    {
+    	this(mouseListener,DEFAULT_LEVEL);
     }
 
+    public void addRoom(String name)
+    {
+    	rooms.put(name,new FirstPersonRoom(name, mouseListener));
+    }
+    public void addExitToRoom(String room, String exitRoom, String direction)
+    {
+    	if(rooms.containsKey(room))
+    		rooms.get(room).setExits(direction, rooms.get(exitRoom));
+    }
+    public void addItemToRoom(String room, String name, int weight, String image, String wall)
+    {
+    	if(rooms.containsKey(room))
+    		rooms.get(room).addItem(new FirstPersonItem(name, weight, image), wall);
+    }
+    public void addMonsterToRoom(String room, String name, int health, String image, String wall)
+    {
+    	if(rooms.containsKey(room))
+    	{
+    		Monster m = new FirstPersonMonster(name, health, image);
+    		rooms.get(room).addMonster(m, wall);
+    	}
+    }
+    public void setStart(String s)
+    {
+    	startingRoom = s;
+    }
     /**
      * Create all the rooms and link their exits together.
      */
@@ -75,83 +116,12 @@ public class Game extends Observable implements Observer
     {
     	rooms = new HashMap<String,FirstPersonRoom>();
     	
-        FirstPersonRoom gallery,waitingroom, workshop, lobby, entrance, dinningroom,studio,theater, dressingroom,technician;
-        
-        // create the rooms
-        rooms.put("gallary",gallery = new FirstPersonRoom("Gallery", mouseListener));
-        rooms.put("workshop",workshop = new FirstPersonRoom("Workshop", mouseListener));
-        rooms.put("lobby",lobby = new FirstPersonRoom("Lobby", mouseListener));
-        rooms.put("entrance",entrance = new FirstPersonRoom("Entrance", mouseListener));
-        rooms.put("dinning room",dinningroom = new FirstPersonRoom("Dinning Room", mouseListener));
-        rooms.put("studio",studio = new FirstPersonRoom("Studio", mouseListener));
-        rooms.put("theater",theater = new FirstPersonRoom("Theater", mouseListener));
-        rooms.put("dressing room",dressingroom = new FirstPersonRoom("Dressing Room", mouseListener));
-        rooms.put("technician room",technician = new FirstPersonRoom("Technician Room", mouseListener));
-        rooms.put("waiting room",waitingroom = new FirstPersonRoom("Waiting Room", mouseListener));
-
-        // Initialize room exits
-        gallery.setExits(SOUTH,workshop);
-        
-        workshop.setExits(NORTH,gallery);
-        workshop.setExits(EAST,dressingroom);
-        
-        dressingroom.setExits(WEST,workshop);
-        dressingroom.setExits(EAST, technician);
-        
-        technician.setExits(WEST,dressingroom);
-        technician.setExits(NORTH,studio);
-        
-        studio.setExits(SOUTH,technician);
-        studio.setExits(WEST,theater);
-        studio.setExits(NORTH,dinningroom);
-        
-        dinningroom.setExits(SOUTH, studio);
-        dinningroom.setExits(WEST, lobby);
-        
-        lobby.setExits(EAST,dinningroom);
-        lobby.setExits(SOUTH,theater);
-        lobby.setExits(WEST,waitingroom);
-        lobby.setExits(NORTH,entrance);
-        
-        waitingroom.setExits(EAST,lobby);
-        
-        theater.setExits(NORTH,lobby);
-        theater.setExits(EAST,studio);
-        entrance.setExits(SOUTH,lobby);
-        
-        //create the items
-        Item plant = new FirstPersonItem("Plant",2.0,"Plant1.png");
-        Item sword = new FirstPersonItem("Sword", 7.0, "Sword1.png");
-        Item pogoStick = new FirstPersonItem("PogoStix", 5.0,"PogoStick1.png");
-        
-        //Add Items
-        entrance.addItem(plant,"north");
-        workshop.addItem(sword,"south");
-        dressingroom.addItem(pogoStick,"east");
-        
-        //Create monsters
-        Monster kracken = new FirstPersonMonster("Kracken",10,"Kracken.png" );
-        //monsters.put("Kracken", kracken);
-        Monster grendel = new FirstPersonMonster("Grendel", 8,"Grendle.png");
-        //monsters.put("Grendel", grendel);
-        Monster goblin = new FirstPersonMonster("Goblin",3,"TrollBig.png");
-        //monsters.put("Goblin", goblin);
-        
-        
-        //Add Monsters to room
-        entrance.addMonster(kracken,"south");
-        //kracken.setCurrentRoom(entrance);
-        
-        workshop.addMonster(grendel,"north");
-        //grendel.setCurrentRoom(workshop);
-        
-        dinningroom.addMonster(goblin,"south");
-        //goblin.setCurrentRoom(dinningroom);
+    	xmlr = new XMLReader(this.levelName, this);
        
         player1 = new Player(MAX_WEIGHT,STARTING_HEALTH);
-        
-        rooms.get(DEFAULT_START_ROOM).visit();
-        player1.setCurrentRoom(rooms.get(DEFAULT_START_ROOM));  // start game outside
+        System.out.println("startingRoom is "+startingRoom);
+        rooms.get(startingRoom).visit();
+        player1.setCurrentRoom(rooms.get(startingRoom));  // start game outside
         
   	  	//Refresh the View
   	  	setChanged();

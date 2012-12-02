@@ -66,6 +66,10 @@ public class Room implements Serializable {
 	public void setExits(String direction, Room neighbor) {
 		walls.get(direction).setExit(neighbor);
 	}
+	public HashMap<String, Wall> getWalls()
+	{
+		return this.walls;
+	}
 
 	/**
 	 * @return The description of the room.
@@ -285,6 +289,28 @@ public class Room implements Serializable {
 
 	public void removeExit(String direction) {
 		walls.get(direction).setExit(null);
+	}
+
+	public boolean hasItem() {
+		Set<String> keys = walls.keySet();
+		for(String direction : keys)
+			if(walls.get(direction).getItem()!=null)
+				return true;
+		
+		return false;
+	}
+
+	public ArrayList<Item> getItems() {
+		ArrayList<Item> i = new ArrayList<Item>();
+		Set<String> keys = walls.keySet();
+		for(String direction : keys)
+		{
+			if(walls.get(direction).getItem()!=null)
+			{
+				i.add(walls.get(direction).getItem());
+			}
+		}
+		return i;
 	}
 
 }
