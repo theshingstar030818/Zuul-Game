@@ -65,7 +65,7 @@ public class FirstPersonView extends Observable implements Observer {
 		//Setup the window
 		mainFrame.setSize(1200,600);
 		mainFrame.setResizable(false);
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//mainFrame.setBackground(Color.BLACK);
 		
 		//Initialize the key listener

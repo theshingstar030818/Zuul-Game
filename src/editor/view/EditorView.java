@@ -67,12 +67,13 @@ public class EditorView extends Observable implements Observer {
 	private EditorToolsPanel toolsPanel;
 
 	private Player player;
-	
+
 	private Set<String> items;
 	private Set<String> monsters;
 
 	public EditorView(String name, int maxX, int maxY,
-			EditorListener mouseListener, Set<String> items, Set<String> monsters) {
+			EditorListener mouseListener, Set<String> items,
+			Set<String> monsters) {
 		gamePanel = new JPanel();
 		mainFrame = new JFrame(name);
 
@@ -97,14 +98,14 @@ public class EditorView extends Observable implements Observer {
 		// Setup the window
 		mainFrame.setSize(1505, 600);
 		mainFrame.setResizable(false);
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// mainFrame.setBackground(Color.BLACK);
 
 		currentRoom = null;
 
 		this.items = items;
 		this.monsters = monsters;
-		
+
 		toolsPanel = new EditorToolsPanel();
 
 		roomsArray = new String[maxX][maxY];
@@ -206,9 +207,6 @@ public class EditorView extends Observable implements Observer {
 
 		private static final long serialVersionUID = 1L;
 		private JTextField xmlName;
-		private JTextField health;
-		private JTextField weight;
-		private JTextField room;
 		private JTextField startingRoom;
 
 		/**
@@ -221,35 +219,58 @@ public class EditorView extends Observable implements Observer {
 					FormFactory.RELATED_GAP_COLSPEC,
 					ColumnSpec.decode("default:grow"),
 					FormFactory.RELATED_GAP_COLSPEC, }, new RowSpec[] {
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC, }));
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					FormFactory.DEFAULT_ROWSPEC, }));
 
 			JButton btnCreateRoom = new JButton("Create Room");
 			btnCreateRoom.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					 setChanged();
-					 notifyObservers(ADD_ROOM);
+					setChanged();
+					notifyObservers(ADD_ROOM);
 				}
 			});
 			add(btnCreateRoom, "2, 2, 3, 1");
@@ -261,8 +282,8 @@ public class EditorView extends Observable implements Observer {
 			JButton btnDeleteRoom = new JButton("Delete Room");
 			btnDeleteRoom.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					 setChanged();
-					 notifyObservers(REMOVE_ROOM);
+					setChanged();
+					notifyObservers(REMOVE_ROOM);
 				}
 			});
 			add(btnDeleteRoom, "2, 4, 3, 1");
@@ -274,14 +295,14 @@ public class EditorView extends Observable implements Observer {
 			add(directionBox, "4, 8, fill, default");
 
 			final JComboBox monstersBox = new JComboBox();
-			 monstersBox.setModel(new DefaultComboBoxModel(monsters.toArray()));
+			monstersBox.setModel(new DefaultComboBoxModel(monsters.toArray()));
 
 			JButton btnDeleteExit = new JButton("Delete Exit");
 			btnDeleteExit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					 setChanged();
-					 notifyObservers(REMOVE_EXIT + ","
-					 + directionBox.getSelectedItem());
+					setChanged();
+					notifyObservers(REMOVE_EXIT + ","
+							+ directionBox.getSelectedItem());
 				}
 			});
 			add(btnDeleteExit, "2, 10");
@@ -289,9 +310,9 @@ public class EditorView extends Observable implements Observer {
 			JButton btnAddExit = new JButton("Add Exit");
 			btnAddExit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					 setChanged();
-					 notifyObservers(ADD_EXIT + ","
-					 + directionBox.getSelectedItem());
+					setChanged();
+					notifyObservers(ADD_EXIT + ","
+							+ directionBox.getSelectedItem());
 				}
 			});
 			add(btnAddExit, "4, 10");
@@ -307,9 +328,9 @@ public class EditorView extends Observable implements Observer {
 			JButton btnAddMonster = new JButton("Add Monster");
 			btnAddMonster.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					 setChanged();
-					 notifyObservers(ADD_MONSTER + ","
-					 + monstersBox.getSelectedItem());
+					setChanged();
+					notifyObservers(ADD_MONSTER + ","
+							+ monstersBox.getSelectedItem());
 				}
 			});
 			add(btnAddMonster, "2, 16");
@@ -317,9 +338,9 @@ public class EditorView extends Observable implements Observer {
 			JButton btnDeleteMonster = new JButton("Delete Monster");
 			btnDeleteMonster.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					 setChanged();
-					 notifyObservers(REMOVE_MONSTER + ","
-					 + monstersBox.getSelectedItem());
+					setChanged();
+					notifyObservers(REMOVE_MONSTER + ","
+							+ monstersBox.getSelectedItem());
 				}
 			});
 			add(btnDeleteMonster, "4, 16");
@@ -331,15 +352,15 @@ public class EditorView extends Observable implements Observer {
 			add(lblItem, "2, 20, right, default");
 
 			final JComboBox itemBox = new JComboBox();
-			 itemBox.setModel(new DefaultComboBoxModel(items.toArray()));
+			itemBox.setModel(new DefaultComboBoxModel(items.toArray()));
 			add(itemBox, "4, 20, fill, default");
 
 			JButton btnDeleteItem = new JButton("Delete Item");
 			btnDeleteItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					 setChanged();
-					 notifyObservers(REMOVE_ITEM + ","
-					 + itemBox.getSelectedItem());
+					setChanged();
+					notifyObservers(REMOVE_ITEM + ","
+							+ itemBox.getSelectedItem());
 				}
 			});
 			add(btnDeleteItem, "2, 22");
@@ -347,8 +368,8 @@ public class EditorView extends Observable implements Observer {
 			JButton btnAddItem = new JButton("Add Item");
 			btnAddItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					 setChanged();
-					 notifyObservers(ADD_ITEM + "," + itemBox.getSelectedItem());
+					setChanged();
+					notifyObservers(ADD_ITEM + "," + itemBox.getSelectedItem());
 				}
 			});
 			add(btnAddItem, "4, 22");
@@ -359,20 +380,20 @@ public class EditorView extends Observable implements Observer {
 			JButton btnTurnLeft = new JButton("Turn Left");
 			btnTurnLeft.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					 String lookingDirection = "";
-					
-					 if (player.getLookingDirection().equals(NORTH)) {
-					 lookingDirection = WEST;
-					 } else if (player.getLookingDirection().equals(SOUTH)) {
-					 lookingDirection = EAST;
-					 } else if (player.getLookingDirection().equals(EAST)) {
-					 lookingDirection = NORTH;
-					 } else if (player.getLookingDirection().equals(WEST)) {
-					 lookingDirection = SOUTH;
-					 }
-					
-					 setChanged();
-					 notifyObservers(LOOK + "," + lookingDirection);
+					String lookingDirection = "";
+
+					if (player.getLookingDirection().equals(NORTH)) {
+						lookingDirection = WEST;
+					} else if (player.getLookingDirection().equals(SOUTH)) {
+						lookingDirection = EAST;
+					} else if (player.getLookingDirection().equals(EAST)) {
+						lookingDirection = NORTH;
+					} else if (player.getLookingDirection().equals(WEST)) {
+						lookingDirection = SOUTH;
+					}
+
+					setChanged();
+					notifyObservers(LOOK + "," + lookingDirection);
 				}
 			});
 			add(btnTurnLeft, "2, 26");
@@ -380,20 +401,20 @@ public class EditorView extends Observable implements Observer {
 			JButton btnTurnRight = new JButton("Turn Right");
 			btnTurnRight.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					 String lookingDirection = "";
-					
-					 if (player.getLookingDirection().equals(NORTH)) {
-					 lookingDirection = EAST;
-					 } else if (player.getLookingDirection().equals(SOUTH)) {
-					 lookingDirection = WEST;
-					 } else if (player.getLookingDirection().equals(EAST)) {
-					 lookingDirection = SOUTH;
-					 } else if (player.getLookingDirection().equals(WEST)) {
-					 lookingDirection = NORTH;
-					 }
-					
-					 setChanged();
-					 notifyObservers(LOOK + "," + lookingDirection);
+					String lookingDirection = "";
+
+					if (player.getLookingDirection().equals(NORTH)) {
+						lookingDirection = EAST;
+					} else if (player.getLookingDirection().equals(SOUTH)) {
+						lookingDirection = WEST;
+					} else if (player.getLookingDirection().equals(EAST)) {
+						lookingDirection = SOUTH;
+					} else if (player.getLookingDirection().equals(WEST)) {
+						lookingDirection = NORTH;
+					}
+
+					setChanged();
+					notifyObservers(LOOK + "," + lookingDirection);
 				}
 			});
 			btnTurnRight.setToolTipText("right");
@@ -413,7 +434,8 @@ public class EditorView extends Observable implements Observer {
 			btnSaveLevel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setChanged();
-					notifyObservers(SAVE + "," + startingRoom.getText() + "," + xmlName.getText());
+					notifyObservers(SAVE + "," + startingRoom.getText() + ","
+							+ xmlName.getText());
 				}
 			});
 
@@ -423,45 +445,16 @@ public class EditorView extends Observable implements Observer {
 			xmlName = new JTextField();
 			add(xmlName, "4, 32, fill, default");
 			xmlName.setColumns(10);
-			add(btnSaveLevel, "2, 34, 3, 1");
-
-			JSeparator separator_5 = new JSeparator();
-			add(separator_5, "2, 36, 3, 1");
-
-			JLabel lblStartingHealth = new JLabel("Starting Health:");
-			add(lblStartingHealth, "2, 38, right, default");
-
-			health = new JTextField();
-			add(health, "4, 38, fill, default");
-			health.setColumns(10);
-
-			JLabel lblMaximumCarryingWeight = new JLabel("Max Carrying Weight: ");
-			add(lblMaximumCarryingWeight, "2, 40, right, default");
-
-			weight = new JTextField();
-			add(weight, "4, 40, fill, default");
-			weight.setColumns(10);
-
-			JLabel lblStartingRoom = new JLabel("Starting Room:");
-			add(lblStartingRoom, "2, 42, right, default");
-
-			room = new JTextField();
-			add(room, "4, 42, fill, default");
-			room.setColumns(10);
+			add(btnSaveLevel, "2, 34");
 
 			JButton btnGeneratePlayableGamesave = new JButton("Play");
 			btnGeneratePlayableGamesave.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					 String startingHealth = health.getText();
-					 String startingWeight = weight.getText();
-					 String startingRoom = room.getText();
-					
-					 setChanged();
-					 notifyObservers(PLAY + "," + startingHealth
-					 + "," + startingWeight + "," + startingRoom);
+					setChanged();
+					notifyObservers(PLAY + "," + startingRoom.getText());
 				}
 			});
-			add(btnGeneratePlayableGamesave, "2, 44, 3, 1");
+			add(btnGeneratePlayableGamesave, "4, 34");
 
 		}
 

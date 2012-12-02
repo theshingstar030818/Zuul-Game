@@ -1,3 +1,4 @@
+package start;
 import java.util.HashMap;
 
 import javax.swing.JOptionPane;
@@ -49,6 +50,11 @@ public class GameDriver {
 	
 	public void startGame(Player player, HashMap<String, FirstPersonRoom> rooms) {
 		game.loadGame(player, rooms);
+		view.show();
+	}
+	
+	public void startGameFromLevel(String levelName) {
+		game.loadGameFromLevel(levelName);
 		view.show();
 	}
 

@@ -109,17 +109,22 @@ public class Game extends Observable implements Observer
     {
     	startingRoom = s;
     }
+    
     /**
      * Create all the rooms and link their exits together.
      */
     public void loadDefaultGame()
     {
+    	loadGameFromLevel(DEFAULT_LEVEL);
+    }
+    
+    public void loadGameFromLevel(String levelName) {
     	rooms = new HashMap<String,FirstPersonRoom>();
     	
-    	xmlr = new XMLReader(this.levelName, this);
+    	xmlr = new XMLReader(DIRECTORY + levelName + XML, this);
        
         player1 = new Player(MAX_WEIGHT,STARTING_HEALTH);
-        System.out.println("startingRoom is "+startingRoom);
+
         rooms.get(startingRoom).visit();
         player1.setCurrentRoom(rooms.get(startingRoom));  // start game outside
         
@@ -254,6 +259,10 @@ public class Game extends Observable implements Observer
     }
     public Player getPlayer(){
     	return player1;
+    }
+    
+    public HashMap<String, FirstPersonRoom> getRooms() {
+    	return rooms;
     }
 
     private void turn(Command command) {

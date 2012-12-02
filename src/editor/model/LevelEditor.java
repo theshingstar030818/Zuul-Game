@@ -8,17 +8,16 @@ import java.util.Set;
 
 import javax.swing.JOptionPane;
 
-import editor.controller.EditorUpdateObject;
-
 import model.Room;
 import model.object.Item;
 import model.object.Monster;
 import model.object.Player;
-import save.GameSave;
+import start.GameDriver;
 import view.FirstPersonItem;
 import view.FirstPersonMonster;
 import view.FirstPersonRoom;
 import xml.XMLWriter;
+import editor.controller.EditorUpdateObject;
 
 public class LevelEditor extends Observable implements Observer {
 	
@@ -307,7 +306,7 @@ public class LevelEditor extends Observable implements Observer {
 			} else if (temp[0].equals(SAVE)) {
 				save(temp[1],temp[2]);
 			} else if (temp[0].equals(PLAY)) {
-				play(temp[1],temp[2],temp[3]);
+				play(temp[1]);
 			}
 			
 			
@@ -315,24 +314,19 @@ public class LevelEditor extends Observable implements Observer {
 		}
 	}
 
-	private void play(String strHealth, String strWeight, String room) {
-		if (strWeight == null || strHealth == null) {
-			JOptionPane.showMessageDialog(null, "Error: Please enter a valid integer number for Weight and Health.");
-			return;
-		}
-		
+	private void play(String room) {
+
 		if (rooms.get(room) == null) {
 			JOptionPane.showMessageDialog(null, "Error: Please enter a valid name of an exisiting room");
 			return;
 		}
 		
-		int health = Integer.parseInt(strHealth);
-		int weight = Integer.parseInt(strWeight);
-		
-		Player player = new Player(weight, health);
+		Player player = new Player();
 		player.setCurrentRoom(rooms.get(room));
 		
-		//TODO
+		GameDriver driver = new GameDriver();
+		driver.startGame(player, rooms);
+		
 	}
 
 	public Set<String> getItems() {

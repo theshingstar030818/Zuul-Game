@@ -1,3 +1,4 @@
+package start;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -20,7 +21,15 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import save.GameSave;
+import xml.XMLReader;
+
 import javax.swing.JSeparator;
+
+import model.Game;
+import model.object.Player;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class WelcomeScreen {
@@ -119,7 +128,7 @@ public class WelcomeScreen {
 		frame.getContentPane().add(txtPath, "4, 8, fill, default");
 		txtPath.setColumns(10);
 		
-		JButton btnLoadGame = new JButton("Load Game");
+		JButton btnLoadGame = new JButton("Load Saved Game");
 		btnLoadGame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -134,7 +143,7 @@ public class WelcomeScreen {
 				}
 			}
 		});
-		frame.getContentPane().add(btnLoadGame, "4, 10");
+		frame.getContentPane().add(btnLoadGame, "2, 10, 3, 1");
 		
 		JSeparator separator_1 = new JSeparator();
 		frame.getContentPane().add(separator_1, "2, 12, 3, 1");
@@ -172,21 +181,26 @@ public class WelcomeScreen {
 				editorDriver.show();
 			}
 		});
-		frame.getContentPane().add(btnLevelEditor, "4, 18");
+		frame.getContentPane().add(btnLevelEditor, "2, 18, 3, 1");
 		
 		JSeparator separator_2 = new JSeparator();
 		frame.getContentPane().add(separator_2, "2, 20, 3, 1");
 		
-		JLabel lblPath_1 = new JLabel("Path:");
+		JLabel lblPath_1 = new JLabel("Level Name");
 		frame.getContentPane().add(lblPath_1, "2, 22, right, default");
 		
 		txtpathtolevelxml = new JTextField();
-		txtpathtolevelxml.setText("/path/to/level.xml");
 		frame.getContentPane().add(txtpathtolevelxml, "4, 22, fill, default");
 		txtpathtolevelxml.setColumns(10);
 		
 		JButton btnOpenLevel = new JButton("Open Level");
-		frame.getContentPane().add(btnOpenLevel, "4, 24");
+		btnOpenLevel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				GameDriver driver = new GameDriver();
+				driver.startGameFromLevel(txtpathtolevelxml.getText());
+			}
+		});
+		frame.getContentPane().add(btnOpenLevel, "2, 24, 3, 1");
 	}
 
 }
