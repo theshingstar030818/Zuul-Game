@@ -64,7 +64,7 @@ public class Game extends Observable implements Observer
     /**
      * Create the game and initialize its internal map.
      */
-    public Game(FPMouseListener mouseListener, String levelName) 
+    public Game(FPMouseListener mouseListener) 
     {
     	this.mouseListener = mouseListener;
     	
@@ -75,12 +75,12 @@ public class Game extends Observable implements Observer
         
         gameOver = false;    
         
-        this.levelName = DIRECTORY+levelName+XML;
+        this.levelName = DIRECTORY+DEFAULT_LEVEL+XML;
     }
     
-    public Game(FPMouseListener mouseListener)
+    public void setLevelName(String level)
     {
-    	this(mouseListener,DEFAULT_LEVEL);
+    	this.levelName = DIRECTORY+level+XML;
     }
 
     public void addRoom(String name)

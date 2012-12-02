@@ -27,14 +27,14 @@ public class XMLWriter {
 		try {
 			FileWriter outFile = new FileWriter(fileName);
 			PrintWriter out = new PrintWriter(outFile);
-	        out.write(START_MAP);
+	        out.println(START_MAP);
 	        
 	        Set<String> keys = rooms.keySet();
 			for (String room : keys) {
 				RoomWriter rw = new RoomWriter(rooms.get(room), out);
 			}
-			out.write(START_DEFAULT_ROOM+start+END_DEFAULT_ROOM);
-	        out.write(END_MAP);
+			out.println(START_DEFAULT_ROOM+start+END_DEFAULT_ROOM);
+	        out.println(END_MAP);
 	        out.close();
 	    } catch (IOException e) {
 	    	System.out.println("WriterError");

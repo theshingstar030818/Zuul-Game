@@ -25,7 +25,7 @@ public class MonsterWriter {
 		out.println(START_MONSTER);
 		out.println(START_NAME+m.getName()+END_NAME);
 		out.println(START_HEALTH+m.getHealth()+END_HEALTH);
-		out.println(START_IMG+((FirstPersonMonster)m).getImage()+END_IMG);
+		out.println(START_IMG+((FirstPersonMonster)m).getImageShort()+END_IMG);
 		out.println(START_WALL+d+END_WALL);
 		out.println(END_MONSTER);
 	}
