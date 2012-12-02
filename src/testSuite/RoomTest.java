@@ -9,36 +9,36 @@ public class RoomTest extends TestCase {
 	private final static String NORTH = "north";
 	private final static String SOUTH = "south";
 	private final static String EAST = "east";
-//	private final static String WEST = "west";
+	// private final static String WEST = "west";
 	private final static String LOBBY = "Lobby";
 	private final static String GALLERY = "Gallery";
 	private final static String WORKSHOP = "Workshop";
-	
+
 	private Room gallery;
 	private Room workshop;
 	private Room lobby;
 	private Room other;
 	private Item bat;
 	private Monster pikachu;
-	
+
 	protected void setUp() throws Exception {
 		super.setUp();
 		gallery = new Room(GALLERY);
 		workshop = new Room(WORKSHOP);
 		lobby = new Room(LOBBY);
 		other = new Room(LOBBY);
-		
-		bat = new Item("Bat",15);
+
+		bat = new Item("Bat", 15);
 		pikachu = new Monster("Pikachu", 1000);
-		
+
 		gallery.setExits(NORTH, workshop);
 		gallery.setExits(SOUTH, lobby);
 		lobby.setExits(NORTH, gallery);
-		lobby.addItem(bat,NORTH);
-		lobby.addMonster(pikachu,NORTH);
+		lobby.addItem(bat, NORTH);
+		lobby.addMonster(pikachu, NORTH);
 		other.setExits(NORTH, gallery);
-		other.addItem(bat,NORTH);
-		other.addMonster(pikachu,NORTH);
+		other.addItem(bat, NORTH);
+		other.addMonster(pikachu, NORTH);
 	}
 
 	public void testSetExits() {
@@ -54,16 +54,24 @@ public class RoomTest extends TestCase {
 	}
 
 	public void testGetLongDescription() {
-		assertEquals(true, gallery.getLongDescription().equals(gallery.getLongDescription()));
-		assertEquals(false, gallery.getLongDescription().equals(lobby.getLongDescription()));
-		assertEquals(true, lobby.getLongDescription().equals(lobby.getLongDescription()));
-		assertEquals(true, lobby.getLongDescription().equals(other.getLongDescription()));
+		assertEquals(
+				true,
+				gallery.getLongDescription().equals(
+						gallery.getLongDescription()));
+		assertEquals(false,
+				gallery.getLongDescription().equals(lobby.getLongDescription()));
+		assertEquals(true,
+				lobby.getLongDescription().equals(lobby.getLongDescription()));
+		assertEquals(true,
+				lobby.getLongDescription().equals(other.getLongDescription()));
 	}
 
 	public void testRemoveItem() {
-		assertEquals(true, lobby.getLongDescription().equals(other.getLongDescription()));
+		assertEquals(true,
+				lobby.getLongDescription().equals(other.getLongDescription()));
 		other.removeItem("Bat");
-		assertEquals(false, lobby.getLongDescription().equals(other.getLongDescription()));
+		assertEquals(false,
+				lobby.getLongDescription().equals(other.getLongDescription()));
 	}
 
 	public void testGetItem() {
@@ -76,9 +84,11 @@ public class RoomTest extends TestCase {
 	}
 
 	public void testRemoveMonster() {
-		assertEquals(true, lobby.getLongDescription().equals(other.getLongDescription()));
+		assertEquals(true,
+				lobby.getLongDescription().equals(other.getLongDescription()));
 		other.removeMonster("Pikachu");
-		assertEquals(false, lobby.getLongDescription().equals(other.getLongDescription()));
+		assertEquals(false,
+				lobby.getLongDescription().equals(other.getLongDescription()));
 	}
 
 	public void testGetMonster() {
