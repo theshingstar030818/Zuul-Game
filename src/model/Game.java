@@ -119,7 +119,6 @@ public class Game extends Observable implements Observer
     	xmlr = new XMLReader(this.levelName, this);
        
         player1 = new Player(MAX_WEIGHT,STARTING_HEALTH);
-        System.out.println("startingRoom is "+startingRoom);
         rooms.get(startingRoom).visit();
         player1.setCurrentRoom(rooms.get(startingRoom));  // start game outside
         

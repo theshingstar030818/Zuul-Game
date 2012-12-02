@@ -55,14 +55,12 @@ public class XMLRoom implements XMLParser{
 				this.items.add(new XMLItem(n.getChildNodes()));
 			}
 		}
-		System.out.println("First pass complete");
 	}
 	
 	public void parseSecondPass() {
 		for(XMLExit e: exits)
 		{
 			g.addExitToRoom(name, e.getRoom(), e.getDirection());
-			System.out.println("Setting "+name+" "+e.getDirection()+" exit to "+e.getRoom());
 		}
 		if(!items.isEmpty())
 		{
