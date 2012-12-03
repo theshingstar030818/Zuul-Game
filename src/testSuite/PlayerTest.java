@@ -48,15 +48,26 @@ public class PlayerTest extends TestCase {
 	public void testMaxWeight() {
 		assertEquals(10, player1.getMaxWeight());
 		player1.pick("key", key);
-		assertEquals(false, player1.pick("key", key));
+		assertEquals(false, player1.pick("key", key));	
 	}
 
 	public void playerAttackedTest() {
 		player1.attacked(kracken.getName());
-		assertEquals(9, player1.getHealth());
+		assertEquals(10, player1.getHealth());
+	}
+	public void playerEatTest(){
+		player1.attacked(kracken.getName());
+		player1.attacked(kracken.getName());
+		player1.eat();
+		assertEquals(10, player1.getHealth());
+	}
+	public void playerUnEatTest(){
+		player1.attacked(kracken.getName());
+		player1.attacked(kracken.getName());
+		player1.eat();
+		player1.unEat();
+		assertEquals(8, player1.getHealth());
+		
 	}
 
-	public static void main(String[] args) {
-		junit.textui.TestRunner.run(PlayerTest.class);
-	}
 }
