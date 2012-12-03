@@ -16,7 +16,7 @@ public class GameTest extends TestCase {
 	public void testGo() {
 		// cant go through door since monster block the way
 		game.processCommand(new Command("go", "south"), true);
-		assertEquals("Entrance", game.getPlayer().getCurrentPlayerRoom()
+		assertEquals("entrance", game.getPlayer().getCurrentPlayerRoom()
 				.getDescription());
 		// killmonster
 		for (int i = 10; i > 0; i--) {
@@ -24,21 +24,37 @@ public class GameTest extends TestCase {
 		}
 		// no monster in the room.Test all direction
 		game.processCommand(new Command("go", "south"), true);
-		assertEquals("Lobby", game.getPlayer().getCurrentPlayerRoom()
+		assertEquals("lobby", game.getPlayer().getCurrentPlayerRoom()
 				.getDescription());
 
 		game.processCommand(new Command("go", "west"), true);
-		assertEquals("Waiting Room", game.getPlayer().getCurrentPlayerRoom()
+		assertEquals("waiting room", game.getPlayer().getCurrentPlayerRoom()
 				.getDescription());
 
 		game.processCommand(new Command("go", "east"), true);
-		assertEquals("Lobby", game.getPlayer().getCurrentPlayerRoom()
+		assertEquals("lobby", game.getPlayer().getCurrentPlayerRoom()
 				.getDescription());
 
 		game.processCommand(new Command("go", "north"), true);
-		assertEquals("Entrance", game.getPlayer().getCurrentPlayerRoom()
+		assertEquals("entrance", game.getPlayer().getCurrentPlayerRoom()
 				.getDescription());
-
+		
+		//test for pogo stick.If player have it, player can go through door without killing monster
+		
+		game.processCommand(new Command("go", "south"), true);
+		game.processCommand(new Command("go", "south"), true);
+		game.processCommand(new Command("go", "east"), true);
+		game.processCommand(new Command("go", "south"), true);
+		game.processCommand(new Command("go", "west"), true);
+		game.processCommand(new Command("pick","PogoStix"), true);
+		game.processCommand(new Command("go", "west"), true);
+		//since player have pogostix,player can jump through monster guarding the door
+		//and enter gallery room
+		game.processCommand(new Command("go", "north"), true);
+		assertEquals("gallery", game.getPlayer().getCurrentPlayerRoom()
+				.getDescription());
+		
+		
 	}
 
 	public void testPick() {
@@ -67,8 +83,65 @@ public class GameTest extends TestCase {
 		assertEquals(9,
 				game.getPlayer().getCurrentPlayerRoom().getMonster("Kracken")
 						.getHealth());
+		//TEST FOR ATTACK MONSTER WITH SWORD
+		for(int i = 9; i > 0;i-- ){
+			game.processCommand(new Command("attack", "Kracken"), true);
+		}
+		game.processCommand(new Command("go", "south"), true);
+		game.processCommand(new Command("go", "south"), true);
+		game.processCommand(new Command("go", "east"), true);
+		game.processCommand(new Command("go", "south"), true);
+		game.processCommand(new Command("go", "west"), true);
+		game.processCommand(new Command("go", "west"), true);
+		game.processCommand(new Command("pick","Sword"), true);
+		
+		//with sword Grendel health will drop from 8 to 6 instead of 8 to 7
+		System.out.println(game.getPlayer().hasSword());
+		game.processCommand(new Command("attack", "Grendel"), true);
+		System.out.println(game.getPlayer().getCurrentPlayerRoom().getMonster("Grendel")
+				.getHealth());
+		assertEquals(6,
+				game.getPlayer().getCurrentPlayerRoom().getMonster("Grendel")
+						.getHealth());
+		
+		
+		
 	}
+	public void testEat(){
+		//test when player dont have plant and still eat it
+		//the health shouldnt restored
+		game.processCommand(new Command("attack", "Kracken"), true);
+		game.processCommand(new Command("eat",null), true);
+		assertEquals(19,game.getPlayer().getHealth());
+		
+		//test when player eat with plant in the inventory
+		game.processCommand(new Command("pick","Plant"), true);
+		game.processCommand(new Command("attack", "Kracken"), true);
+		game.processCommand(new Command("attack", "Kracken"), true);
+		game.processCommand(new Command("attack", "Kracken"), true);
+		game.processCommand(new Command("eat",null), true);
+		assertEquals(20,game.getPlayer().getHealth());
+		
 
+	}
+	public void tesUneat(){
+		//test unEat when player doesnt eat yet
+		game.processCommand(new Command("pick","Plant"), true);
+		game.processCommand(new Command("attack", "Kracken"), true);
+		game.processCommand(new Command("attack", "Kracken"), true);
+		game.processCommand(new Command("attack", "Kracken"), true);
+		game.processCommand(new Command("uneat",null), true);
+		assertEquals(17,game.getPlayer().getHealth());
+		
+		//test unEat for plant.Player health should go back to the previous health after unEat
+		game.processCommand(new Command("pick","Plant"), true);
+		game.processCommand(new Command("attack", "Kracken"), true);
+		game.processCommand(new Command("attack", "Kracken"), true);
+		game.processCommand(new Command("attack", "Kracken"), true);
+		game.processCommand(new Command("eat",null), true);
+		game.processCommand(new Command("uneat",null), true);
+		assertEquals(17,game.getPlayer().getHealth());
+	}
 	public void testUndo() {
 		// TEST UNDO FOR ATTACK
 		// attack monster once
@@ -88,7 +161,7 @@ public class GameTest extends TestCase {
 		game.processCommand(new Command("go", "south"), true);
 		// undo
 		game.processCommand(new Command("undo", null), true);
-		assertEquals("Entrance", game.getPlayer().getCurrentPlayerRoom()
+		assertEquals("entrance", game.getPlayer().getCurrentPlayerRoom()
 				.getDescription());
 
 		// TEST UNDO FOR PICK COMMAND
@@ -143,7 +216,7 @@ public class GameTest extends TestCase {
 		game.processCommand(new Command("undo", null), true);
 		// redo
 		game.processCommand(new Command("redo", null), true);
-		assertEquals("Lobby", game.getPlayer().getCurrentPlayerRoom()
+		assertEquals("lobby", game.getPlayer().getCurrentPlayerRoom()
 				.getDescription());
 	}
 
