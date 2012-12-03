@@ -319,15 +319,39 @@ public class Game extends Observable implements Observer {
 
 		// Decrease the monster's health
 		monster.decreaseHealth();
-		//if player has sword,damage monster again
-		if(player1.hasSword())monster.decreaseHealth();
 
 		if (!monster.isAlive()) {
 			setChanged();
 			notifyObservers("Good job! You've killed "
 					+ command.getSecondWord());
+			
+			//check if all monsters have been killed
+			if(allMostersKilled()){
+				JOptionPane.showMessageDialog(null,
+						"CONGRATULATIONS -----YOU HAVE KILLED ALL THE MONSTERS !!  ", "alert",
+						JOptionPane.OK_OPTION);
+				gameOver = true;
+			}
+			
 			return;
 		}
+	}
+
+	private boolean allMostersKilled() {
+		
+			Set<String> keys = rooms.keySet();
+			for (String direction : keys){
+				ArrayList<Monster> m = new ArrayList<Monster>();
+				m = rooms.get(direction).getMonsters();
+				if ( !m.isEmpty()){
+					for(Monster mm : m){
+						if(mm.isAlive()){
+							return false;
+						}
+					}
+				}
+			}
+			return true;
 	}
 
 	/**
