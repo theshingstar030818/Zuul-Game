@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
+
+import javax.swing.JOptionPane;
 
 import model.command.Command;
 import model.command.CommandStack;
@@ -319,6 +322,7 @@ public class Game extends Observable implements Observer {
 
 		// Decrease the monster's health
 		monster.decreaseHealth();
+		if(player1.hasSword())monster.decreaseHealth();
 
 		if (!monster.isAlive()) {
 			setChanged();
@@ -399,6 +403,8 @@ public class Game extends Observable implements Observer {
     		return;
     	}
     	player1.eat();
+    	//drop = remove;remove plant from item
+    	player1.drop("Plant");
     	setChanged();
     	notifyObservers();
     }
