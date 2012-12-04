@@ -9,8 +9,13 @@ import javax.swing.JLabel;
 
 import model.command.Command;
 
-public class FPMouseListener extends Observable implements MouseListener,
-		Serializable {
+/**
+ * Mouse listener for the first person view. Used to detect when monsters and items are clicked.
+ * Relays commands to Game
+ * @author sean
+ *
+ */
+public class FPMouseListener extends Observable implements MouseListener, Serializable {
 
 	private static final long serialVersionUID = 6940778970055072432L;
 

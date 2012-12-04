@@ -18,7 +18,7 @@ import editor.controller.EditorListener;
 import editor.controller.EditorUpdateObject;
 
 /**
- * MapView represents the 2D view of a room
+ * Map which is displayed in the EditorView. Contains a 2D array of clickable rooms
  * 
  * @author Sean
  * 

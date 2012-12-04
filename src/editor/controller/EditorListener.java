@@ -7,6 +7,13 @@ import java.util.Observable;
 
 import javax.swing.JPanel;
 
+/**
+ * Mouse listener for the editor. Notifies observers with the x,y coordinate
+ * of the room that was clicked
+ * 
+ * @author sean
+ *
+ */
 public class EditorListener extends Observable implements MouseListener {
 
 	public EditorListener() {

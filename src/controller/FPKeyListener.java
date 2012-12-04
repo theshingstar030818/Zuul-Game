@@ -6,6 +6,12 @@ import java.util.Observable;
 
 import model.command.Command;
 
+/**
+ * Listener for Left, Right, and Up keys in the first person view
+ * @author sean
+ *
+ */
+
 public class FPKeyListener extends Observable implements KeyListener {
 
 	public void keyReleased(KeyEvent arg0) {

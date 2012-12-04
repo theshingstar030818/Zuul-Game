@@ -19,6 +19,11 @@ import view.FirstPersonRoom;
 import xml.XMLWriter;
 import editor.controller.EditorUpdateObject;
 
+/**
+ * LevelEditor models the state of the LevelEditor
+ * @author sean
+ *
+ */
 public class LevelEditor extends Observable implements Observer {
 
 	private HashMap<String, FirstPersonRoom> rooms;

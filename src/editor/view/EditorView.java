@@ -31,6 +31,11 @@ import com.jgoodies.forms.layout.RowSpec;
 import editor.controller.EditorListener;
 import editor.controller.EditorUpdateObject;
 
+/**
+ * Front end GUI for LevelEditor
+ * @author sean
+ *
+ */
 public class EditorView extends Observable implements Observer {
 
 	private static final String SOUTH = "south";

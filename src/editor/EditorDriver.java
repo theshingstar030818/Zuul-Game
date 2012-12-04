@@ -4,6 +4,11 @@ import editor.controller.EditorListener;
 import editor.model.LevelEditor;
 import editor.view.EditorView;
 
+/**
+ * Sets up and starts a new level editor
+ * @author sean
+ *
+ */
 public class EditorDriver {
 
 	private static EditorListener mouseListener;

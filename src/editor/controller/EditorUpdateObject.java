@@ -5,6 +5,12 @@ import java.util.HashMap;
 import model.object.Player;
 import view.FirstPersonRoom;
 
+/**
+ * An object which is passed using the observer pattern between EditorView and LevelEditor
+ * @author sean
+ *
+ */
+
 public class EditorUpdateObject {
 
 	private String[][] roomsArray;
