@@ -215,7 +215,9 @@ public class FirstPersonView extends Observable implements Observer {
 						+ "if the player has a plant in his bag pack\n\n"
 						+ "5) Player does 2x damagae when he/she has a sword in the bag pack\n\n"
 						+ "6) Player can go through door without killing mosters if there " +
-						"is a pogoStick in the bag pack\n\n";
+						"is a pogoStick in the bag pack\n\n" +
+						"7) GAME OBJECTIVE : \n" +
+						"FIND AND KILL ALL MONSTERS BEFORE THEY KILL YOU ! \n\n";
 			}
 		});
 
