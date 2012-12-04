@@ -3,6 +3,8 @@ package model.object;
 import java.io.Serializable;
 import java.util.*;
 
+import view.FirstPersonItem;
+
 import model.Room;
 
 /**
@@ -27,6 +29,7 @@ public class Player implements Serializable {
 	//private int lastHealth;
 	private String lookingDirection = "north";
 	private Stack<Integer> lastHealthStack;
+	private Item healItemTemp;
 
 	/**
 	 * Constructor for objects of class Player
@@ -165,12 +168,14 @@ public class Player implements Serializable {
 		return health;
 	}
 	public void eat() {
+		healItemTemp = drop("Plant");
 		lastHealthStack.push(new Integer(health));
 		health = maxHealth;
 	}
 	public void unEat() {
-		if(lastHealthStack.peek() == null)return;
+		if(lastHealthStack.empty() || healItemTemp.equals(null))return;
 		health = lastHealthStack.pop();
+		pick(healItemTemp.getItemName(), healItemTemp);
 	}
 
 	public String getLookingDirection() {

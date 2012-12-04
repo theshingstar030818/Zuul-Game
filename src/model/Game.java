@@ -410,12 +410,13 @@ public class Game extends Observable implements Observer {
 			return;
 		}
 		player1.eat();
-		player1.drop("Plant");
+		
 	}
 
 	private void unEat() {
 		player1.unEat();
-    	player1.pick("Plant", new FirstPersonItem("Plant", 2.0, "Plant1.png"));
+    	setChanged();
+    	notifyObservers();
 	}
 
 	/**
