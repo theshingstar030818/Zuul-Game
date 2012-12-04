@@ -119,6 +119,15 @@ pick - drop
 drop - pick
 attack - heal
 heal - attack
+***NEW COMMAND****
+eat - uneat
+uneat - eat (for undo/redo method)
+
+eat
+After player has pick up plant, player can now eat to restore player's health to the initial health
+
+uneat
+Undo for eat.
 
 Non-reversible:
 help
@@ -130,6 +139,13 @@ quit
 2.3 Items and Monster
 
 Items and monsters are stored in hashmaps.  Their string equivalent that the user inputs are the keys.  This makes it easy to return the proper monster or item to the Game class.
+
+*****************ITEM NOW HAVE SPECIFIC FUCTION IN THE GAME*******************
+Sword - Increase player damage by one
+
+Plant - can be use to eat and restore player's health
+
+PogoStix - Can be use to skip monster guarding the door(go to other room without killing monster)
 
 3.0 View
 
@@ -183,6 +199,9 @@ Model.object:
 	Player.java
 
 testSuite :
+	GameTest.java  *added test for new method eat and unEat,attack with sword and skip monster with PogoStix
+	PlayerTest.java *added test for new method eat and unEat
+	MonsterTest.java
 	CommandStackTest.java
 	RoomTest.java
 	TestCommand.java
@@ -223,7 +242,46 @@ view:
 	
 			this is a panel at the bottom that represresents the current
 			health of a player.
-	
+controller:
+	FPKeyListener.java
+	FPMouseListener.java
+
+editor:
+	EditorDriver.java
+
+editor.controller:
+	EditorListener.java
+	EditorUpdateObject.java
+
+eidtor.model:
+	LevelEditor.java
+
+editor.view:
+	EditorMap.java
+	EditorView.java
+
+save:
+	GameSave.java
+
+start:
+	GameDriver.java
+	WelcomeScreen.java
+
+xml:
+	ExitWriter.java
+	ItemWriter.java
+	MonsterWriter.java
+	RoomWriter.java
+	TopLevelParser.java
+	XMLExit.java
+	XMLItem.java
+	XMLMonster.java
+	XMLParser.java
+	XMLReader.java
+	XMLRoom.java
+	XMLWriter.java
+
+
 6.0 UML
 	
 The UML diagram is updated and added the new class for the GUI part (DrawableRoom.java and MapView.java) and rearranged into their package.
@@ -237,6 +295,9 @@ pick()
 drop()
 attack()
 heal()
+eat()
+uneat()
+
 
 
 
