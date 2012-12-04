@@ -1,0 +1,367 @@
+<Map>
+<Room>
+<Name>Tory Building</Name>
+<Exit>
+<Direction>south</Direction>
+<Room>Carleton Quad</Room>
+</Exit>
+<Exit>
+<Direction>north</Direction>
+<Room>Uni Center</Room>
+</Exit>
+<Exit>
+<Direction>west</Direction>
+<Room>Azreli Theatre</Room>
+</Exit>
+<Monster>
+<Name>Kracken</Name>
+<Health>0</Health>
+<Img>Kracken.png</Img>
+<Wall>west</Wall>
+</Monster>
+</Room>
+<Room>
+<Name>3rd Block</Name>
+<Exit>
+<Direction>south</Direction>
+<Room>Macenzie Building</Room>
+</Exit>
+<Exit>
+<Direction>west</Direction>
+<Room>4th Block</Room>
+</Exit>
+</Room>
+<Room>
+<Name>Paterson Hall</Name>
+<Exit>
+<Direction>west</Direction>
+<Room>Carleton Quad</Room>
+</Exit>
+</Room>
+<Room>
+<Name>Carleton Quad</Name>
+<Exit>
+<Direction>south</Direction>
+<Room>Library</Room>
+</Exit>
+<Exit>
+<Direction>east</Direction>
+<Room>Paterson Hall</Room>
+</Exit>
+<Item>
+<Name>Plant</Name>
+<Weight>2</Weight>
+<Img>Plant1.png</Img>
+<Wall>east</Wall>
+</Item>
+<Exit>
+<Direction>north</Direction>
+<Room>Tory Building</Room>
+</Exit>
+<Exit>
+<Direction>west</Direction>
+<Room>Dunton Tower</Room>
+</Exit>
+</Room>
+<Room>
+<Name>CSES Office</Name>
+<Exit>
+<Direction>east</Direction>
+<Room>Storage Room</Room>
+</Exit>
+<Monster>
+<Name>Kracken</Name>
+<Health>0</Health>
+<Img>Kracken.png</Img>
+<Wall>east</Wall>
+</Monster>
+<Exit>
+<Direction>west</Direction>
+<Room>Minto Foyer</Room>
+</Exit>
+</Room>
+<Room>
+<Name>O-Train</Name>
+<Exit>
+<Direction>north</Direction>
+<Room>Bike Racks</Room>
+</Exit>
+</Room>
+<Room>
+<Name>Architecture</Name>
+<Exit>
+<Direction>south</Direction>
+<Room>Parking Lot</Room>
+</Exit>
+<Monster>
+<Name>Grendel</Name>
+<Health>0</Health>
+<Img>Grendle.png</Img>
+<Wall>south</Wall>
+</Monster>
+<Exit>
+<Direction>east</Direction>
+<Room>4th Block</Room>
+</Exit>
+<Exit>
+<Direction>north</Direction>
+<Room>Canal Building</Room>
+</Exit>
+<Monster>
+<Name>Goblin</Name>
+<Health>3</Health>
+<Img>TrollBig.png</Img>
+<Wall>west</Wall>
+</Monster>
+</Room>
+<Room>
+<Name>Loeb</Name>
+<Item>
+<Name>PogoStix</Name>
+<Weight>5</Weight>
+<Img>PogoStick1.png</Img>
+<Wall>east</Wall>
+</Item>
+<Exit>
+<Direction>west</Direction>
+<Room>Southam Hall</Room>
+</Exit>
+</Room>
+<Room>
+<Name>Macenzie Building</Name>
+<Exit>
+<Direction>south</Direction>
+<Room>Minto Foyer</Room>
+</Exit>
+<Exit>
+<Direction>north</Direction>
+<Room>3rd Block</Room>
+</Exit>
+<Exit>
+<Direction>west</Direction>
+<Room>The Quad</Room>
+</Exit>
+</Room>
+<Room>
+<Name>Parking Lot</Name>
+<Exit>
+<Direction>south</Direction>
+<Room>Uni Center</Room>
+</Exit>
+<Exit>
+<Direction>east</Direction>
+<Room>The Quad</Room>
+</Exit>
+<Exit>
+<Direction>north</Direction>
+<Room>Architecture</Room>
+</Exit>
+</Room>
+<Room>
+<Name>4th Block</Name>
+<Exit>
+<Direction>south</Direction>
+<Room>The Quad</Room>
+</Exit>
+<Exit>
+<Direction>east</Direction>
+<Room>3rd Block</Room>
+</Exit>
+<Exit>
+<Direction>west</Direction>
+<Room>Architecture</Room>
+</Exit>
+</Room>
+<Room>
+<Name>Uni Center</Name>
+<Exit>
+<Direction>south</Direction>
+<Room>Tory Building</Room>
+</Exit>
+<Monster>
+<Name>Grendel</Name>
+<Health>0</Health>
+<Img>Grendle.png</Img>
+<Wall>south</Wall>
+</Monster>
+<Item>
+<Name>Plant</Name>
+<Weight>2</Weight>
+<Img>Plant1.png</Img>
+<Wall>south</Wall>
+</Item>
+<Exit>
+<Direction>north</Direction>
+<Room>Parking Lot</Room>
+</Exit>
+</Room>
+<Room>
+<Name>Bike Racks</Name>
+<Exit>
+<Direction>south</Direction>
+<Room>O-Train</Room>
+</Exit>
+<Exit>
+<Direction>north</Direction>
+<Room>Minto Foyer</Room>
+</Exit>
+<Monster>
+<Name>Grendel</Name>
+<Health>0</Health>
+<Img>Grendle.png</Img>
+<Wall>north</Wall>
+</Monster>
+</Room>
+<Room>
+<Name>The Quad</Name>
+<Exit>
+<Direction>east</Direction>
+<Room>Macenzie Building</Room>
+</Exit>
+<Exit>
+<Direction>north</Direction>
+<Room>4th Block</Room>
+</Exit>
+<Exit>
+<Direction>west</Direction>
+<Room>Parking Lot</Room>
+</Exit>
+</Room>
+<Room>
+<Name>Storage Room</Name>
+<Monster>
+<Name>Kracken</Name>
+<Health>0</Health>
+<Img>Kracken.png</Img>
+<Wall>east</Wall>
+</Monster>
+<Exit>
+<Direction>west</Direction>
+<Room>CSES Office</Room>
+</Exit>
+</Room>
+<Room>
+<Name>Library</Name>
+<Exit>
+<Direction>south</Direction>
+<Room>Southam Hall</Room>
+</Exit>
+<Item>
+<Name>Plant</Name>
+<Weight>2</Weight>
+<Img>Plant1.png</Img>
+<Wall>east</Wall>
+</Item>
+<Exit>
+<Direction>north</Direction>
+<Room>Carleton Quad</Room>
+</Exit>
+</Room>
+<Room>
+<Name>Southam Hall</Name>
+<Exit>
+<Direction>east</Direction>
+<Room>Loeb</Room>
+</Exit>
+<Monster>
+<Name>Kracken</Name>
+<Health>0</Health>
+<Img>Kracken.png</Img>
+<Wall>east</Wall>
+</Monster>
+<Exit>
+<Direction>north</Direction>
+<Room>Library</Room>
+</Exit>
+</Room>
+<Room>
+<Name>Canal Building</Name>
+<Exit>
+<Direction>south</Direction>
+<Room>Architecture</Room>
+</Exit>
+<Item>
+<Name>PogoStix</Name>
+<Weight>5</Weight>
+<Img>PogoStick1.png</Img>
+<Wall>north</Wall>
+</Item>
+</Room>
+<Room>
+<Name>Dunton Tower</Name>
+<Monster>
+<Name>Grendel</Name>
+<Health>0</Health>
+<Img>Grendle.png</Img>
+<Wall>south</Wall>
+</Monster>
+<Exit>
+<Direction>east</Direction>
+<Room>Carleton Quad</Room>
+</Exit>
+<Monster>
+<Name>Grendel</Name>
+<Health>0</Health>
+<Img>Grendle.png</Img>
+<Wall>north</Wall>
+</Monster>
+<Monster>
+<Name>Grendel</Name>
+<Health>0</Health>
+<Img>Grendle.png</Img>
+<Wall>west</Wall>
+</Monster>
+</Room>
+<Room>
+<Name>Minto Foyer</Name>
+<Exit>
+<Direction>south</Direction>
+<Room>Bike Racks</Room>
+</Exit>
+<Exit>
+<Direction>east</Direction>
+<Room>CSES Office</Room>
+</Exit>
+<Monster>
+<Name>Kracken</Name>
+<Health>0</Health>
+<Img>Kracken.png</Img>
+<Wall>east</Wall>
+</Monster>
+<Exit>
+<Direction>north</Direction>
+<Room>Macenzie Building</Room>
+</Exit>
+<Exit>
+<Direction>west</Direction>
+<Room>Civil Lab</Room>
+</Exit>
+</Room>
+<Room>
+<Name>Azreli Theatre</Name>
+<Exit>
+<Direction>east</Direction>
+<Room>Tory Building</Room>
+</Exit>
+<Monster>
+<Name>Kracken</Name>
+<Health>0</Health>
+<Img>Kracken.png</Img>
+<Wall>west</Wall>
+</Monster>
+<Item>
+<Name>Sword</Name>
+<Weight>7</Weight>
+<Img>Sword1.png</Img>
+<Wall>west</Wall>
+</Item>
+</Room>
+<Room>
+<Name>Civil Lab</Name>
+<Exit>
+<Direction>east</Direction>
+<Room>Minto Foyer</Room>
+</Exit>
+</Room>
+<Start>O-Train</Start>
+</Map>

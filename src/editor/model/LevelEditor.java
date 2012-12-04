@@ -226,7 +226,7 @@ public class LevelEditor extends Observable implements Observer {
 		Room room = rooms.get(roomsArray[x][y]);
 		Monster monster = monsters.get(monsterName);
 		if (room != null && monster != null) {
-			room.addMonster(monster, player.getLookingDirection());
+			room.addMonster((Monster) monster.clone(), player.getLookingDirection());
 		}
 		update();
 	}

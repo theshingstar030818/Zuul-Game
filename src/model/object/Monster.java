@@ -89,5 +89,13 @@ public class Monster implements Serializable {
 		if(isAlive())
 			p.unAttacked();
 	}
+	
+	public Object clone() {
+		try {
+			return super.clone();
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 }
