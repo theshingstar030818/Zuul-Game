@@ -44,6 +44,7 @@ public class FirstPersonView extends Observable implements Observer {
 	private JMenu attackMenu;
 	private JMenu dropMenu;
 	private JMenu eatMenu;
+	private JMenu helpMenu;
 	
 	private static final String GAME_OVER = "GAME OVER";
 	
@@ -188,6 +189,20 @@ public class FirstPersonView extends Observable implements Observer {
 		eat.setToolTipText("eat");
 		eat.addActionListener(menuListener);
 		eatMenu.add(eat);
+		
+		helpMenu = new JMenu("Help");
+		menuBar.add(helpMenu);
+		
+		JMenuItem control = new JMenuItem("Instruction");
+		control.setToolTipText("instruction");
+		control.addActionListener(menuListener);
+		
+		JMenuItem about = new JMenuItem("About");
+		about.setToolTipText("instruction");
+		about.addActionListener(menuListener);
+		
+		helpMenu.add(control);
+		helpMenu.add(about);
 	}
 
 	public void update(Observable arg0, Object arg1) {
