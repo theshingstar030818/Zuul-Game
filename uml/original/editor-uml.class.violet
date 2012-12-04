@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.6.0_24" class="java.beans.XMLDecoder">
+ <object class="com.horstmann.violet.ClassDiagramGraph">
+  <void method="addNode">
+   <object id="ClassNode0" class="com.horstmann.violet.ClassNode">
+    <void property="attributes">
+     <void property="text">
+      <string>-mouseListener : EditorListener
+-view : EditorView
+-model : LevelEditor</string>
+     </void>
+    </void>
+    <void property="methods">
+     <void property="text">
+      <string>EditorDriver(int, int)
++show():void
+</string>
+     </void>
+    </void>
+    <void property="name">
+     <void property="text">
+      <string>EditorDriver</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double">
+    <void method="setLocation">
+     <double>2290.504182966274</double>
+     <double>1301.6829082881802</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object id="PackageNode0" class="com.horstmann.violet.PackageNode">
+    <void method="addChild">
+     <object id="ClassNode1" class="com.horstmann.violet.ClassNode">
+      <void property="attributes">
+       <void property="text">
+        <string>-frame : JFrame
+-gameDriver : GameDriver
+-editorDriver : EditorDriver
+-txtPath : JTextField
+-width : JTextField
+-height : JTextField
+-txtpathtolevelxml : JTextField</string>
+       </void>
+      </void>
+      <void property="methods">
+       <void property="text">
+        <string>+main(String[])
+-initialize():void</string>
+       </void>
+      </void>
+      <void property="name">
+       <void property="text">
+        <string>WelcomeScreen</string>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void property="name">
+     <string>start</string>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double">
+    <void method="setLocation">
+     <double>2300.0</double>
+     <double>880.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object id="ClassNode2" class="com.horstmann.violet.ClassNode">
+    <void property="attributes">
+     <void property="text">
+      <string>-rooms : HashMap&lt;String, FirstPersonRoom&gt;
+-monsters : HashMap&lt;String, Monster&gt;
+-items : HashMap&lt;String, Item&gt;
+-roomsArray : String[][]
+-player : Player
+-maxX : int
+-maxY : int
+-x : int
+-y : int
+-SOUTH : String
+-EAST : String
+-WEST : String
+-NORTH : String
+-REMOVE_ITEM : String
+-ADD_ITEM : String
+-REMOVE_MONSTER : String
+-ADD_MONSTER : String
+-REMOVE_EXIT : String
+-ADD_EXIT : String
+-REMOVE_ROOM : String
+-ADD_ROOM : String
+-LOOK : String
+-SAVE : String
+-PLAY : String</string>
+     </void>
+    </void>
+    <void property="methods">
+     <void property="text">
+      <string>LevelEditor(int, int)
++addRoom(FirstPersonRoom) :void
++removeRoom() :void
++addExit(String) :void
++removeExit(String) :void
++addMonster(String) :void
++removeMonster() :void
++addItem(String) :void
++removeItem() :void
++look(String) :void
+-checkXY(int, int) :boolean
+-update() :void
++update(Observable, Object) :void
+-play(String) :void
++getItems() : Set&lt;String&gt;
++getMonsters() : Set&lt;String&gt;
+-save(String, String) :void</string>
+     </void>
+    </void>
+    <void property="name">
+     <void property="text">
+      <string>LevelEditor</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double">
+    <void method="setLocation">
+     <double>1424.4919129318696</double>
+     <double>1567.8571717793943</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object id="PackageNode1" class="com.horstmann.violet.PackageNode">
+    <void method="addChild">
+     <object id="ClassNode3" class="com.horstmann.violet.ClassNode">
+      <void property="attributes">
+       <void property="text">
+        <string>-serialVersionUID : long
+-player : Player
+-rooms : HashMap&lt;String, FirstPersonRoom&gt;</string>
+       </void>
+      </void>
+      <void property="methods">
+       <void property="text">
+        <string>GameSave(Player, HashMap&lt;String, FirstPersonRoom&gt;)
+GameSave()
++getPlayer():Player
++setPlayer(Player):void
++getRooms():HashMap&lt;String,FirstPersonRoom&gt;
++setRooms(HashMap&lt;String, FirstPersonRoom&gt;):void
++serialize(String):boolean
++loadFromSerial(String):boolean</string>
+       </void>
+      </void>
+      <void property="name">
+       <void property="text">
+        <string>GameSave</string>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void property="contents">
+     <void property="text">
+      <string>
+</string>
+     </void>
+    </void>
+    <void property="name">
+     <string>save</string>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double">
+    <void method="setLocation">
+     <double>650.0</double>
+     <double>1210.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object id="ClassNode4" class="com.horstmann.violet.ClassNode">
+    <void property="attributes">
+     <void property="text">
+      <string>-roomsArray : String[ ][ ]
+-rooms : HashMap&lt;String, FirstPersonRoom&gt;
+-player : Player
+-selectedX : int
+-selectedY : int</string>
+     </void>
+    </void>
+    <void property="methods">
+     <void property="text">
+      <string>EditorUpdateObject(String[][], HashMap&lt;String, FirstPersonRoom&gt;, int, int, Player)
++getRoomsArray() : String[ ][ ]
++getRooms() : HashMap&lt;String, FirstPersonRoom&gt;
++getSelectedX() : int
++getSelectedY() : int
++getPlayer() : Player</string>
+     </void>
+    </void>
+    <void property="name">
+     <void property="text">
+      <string>EditorUpdateObject</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double">
+    <void method="setLocation">
+     <double>1428.1753789488866</double>
+     <double>1253.2157378808804</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object id="PackageNode2" class="com.horstmann.violet.PackageNode">
+    <void method="addChild">
+     <object idref="ClassNode2"/>
+    </void>
+    <void property="name">
+     <string>editor.model</string>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double">
+    <void method="setLocation">
+     <double>1410.0</double>
+     <double>1540.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object id="ClassNode5" class="com.horstmann.violet.ClassNode">
+    <void property="attributes">
+     <void property="text">
+      <string>-serialVersionUID : long
+-SIZE : int
+-WINDOW_SIZE : int
+-tiles : JPanel[][]
+-layout : GridLayout
+-roomsArray : String[][]
+-rooms : HashMap&lt;String, FirstPersonRoom&gt;
+-x : int
+-y : int
+-maxX : int
+-maxY : int
+-mouseListener : EditorListener</string>
+     </void>
+    </void>
+    <void property="methods">
+     <void property="text">
+      <string>EditorMap(String, int, int, EditorListener)
++update(Observable, Object) :void
+</string>
+     </void>
+    </void>
+    <void property="name">
+     <void property="text">
+      <string>EditorMap</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double">
+    <void method="setLocation">
+     <double>1713.3129851542026</double>
+     <double>681.7528268485114</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object idref="ClassNode3"/>
+   <object class="java.awt.geom.Point2D$Double">
+    <void method="setLocation">
+     <double>660.9187244071775</double>
+     <double>1242.0615526277825</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object id="PackageNode3" class="com.horstmann.violet.PackageNode">
+    <void method="addChild">
+     <object idref="ClassNode5"/>
+    </void>
+    <void method="addChild">
+     <object id="ClassNode6" class="com.horstmann.violet.ClassNode">
+      <void property="attributes">
+       <void property="text">
+        <string>-SOUTH : String
+-EAST : String
+-WEST : String
+-NORTH : String
+-REMOVE_ITEM : String
+-ADD_ITEM : String
+-REMOVE_MONSTER : String
+-ADD_MONSTER : String
+-REMOVE_EXIT : String
+-ADD_EXIT : String
+-REMOVE_ROOM : String
+-ADD_ROOM : String
+-LOOK : String
+-SAVE : String
+-PLAY : String
+-gridLayout : GridLayout
+-borderLayout : BorderLayout
+-map : EditorMap
+-currentRoom : FirstPersonRoom
+-gamePanel : JPanel
+-mainFrame : JFrame
+-roomsArray : String[][]
+-rooms : HashMap&lt;String, FirstPersonRoom&gt;
+-x : int
+-y : int
+-maxX : int
+-maxY : int
+-toolsPanel : EditorToolsPanel
+-player : Player
+-items : Set&lt;String&gt;
+-monsters : Set&lt;String&gt;</string>
+       </void>
+      </void>
+      <void property="methods">
+       <void property="text">
+        <string>EditorView(String, int, int, EditorListener, Set&lt;String&gt;, Set&lt;String&gt;)
++update(Observable, Object) :void
+-refreshView():void
++show():void</string>
+       </void>
+      </void>
+      <void property="name">
+       <void property="text">
+        <string>EditorView</string>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="addChild">
+     <object id="ClassNode7" class="com.horstmann.violet.ClassNode">
+      <void property="attributes">
+       <void property="text">
+        <string>- serialVersionUID: long
+- xmlName: JTextField
+- startingRoom: JTextField</string>
+       </void>
+      </void>
+      <void property="methods">
+       <void property="text">
+        <string>+ EditorToolsPanel()</string>
+       </void>
+      </void>
+      <void property="name">
+       <void property="text">
+        <string>EditorToolsPanel</string>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void property="name">
+     <string>editor.view</string>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double">
+    <void method="setLocation">
+     <double>1160.0</double>
+     <double>370.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object idref="ClassNode1"/>
+   <object class="java.awt.geom.Point2D$Double">
+    <void method="setLocation">
+     <double>2314.6912742207287</double>
+     <double>908.3343813057522</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object id="PackageNode4" class="com.horstmann.violet.PackageNode">
+    <void method="addChild">
+     <object idref="ClassNode0"/>
+    </void>
+    <void property="name">
+     <string>editor </string>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double">
+    <void method="setLocation">
+     <double>2280.0</double>
+     <double>1270.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object id="PackageNode5" class="com.horstmann.violet.PackageNode">
+    <void method="addChild">
+     <object id="ClassNode8" class="com.horstmann.violet.ClassNode">
+      <void property="methods">
+       <void property="text">
+        <string>EditorListener()
++mouseClicked(MouseEvent)
++mouseEntered(MouseEvent):void
++mouseExited(MouseEvent):void
++mousePressed(MouseEvent):void
+
++mouseReleased(MouseEvent):void</string>
+       </void>
+      </void>
+      <void property="name">
+       <void property="text">
+        <string>EditorListener</string>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="addChild">
+     <object idref="ClassNode4"/>
+    </void>
+    <void property="name">
+     <string>editor.controller</string>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double">
+    <void method="setLocation">
+     <double>1160.0</double>
+     <double>1220.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object idref="ClassNode6"/>
+   <object class="java.awt.geom.Point2D$Double">
+    <void method="setLocation">
+     <double>1168.5932667628088</double>
+     <double>396.2486438822374</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object idref="ClassNode8"/>
+   <object class="java.awt.geom.Point2D$Double">
+    <void method="setLocation">
+     <double>1165.1753789488864</double>
+     <double>1299.2157378808802</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object idref="ClassNode7"/>
+   <object class="java.awt.geom.Point2D$Double">
+    <void method="setLocation">
+     <double>1794.0</double>
+     <double>475.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="bentStyle">
+     <object class="com.horstmann.violet.BentStyle" field="HVH"/>
+    </void>
+    <void property="startArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
+    </void>
+   </object>
+   <object idref="PackageNode4"/>
+   <object idref="PackageNode5"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="bentStyle">
+     <object class="com.horstmann.violet.BentStyle" field="HVH"/>
+    </void>
+    <void property="startArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
+    </void>
+   </object>
+   <object idref="PackageNode1"/>
+   <object idref="PackageNode5"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="bentStyle">
+     <object class="com.horstmann.violet.BentStyle" field="HVH"/>
+    </void>
+    <void property="startArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
+    </void>
+   </object>
+   <object idref="PackageNode3"/>
+   <object idref="PackageNode5"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="bentStyle">
+     <object class="com.horstmann.violet.BentStyle" field="HVH"/>
+    </void>
+    <void property="startArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
+    </void>
+   </object>
+   <object idref="PackageNode2"/>
+   <object idref="PackageNode5"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="bentStyle">
+     <object class="com.horstmann.violet.BentStyle" field="HVH"/>
+    </void>
+    <void property="startArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
+    </void>
+   </object>
+   <object idref="ClassNode6"/>
+   <object idref="ClassNode5"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="bentStyle">
+     <object class="com.horstmann.violet.BentStyle" field="HVH"/>
+    </void>
+    <void property="startArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
+    </void>
+   </object>
+   <object idref="PackageNode4"/>
+   <object idref="PackageNode3"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="bentStyle">
+     <object class="com.horstmann.violet.BentStyle" field="HVH"/>
+    </void>
+    <void property="startArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
+    </void>
+   </object>
+   <object idref="PackageNode4"/>
+   <object idref="PackageNode2"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="bentStyle">
+     <object class="com.horstmann.violet.BentStyle" field="HVH"/>
+    </void>
+    <void property="startArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
+    </void>
+   </object>
+   <object idref="PackageNode0"/>
+   <object idref="PackageNode4"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="bentStyle">
+     <object class="com.horstmann.violet.BentStyle" field="HVH"/>
+    </void>
+    <void property="startArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
+    </void>
+   </object>
+   <object idref="ClassNode6"/>
+   <object idref="ClassNode7"/>
+  </void>
+ </object>
+</java>
