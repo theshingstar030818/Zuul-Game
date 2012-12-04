@@ -2,7 +2,7 @@ package view;
 
 import model.object.Monster;
 
-public class FirstPersonMonster extends Monster {
+public class FirstPersonMonster extends Monster implements Cloneable {
 
 	private static final long serialVersionUID = -7830880791392214020L;
 	private String image;
@@ -28,6 +28,14 @@ public class FirstPersonMonster extends Monster {
 
 	public void setImageShort(String imageShort) {
 		this.imageShort = imageShort;
+	}
+	
+	public Object clone() {
+		try {
+			return super.clone();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 }

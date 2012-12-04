@@ -18,7 +18,7 @@ import model.object.Monster;
  * null if there is no exit in that direction.
  * 
  */
-public class Room implements Serializable {
+public class Room implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 413390181119184381L;
 	private String description;
@@ -310,4 +310,11 @@ public class Room implements Serializable {
 		return i;
 	}
 
+	public Object clone() {
+		try {
+			return super.clone();
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

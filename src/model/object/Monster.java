@@ -10,13 +10,11 @@ import model.Room;
  * @author Sean Byron
  *	October 21st 2012
  */
-public class Monster implements Serializable {
+public class Monster implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = -3894136071280546684L;
 	private String name;
 	private int health;
-	private Room currentRoom;
-//	private Room lastRoom;
 
 	/**
 	 * Create a new monster
@@ -67,12 +65,7 @@ public class Monster implements Serializable {
 	public int getHealth() {
 		return health;
 	}
-	public void setCurrentRoom(Room r){
-		currentRoom = r;
-	}
-	public Room getCurrentRoom(){
-		return currentRoom;
-	}
+
 	public String randomMove(){
 		Random r = new Random();
 		String[] exits = new String[] { "east", "west", "south", "north" };
