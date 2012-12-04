@@ -38,6 +38,7 @@ public class FirstPersonView extends Observable implements Observer {
 	private JFrame mainFrame;
 	private Player player;
 	private boolean gameOver;
+
 	private MenuListener menuListener;
 
 	private JMenu pickMenu;
@@ -47,6 +48,7 @@ public class FirstPersonView extends Observable implements Observer {
 	private JMenu helpMenu;
 
 	private static final String GAME_OVER = "GAME OVER";
+	private static final String NEW_GAME = "NEW_GAME";
 
 	private static final String SOUTH = "south";
 	private static final String EAST = "east";
@@ -262,6 +264,12 @@ public class FirstPersonView extends Observable implements Observer {
 			String command = (String) arg1;
 			if (command.equals(GAME_OVER)) {
 				gameOver = true;
+				refreshView();
+				JOptionPane.showMessageDialog(mainFrame, "Thanks for playing!", "Goodbye", JOptionPane.INFORMATION_MESSAGE);
+				mainFrame.setVisible(false);
+			} else if (command.equals(NEW_GAME)) {
+				gameOver = false;
+				mainFrame.setVisible(true);
 				refreshView();
 			} else {
 				JOptionPane.showMessageDialog(mainFrame, command, "Message",

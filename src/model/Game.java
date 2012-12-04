@@ -37,6 +37,7 @@ import controller.FPMouseListener;
 
 public class Game extends Observable implements Observer {
 	private static final String GAME_OVER = "GAME OVER";
+	private static final String NEW_GAME = "NEW_GAME";
 	private boolean gameOver;
 	private static final int STARTING_HEALTH = 20;
 	private final static int MAX_WEIGHT = 10;
@@ -119,8 +120,12 @@ public class Game extends Observable implements Observer {
 
 		rooms.get(startingRoom).visit();
 		player1.setCurrentRoom(rooms.get(startingRoom)); // start game outside
+		
+		gameOver = false;
 
 		// Refresh the View
+		setChanged();
+		notifyObservers(NEW_GAME);
 		setChanged();
 		notifyObservers(player1);
 	}
@@ -142,6 +147,8 @@ public class Game extends Observable implements Observer {
 		}
 
 		player1.getCurrentPlayerRoom().visit();
+		
+		gameOver = false;
 
 		// Refresh the View
 		setChanged();
@@ -305,7 +312,7 @@ public class Game extends Observable implements Observer {
 		if (!command.hasSecondWord()) {
 			// if there is no second word, we don't who to attack
 			setChanged();
-			notifyObservers("Attacj what?");
+			notifyObservers("Attack what?");
 			return;
 		}
 
@@ -331,9 +338,8 @@ public class Game extends Observable implements Observer {
 			
 			//check if all monsters have been killed
 			if(allMostersKilled()){
-				JOptionPane.showMessageDialog(null,
-						"CONGRATULATIONS -----YOU HAVE KILLED ALL THE MONSTERS !!  ", "alert",
-						JOptionPane.OK_OPTION);
+				setChanged();
+				notifyObservers("CONGRATULATIONS! You have killed all the monsters! You win!!");
 				gameOver = true;
 			}
 			
