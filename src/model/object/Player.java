@@ -24,8 +24,9 @@ public class Player implements Serializable {
 	private int health;
 	private boolean hasSword = false;
 	private int maxHealth;
-	private int lastHealth;
+	//private int lastHealth;
 	private String lookingDirection = "north";
+	private Stack<Integer> lastHealthStack;
 
 	/**
 	 * Constructor for objects of class Player
@@ -44,9 +45,10 @@ public class Player implements Serializable {
 		this.maxWeight = maxWeight;
 		this.health = health;
 		maxHealth = health;
-		lastHealth = 0;
+		//lastHealth = 0;
 		currentWeight = 0;
 		itemsInPossesion = new HashMap<String, Item>();
+		lastHealthStack = new Stack<Integer>();
 	}
 
 	/**
@@ -163,13 +165,12 @@ public class Player implements Serializable {
 		return health;
 	}
 	public void eat() {
-		lastHealth = health;
+		lastHealthStack.push(new Integer(health));
 		health = maxHealth;
 	}
 	public void unEat() {
-		if(lastHealth == 0)return;
-		health = lastHealth;
-		lastHealth = 0;
+		if(lastHealthStack.peek() == null)return;
+		health = lastHealthStack.pop();
 	}
 
 	public String getLookingDirection() {
