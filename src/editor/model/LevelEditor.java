@@ -356,6 +356,9 @@ public class LevelEditor extends Observable implements Observer {
 		}
 
 		XMLWriter writer = new XMLWriter(rooms, name, startingRoom);
+		
+		JOptionPane.showMessageDialog(null,
+				"Saved successfully!");
 	}
 
 }

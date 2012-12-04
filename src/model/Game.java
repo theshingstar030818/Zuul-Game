@@ -340,7 +340,6 @@ public class Game extends Observable implements Observer {
 			if (allMostersKilled()) {
 				setChanged();
 				notifyObservers("CONGRATULATIONS! You have killed all the monsters! You win!!");
-				gameOver = true;
 			}
 
 			return;
@@ -406,6 +405,7 @@ public class Game extends Observable implements Observer {
 
 	private void eat() {
 		if (!player1.hasHealItem()) {
+			setChanged();
 			notifyObservers("You are not carrying anything edible!");
 			return;
 		}

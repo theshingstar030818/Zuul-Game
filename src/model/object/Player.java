@@ -159,10 +159,6 @@ public class Player implements Serializable {
 		health++;
 	}
 
-	public void heal() {
-		health += 5;
-	}
-
 	public int getHealth() {
 		return health;
 	}
