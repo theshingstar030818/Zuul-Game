@@ -360,7 +360,7 @@ public class LevelEditor extends Observable implements Observer {
 			return;
 		}
 
-		XMLWriter writer = new XMLWriter(rooms, name, startingRoom);
+		XMLWriter writer = new XMLWriter((HashMap<String,FirstPersonRoom>)rooms.clone(), name, startingRoom);
 		
 		JOptionPane.showMessageDialog(null,
 				"Saved successfully!");
