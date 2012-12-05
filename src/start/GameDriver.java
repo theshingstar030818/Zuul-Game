@@ -9,6 +9,11 @@ import view.FirstPersonView;
 import controller.FPKeyListener;
 import controller.FPMouseListener;
 
+/**
+ * Sets-up and starts a new game
+ * @author seanbyron
+ *
+ */
 public class GameDriver {
 
 	private Game game;

@@ -28,6 +28,12 @@ import model.command.Command;
 import model.object.Player;
 import controller.FPKeyListener;
 
+/**
+ * 3D view of the game. 
+ * @author seanbyron
+ *
+ */
+
 public class FirstPersonView extends Observable implements Observer {
 
 	private GridLayout gridLayout;

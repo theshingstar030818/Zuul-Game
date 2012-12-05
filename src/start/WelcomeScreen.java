@@ -22,6 +22,11 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import editor.EditorDriver;
 
+/**
+ * A Swing GUI for starting a new game, loading an exisiting game or level, or creating a new level
+ * @author seanbyron
+ *
+ */
 public class WelcomeScreen {
 
 	private JFrame frame;

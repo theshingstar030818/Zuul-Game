@@ -14,6 +14,13 @@ import view.FirstPersonRoom;
 
 import model.object.Player;
 
+/**
+ * A GameSave object which captures the state of a game.
+ * Provides methods for serialization to and from files.
+ * @author seanbyron
+ *
+ */
+
 public class GameSave implements Serializable {
 
 	private static final long serialVersionUID = 7983237743914423243L;
